@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dl5pgnv81xf6c"]
+
+[node name="Test" type="Node2D" unique_id=2089471138]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1552847658]
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer" unique_id=926686064]
+offset_left = 295.0
+offset_top = 132.0
+offset_right = 870.0
+offset_bottom = 460.0
