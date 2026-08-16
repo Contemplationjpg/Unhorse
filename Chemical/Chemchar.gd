@@ -63,28 +63,12 @@ func _physics_process(delta: float) -> void:
 		var move_dir = Input.get_vector("left", "right","up","down")
 		velocity = move_dir * move_speed
 	
-
 	move_and_slide()
 
 
 func _process(delta: float) -> void:
-	if grab_cooldown_timer > 0:
-		grab_cooldown_timer -= delta
-	if grabbing:
-		if dropping:
-			if sprite.self_modulate.a < MAX_OPACITY:
-				sprite.self_modulate.a += drop_speed*delta
-				sprite.scale -= Vector2(drop_speed/3*delta,drop_speed/3*delta) #claw scale based on drop speed but should be a specified size that matches consistently sized collision box
-			else:
-				#print("ending claw drop")
-				claw_end_drop.emit()
-		elif rising:
-			if sprite.self_modulate.a > MIN_OPACITY:
-				sprite.self_modulate.a -= rise_speed*delta
-				sprite.scale += Vector2(rise_speed/3*delta,rise_speed/3*delta)
-			else:
-				#print("ending claw rise")
-				claw_end_rise.emit()
+	update_claw(delta)
+
 
 func grab():
 	grab_cooldown_timer = grab_cooldown
@@ -103,3 +87,24 @@ func grab():
 	rising = false
 	
 	grabbing = false
+
+
+func update_claw(delta : float):
+	if grab_cooldown_timer > 0:
+		grab_cooldown_timer -= delta
+	if grabbing:
+		if dropping:
+			if sprite.self_modulate.a < MAX_OPACITY:
+				sprite.self_modulate.a += drop_speed*delta
+				sprite.scale -= Vector2(drop_speed/3*delta,drop_speed/3*delta) #claw scale based on drop speed but should be a specified size that matches consistently sized collision box
+			else:
+				#print("ending claw drop")
+				claw_end_drop.emit()
+		elif rising:
+			if sprite.self_modulate.a > MIN_OPACITY:
+				sprite.self_modulate.a -= rise_speed*delta
+				sprite.scale += Vector2(rise_speed/3*delta,rise_speed/3*delta)
+			else:
+				#print("ending claw rise")
+				claw_end_rise.emit()
+
