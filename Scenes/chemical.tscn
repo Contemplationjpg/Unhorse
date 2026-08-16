@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://vyjphham488s"]
 
-[ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/Chemchar.gd" id="1_81wnh"]
+[ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
+[ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
+[ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
+[ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/test_claw.tscn" id="5_vrf4v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -14,22 +15,9 @@ size = Vector2(125, 125)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1552847658]
 
-[node name="Claw" type="CharacterBody2D" parent="." unique_id=455301552]
-position = Vector2(-129, 0)
-scale = Vector2(5, 5)
-collision_layer = 16
-collision_mask = 8
+[node name="Player" type="Node" parent="." unique_id=814992604 node_paths=PackedStringArray("claw")]
 script = ExtResource("1_81wnh")
-move_speed = 200.0
-rise_speed = 2.055
-drop_speed = 2.6550000000000002
-
-[node name="Sprite2D" type="Sprite2D" parent="Claw" unique_id=631895462]
-scale = Vector2(0.39, 0.39)
-texture = ExtResource("1_s6qaj")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Claw" unique_id=1925187367]
-shape = SubResource("RectangleShape2D_d5xax")
+claw = NodePath("")
 
 [node name="Walls" type="Node" parent="." unique_id=1447572787]
 
@@ -92,3 +80,12 @@ shape = SubResource("RectangleShape2D_imfbs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall4/CollisionShape2D" unique_id=1369724450]
 texture = ExtResource("1_s6qaj")
+
+[node name="ClawManager" type="Node" parent="." unique_id=1116939556 node_paths=PackedStringArray("player", "claw_origin")]
+script = ExtResource("3_ef0cl")
+player = NodePath("../Player")
+claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
+claw_origin = NodePath("../ClawOrigin")
+
+[node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
+position = Vector2(-153, 7)
