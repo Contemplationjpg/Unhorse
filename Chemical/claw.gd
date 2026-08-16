@@ -28,10 +28,10 @@ extends CharacterBody2D
 
 
 #states
-var grabbing = false #if doing the grab process at all, this is true from claw_start_drop to claw_end_rise
-var dropping = false #true from claw_start_drop to claw_end_drop
-var down = false #true from claw_start_down to claw_end_down
-var rising = false #true from claw_start_rise to claw_end_rise
+var grabbing : bool = false #true if doing the grab process at all, from claw_start_drop to claw_end_rise
+var dropping : bool = false #true from claw_start_drop to claw_end_drop
+var down : bool = false #true from claw_start_down to claw_end_down
+var rising : bool = false #true from claw_start_rise to claw_end_rise
 
 
 #signals correlated to the states grabbing, dropping, down, rising
@@ -48,16 +48,17 @@ signal claw_grab()
 
 
 #timing for visual changes, also calculated in update_stats()
-var drop_scale_change_per_sec = (max_scale - min_scale)/drop_time
-var rise_scale_change_per_sec = (max_scale - min_scale)/rise_time
+var drop_scale_change_per_sec : float = (max_scale - min_scale)/drop_time
+var rise_scale_change_per_sec : float = (max_scale - min_scale)/rise_time
 
-var drop_opacity_change_per_sec = (max_opacity - min_opacity)/drop_time
-var rise_opacity_change_per_sec = (max_opacity - min_opacity)/rise_time
+var drop_opacity_change_per_sec : float = (max_opacity - min_opacity)/drop_time
+var rise_opacity_change_per_sec : float = (max_opacity - min_opacity)/rise_time
 
 
 #timers for grab logic
-var grab_cooldown_timer = 0
-var grab_pause_timer = 0
+#timers tick down delta every frame, which means 1 unit per irl second, in claw_process()
+var grab_cooldown_timer : float = 0
+var grab_pause_timer : float = 0
 
 
 func _ready() -> void:
@@ -77,10 +78,11 @@ func update_stats():
 
 func move():
 	#claw movement------------------------------------------
-	if not grabbing:
+	if not grabbing: #checks if you are grabbing or not
 		var move_dir = Input.get_vector("left", "right","up","down")
 		velocity = move_dir * move_speed
-	move_and_slide()
+
+	move_and_slide() #include this after anything that changes velocity or involves collision
 
 
 

@@ -84,8 +84,8 @@ texture = ExtResource("1_s6qaj")
 [node name="ClawManager" type="Node" parent="." unique_id=1116939556 node_paths=PackedStringArray("player", "claw_origin")]
 script = ExtResource("3_ef0cl")
 player = NodePath("../Player")
-claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
 claw_origin = NodePath("../ClawOrigin")
+claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
 
 [node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
 position = Vector2(-153, 7)
