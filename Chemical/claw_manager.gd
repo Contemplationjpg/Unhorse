@@ -64,4 +64,5 @@ func _process(delta: float) -> void:
 func debug(): #called every frame, can be used to add inputs or print statements to check on stuff
 	if Input.is_action_just_pressed("debug"): #I set the debug buttong to the "p" key
 		#print("debug: changing claw to claw 1")
-		change_claw(1)
+		#change_claw(1)
+		return

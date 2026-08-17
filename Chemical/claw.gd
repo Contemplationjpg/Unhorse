@@ -6,8 +6,12 @@ extends CharacterBody2D
 
 @export var drop_time : float = 0.25
 
-##time after claw drops before it rises
-@export var grab_pause : float = 1
+##time after claw drops before the actual scoop happens
+@export var pre_scoop_pause : float = 0.25
+##active time for the scoop, can be used to match an animation
+@export var scoop_time : float = 0.25
+##time after claw scoop before it rises
+@export var grab_pause : float = 0.5
 
 @export var rise_time : float = 0.5
 
@@ -28,24 +32,35 @@ extends CharacterBody2D
 
 
 
-@onready var sprite : Sprite2D = $Sprite2D
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var area : Area2D = $Area2D
+@onready var gm : ChemicalGameManager = ChemicalGameManager
+
 
 #states
 var grabbing : bool = false #true if doing the grab process at all, from claw_start_drop to claw_end_rise
 var dropping : bool = false #true from claw_start_drop to claw_end_drop
 var down : bool = false #true from claw_start_down to claw_end_down
+var scooping : bool = false #true from claw_start_scoop to claw_end_scoop
+var suspending : bool = false #true from claw_start_suspension to claw_end_suspension
 var rising : bool = false #true from claw_start_rise to claw_end_rise
 
 var holding : bool = false
 
 
-#signals correlated to the states grabbing, dropping, down, rising
+#signals correlated to the states grabbing, dropping, scooping, down, rising
 signal claw_start_drop()
 signal claw_end_drop()
 
+
 signal claw_start_down()
 signal claw_end_down()
+
+signal claw_start_scoop()
+signal claw_end_scoop()
+
+signal claw_start_suspension()
+signal claw_end_suspension()
 
 signal claw_start_rise()
 signal claw_end_rise()
@@ -62,6 +77,8 @@ var rise_opacity_change_per_sec : float = (max_opacity - min_opacity)/rise_time
 #timers for grab logic
 #timers tick down delta every frame, which means 1 unit per irl second, in claw_process()
 var grab_cooldown_timer : float = 0
+var pre_scoop_pause_timer : float = 0
+var scoop_time_timer : float = 0
 var grab_pause_timer : float = 0
 
 var loot_in_range : Array[Loot] = []
@@ -72,10 +89,82 @@ var loot_held : Array[Loot] = []
 func _ready() -> void:
 	sprite.self_modulate.a = min_opacity
 	sprite.scale = Vector2(max_scale,max_scale)
+	sprite.animation = "idle"
 	
 	#setting up signals------------------
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
+
+func claw_process(delta : float): 
+	
+	#update timers--------------------------
+	if grab_cooldown_timer > 0:
+		grab_cooldown_timer -= delta
+	if pre_scoop_pause_timer > 0:
+		pre_scoop_pause_timer -= delta
+	if scoop_time_timer > 0:
+		scoop_time_timer -= delta
+	if grab_pause_timer > 0:
+		grab_pause_timer -= delta
+
+	#grab visual processing based on state of claw (grabbing, dropping, down, scooping, suspension, rising)----------------------------
+	if grabbing: #start of grab
+		#this section is for the process of the claw dropping
+		if dropping: 
+			if sprite.self_modulate.a < max_opacity:
+				sprite.self_modulate.a += drop_opacity_change_per_sec*delta
+				sprite.scale -= Vector2(drop_scale_change_per_sec*delta,drop_scale_change_per_sec*delta)
+			else: #this chunk happens when the claw has effectively touched the ground
+				sprite.self_modulate.a = max_opacity
+				sprite.scale = Vector2(min_scale, min_scale)
+				claw_end_drop.emit() 
+		
+		#this section is for the process of being down and scooping
+				#there is are 3 pauses that can be tuned here: pre_scoop, scoop, grab_pause
+		elif down:
+			if not scooping and not suspending:#scoop hasn't happened yet
+				if pre_scoop_pause_timer <= 0:
+					claw_start_scoop.emit() #signal to activate scoop hitbox
+			elif scooping: #scoop is now happening
+				if scoop_time_timer <= 0:
+					claw_end_scoop.emit() #signal to disable scoop hitbox
+			
+			elif suspending: #scoop has happened and now we are waiting for grab pause
+				if grab_pause_timer <= 0:
+					claw_end_suspension.emit() #grab pause has ended so we can end our "down" procedure and start rising
+					claw_end_down.emit()
+		#this section is for the process of rising, then starts cooldown
+		elif rising:
+			if sprite.self_modulate.a > min_opacity:
+				sprite.self_modulate.a -= rise_opacity_change_per_sec*delta
+				sprite.scale += Vector2(rise_scale_change_per_sec*delta,rise_scale_change_per_sec*delta)
+			else:
+				#print("ending claw rise")
+				sprite.self_modulate.a = min_opacity
+				sprite.scale = Vector2(max_scale, max_scale)
+				claw_end_rise.emit() #tells that we made it back to the top
+	
+	if loot_held.size() > 0:
+		holding = true
+	
+
+
+func claw_physics_process(delta : float):
+	#check for grab input------------------------------------------------
+	if Input.is_action_just_pressed("drop"):
+		if holding:
+			drop()
+		else:
+			#print("grabbing")
+			grab()
+	
+	#process movement-------------------------------------------
+	move()
+	
+	#pick up stuff if scoopbox should be active---------------------------
+	if scooping:
+		pick_up_loot()
+
 
 
 
@@ -88,7 +177,7 @@ func update_stats():
 	rise_opacity_change_per_sec = (max_opacity - min_opacity)/rise_time
 	
 
-
+#claw actions------------------------------------------------------
 
 func move():
 	#claw movement------------------------------------------
@@ -100,24 +189,55 @@ func move():
 
 
 
+#used to check if able to grab
+func pre_grab_requirement_check() -> bool:
+	if grabbing: #checks if already grabbing
+		return false
+	if grab_cooldown_timer > 0:#checks if grabbing on cooldown
+		return false
+	if not gm.spend_plays(1): #tries to spend a play, returns false if cannot
+		return false
+	return true #only returns true after all checks are good
 
 
 
+#does pre_grab_requirement_check() to see if able to grab
 func grab():
+	if not pre_grab_requirement_check(): #only does grab if all requirements are met
+		return
+
+	#begin the grab process--------------------------
 	grabbing = true #starting grab
-	
+	velocity = Vector2.ZERO
+
 	#claw drop---------------------
 	claw_start_drop.emit()
 	dropping = true
 	await claw_end_drop
 	dropping = false
 
-		#claw down------------------
+		#claw down----------------------------
 	down = true
 	claw_start_down.emit()
+		#claw scoop---------------------------
+	pre_scoop_pause_timer = pre_scoop_pause
+	await claw_start_scoop
+	claw_start_scoop.emit()
+	scooping = true
+	sprite.animation = "grab" #does grab animation for active grab box
 
+	scoop_time_timer = scoop_time
+	await claw_end_scoop
+	scooping = false
+
+	claw_start_suspension.emit()
+	sprite.animation = "holding" #loops holding animation until claw rises to the top
+	suspending = true
 	grab_pause_timer = grab_pause #starts grab pause
-	await claw_end_down #waits for grab pause timer to be up
+	await claw_end_suspension #waits for grab pause timer to be up
+	suspending = false
+	
+	await claw_end_down
 	down = false
 
 	#claw rise--------------------
@@ -126,95 +246,61 @@ func grab():
 	await claw_end_rise
 	rising = false
 	
+	if not holding:
+		sprite.animation = "idle" #if not actually holding anything, goes back to idle
+
 	grabbing = false #end of grab process
 	grab_cooldown_timer = grab_cooldown #starts grab cooldown
 
 
+#used to check if able to drop
+func pre_drop_requirement_check() -> bool:
+	if not holding:
+		return false
+	if grabbing:
+		return false
+	return true
 
+
+#does pre_grab_requirement_check() to see if able to drop
 func drop():
-	print("dropping")
+	if not pre_drop_requirement_check():
+		return
+	#print("dropping")
 	while (loot_held.size() > 0):
 		loot_held[-1].reparent(get_parent())
 		loot_held[-1].get_dropped()
+		loot_held[-1].linear_velocity = velocity #applies claw velocity to the loot being dropped
 		loot_held.remove_at(-1)
 	holding = false
+	sprite.animation = "idle" #after you drop everything, goes back to idle
 
-
-
-func claw_process(delta : float): #fix claw scale
-	
-	#update timers--------------------------
-	if grab_cooldown_timer > 0:
-		grab_cooldown_timer -= delta
-	if grab_pause_timer > 0:
-		grab_pause_timer -= delta
-
-	#grab visual processing based on state of claw (grabbing, dropping, down, rising)----------------------------
-	if grabbing:
-		if dropping:
-			if sprite.self_modulate.a < max_opacity:
-				sprite.self_modulate.a += drop_opacity_change_per_sec*delta
-				sprite.scale -= Vector2(drop_scale_change_per_sec*delta,drop_scale_change_per_sec*delta)
-			else:
-				claw_end_drop.emit()
-		elif down:
-			if grab_pause_timer <= 0:
-				claw_end_down.emit()
-		elif rising:
-			if sprite.self_modulate.a > min_opacity:
-				sprite.self_modulate.a -= rise_opacity_change_per_sec*delta
-				sprite.scale += Vector2(rise_scale_change_per_sec*delta,rise_scale_change_per_sec*delta)
-			else:
-				#print("ending claw rise")
-				claw_end_rise.emit()
-	
-	if loot_held.size() > 0:
-		holding = true
-	
-
-
-func claw_physics_process(delta : float):
-	#check for grab input------------------------------------------------
-	if Input.is_action_just_pressed("drop") and not grabbing:
-		if holding:
-			drop()
-		else:
-			#print("grabbing")
-			if grab_cooldown_timer <= 0:#checks if grabbing on cooldown
-				velocity = Vector2.ZERO
-				grab()
-	
-	#process movement-------------------------------------------
-	move()
-
-	if down:
-		pick_up_loot()
-
-
+#repeatedly called when scooping = true to pick up any loot that is within range of the scoopbox
 func pick_up_loot():
-	if loot_in_range.size() > 0:
+	if loot_in_range.size() > 0: 
 		for i in loot_in_range:
-			i.global_position = global_position
-			i.get_grabbed(self)
-			i.reparent(self)
-			loot_held.append(i)
-			loot_in_range.erase(i)
+			i.get_grabbed(self) #tell the loot they are getting grabbed
+			i.global_position = global_position #lock the loot into our claw's position
+			i.reparent(self) #parent the loot so that they follow the claw before they are dropped
+			loot_held.append(i) #add loot to our list of currently held loot (used by drop() to know which loot to drop)
+			loot_in_range.erase(i) #remove from loot_in_range because that array is only for loot we haven't picked up yet
 
 
-
+#loot detection-------------------------------------------------------------------
+	#detection box never turns off
 func _on_body_entered(body : Node2D):
 	var new_loot = body as Loot
 	if not new_loot:
 		return
-	if loot_in_range.find(new_loot) == -1:
-		loot_in_range.append(new_loot)
-		print("hello")
-	else:
-		print("what da sigma")
+	if loot_in_range.find(new_loot) == -1: #find() returns -1 if target not found
+		loot_in_range.append(new_loot) #adds loot to list if it's not on the list yet
+		#print("hello")
+	#else:
+		#print("what da sigma")
 
 func _on_body_exit(body : Node2D):
 	var exit_loot = body as Loot
 	var loot_index = loot_in_range.find(exit_loot)
-	if loot_index != -1:
-		print("removing body")
-		loot_in_range.remove_at(loot_index)
+	if loot_index != -1: #find() returns -1 if target not found, so loot_index == -1 if not in our list somehow
+		#print("removing body")
+		loot_in_range.remove_at(loot_index) #uses loot index to know which loot to remove

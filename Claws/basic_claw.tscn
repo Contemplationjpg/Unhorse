@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://bg6bv76kcabub"]
+[gd_scene format=3 uid="uid://dplu5kclhqdfm"]
 
-[ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
-[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_u2qwf"]
-[ext_resource type="Texture2D" uid="uid://q3kom7kvwyf5" path="res://green_icon.png" id="2_xig0c"]
-[ext_resource type="Texture2D" uid="uid://c0ud3hmljk6iq" path="res://purple_icon.png" id="3_xig0c"]
+[ext_resource type="Script" uid="uid://gr7qwksqutaa" path="res://Chemical/basic_claw.gd" id="1_fn3mh"]
+[ext_resource type="Texture2D" uid="uid://q3kom7kvwyf5" path="res://green_icon.png" id="2_lfjnj"]
+[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_urhjn"]
+[ext_resource type="Texture2D" uid="uid://c0ud3hmljk6iq" path="res://purple_icon.png" id="3_800jf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urhjn"]
 size = Vector2(8, 8)
@@ -12,7 +12,7 @@ size = Vector2(8, 8)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_xig0c")
+"texture": ExtResource("2_lfjnj")
 }],
 "loop": 1,
 "name": &"grab",
@@ -20,7 +20,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_xig0c")
+"texture": ExtResource("3_800jf")
 }],
 "loop": 1,
 "name": &"holding",
@@ -28,7 +28,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_u2qwf")
+"texture": ExtResource("2_urhjn")
 }],
 "loop": 1,
 "name": &"idle",
@@ -37,13 +37,20 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 
-[node name="Claw" type="CharacterBody2D" unique_id=208071505]
+[node name="BasicClaw" type="CharacterBody2D" unique_id=208071505]
+modulate = Color(3.045841, 3.045841, 3.045841, 1)
 scale = Vector2(5, 5)
 collision_layer = 0
 collision_mask = 8
 motion_mode = 1
-script = ExtResource("1_pj4pq")
+script = ExtResource("1_fn3mh")
+move_speed = 300.0
+drop_time = 0.15
+pre_scoop_pause = 0.05
 scoop_time = 0.1
+grab_pause = 0.2
+rise_time = 0.2
+grab_cooldown = 1.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=643624714]
 scale = Vector2(0.99999994, 0.99999994)
@@ -65,4 +72,4 @@ shape = SubResource("RectangleShape2D_d5xax")
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1301336807]
 visible = false
 scale = Vector2(0.155, 0.155)
-texture = ExtResource("2_u2qwf")
+texture = ExtResource("2_urhjn")

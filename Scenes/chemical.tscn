@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://vyjphham488s"]
 
+[ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
-[ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/test_claw.tscn" id="5_vrf4v"]
+[ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
@@ -15,6 +16,18 @@ size = Vector2(125, 125)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1552847658]
+
+[node name="Node" type="Node" parent="CanvasLayer" unique_id=1792794943]
+script = ExtResource("1_5u0wd")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Node" unique_id=1044586713]
+offset_left = 968.0
+offset_top = 3.0
+offset_right = 1149.0
+offset_bottom = 430.0
+text = "Gaming
+"
+fit_content = true
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
