@@ -64,6 +64,7 @@ debug={
 
 [layer_names]
 
+2d_physics/layer_2="Loot"
 2d_physics/layer_4="Wall"
 2d_physics/layer_5="Claw"
 

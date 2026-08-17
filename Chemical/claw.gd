@@ -1,16 +1,20 @@
 class_name Claw
 extends CharacterBody2D
 
-@export_group("Claw Stats")
+@export_category("Claw Stats")
 @export var move_speed : float = 100
-##cooldown between doing another grab. starts when claw finishes rising
-@export var grab_cooldown : float = 1.5 
+
+@export var drop_time : float = 0.25
+
 ##time after claw drops before it rises
 @export var grab_pause : float = 1
 
-@export_subgroup("Opacity")
 @export var rise_time : float = 0.5
-@export var drop_time : float = 0.25
+
+##cooldown between doing another grab. starts when claw finishes rising
+@export var grab_cooldown : float = 1.5 
+
+@export_subgroup("Opacity")
 @export var max_opacity : float = 1
 @export var min_opacity : float = 0.15
 
@@ -24,14 +28,16 @@ extends CharacterBody2D
 
 
 
-@onready var sprite = $Sprite2D
-
+@onready var sprite : Sprite2D = $Sprite2D
+@onready var area : Area2D = $Area2D
 
 #states
 var grabbing : bool = false #true if doing the grab process at all, from claw_start_drop to claw_end_rise
 var dropping : bool = false #true from claw_start_drop to claw_end_drop
 var down : bool = false #true from claw_start_down to claw_end_down
 var rising : bool = false #true from claw_start_rise to claw_end_rise
+
+var holding : bool = false
 
 
 #signals correlated to the states grabbing, dropping, down, rising
@@ -43,8 +49,6 @@ signal claw_end_down()
 
 signal claw_start_rise()
 signal claw_end_rise()
-
-signal claw_grab()
 
 
 #timing for visual changes, also calculated in update_stats()
@@ -60,10 +64,20 @@ var rise_opacity_change_per_sec : float = (max_opacity - min_opacity)/rise_time
 var grab_cooldown_timer : float = 0
 var grab_pause_timer : float = 0
 
+var loot_in_range : Array[Loot] = []
+var loot_held : Array[Loot] = []
+
+
 
 func _ready() -> void:
 	sprite.self_modulate.a = min_opacity
 	sprite.scale = Vector2(max_scale,max_scale)
+	
+	#setting up signals------------------
+	area.body_entered.connect(_on_body_entered)
+	area.body_exited.connect(_on_body_exit)
+
+
 
 #use update_stats() if drop/rise speed is ever changed mid-game
 func update_stats():
@@ -102,8 +116,6 @@ func grab():
 	down = true
 	claw_start_down.emit()
 
-	claw_grab.emit()#this is where claw should grab stuff 
-
 	grab_pause_timer = grab_pause #starts grab pause
 	await claw_end_down #waits for grab pause timer to be up
 	down = false
@@ -118,6 +130,14 @@ func grab():
 	grab_cooldown_timer = grab_cooldown #starts grab cooldown
 
 
+
+func drop():
+	print("dropping")
+	while (loot_held.size() > 0):
+		loot_held[-1].reparent(get_parent())
+		loot_held[-1].get_dropped()
+		loot_held.remove_at(-1)
+	holding = false
 
 
 
@@ -147,21 +167,54 @@ func claw_process(delta : float): #fix claw scale
 			else:
 				#print("ending claw rise")
 				claw_end_rise.emit()
-
-
-
-
+	
+	if loot_held.size() > 0:
+		holding = true
+	
 
 
 func claw_physics_process(delta : float):
 	#check for grab input------------------------------------------------
-	if Input.is_action_just_pressed("drop") and not grabbing: #checks if grabbing
-		#print("grabbing")
-		if grab_cooldown_timer <= 0:#checks if grabbing on cooldown
-			velocity = Vector2.ZERO
-			grab()
-		#else:
-			#print("cannot grab! grab cooldown at " + str(grab_cooldown_timer))
-
+	if Input.is_action_just_pressed("drop") and not grabbing:
+		if holding:
+			drop()
+		else:
+			#print("grabbing")
+			if grab_cooldown_timer <= 0:#checks if grabbing on cooldown
+				velocity = Vector2.ZERO
+				grab()
+	
 	#process movement-------------------------------------------
 	move()
+
+	if down:
+		pick_up_loot()
+
+
+func pick_up_loot():
+	if loot_in_range.size() > 0:
+		for i in loot_in_range:
+			i.global_position = global_position
+			i.get_grabbed(self)
+			i.reparent(self)
+			loot_held.append(i)
+			loot_in_range.erase(i)
+
+
+
+func _on_body_entered(body : Node2D):
+	var new_loot = body as Loot
+	if not new_loot:
+		return
+	if loot_in_range.find(new_loot) == -1:
+		loot_in_range.append(new_loot)
+		print("hello")
+	else:
+		print("what da sigma")
+
+func _on_body_exit(body : Node2D):
+	var exit_loot = body as Loot
+	var loot_index = loot_in_range.find(exit_loot)
+	if loot_index != -1:
+		print("removing body")
+		loot_in_range.remove_at(loot_index)

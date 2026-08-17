@@ -5,10 +5,13 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pj4pq"]
+size = Vector2(10, 10)
+
 [node name="Claw" type="CharacterBody2D" unique_id=208071505]
 modulate = Color(0.70980394, 0.2509804, 0.8235294, 1)
 scale = Vector2(5, 5)
-collision_layer = 16
+collision_layer = 0
 collision_mask = 8
 script = ExtResource("1_fn3mh")
 move_speed = 300.0
@@ -28,3 +31,12 @@ shape = SubResource("RectangleShape2D_d5xax")
 visible = false
 scale = Vector2(0.155, 0.155)
 texture = ExtResource("2_urhjn")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1040520198]
+scale = Vector2(0.99999994, 0.99999994)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2102500072]
+shape = SubResource("RectangleShape2D_pj4pq")

@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/test_claw.tscn" id="5_vrf4v"]
+[ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -15,9 +16,8 @@ size = Vector2(125, 125)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1552847658]
 
-[node name="Player" type="Node" parent="." unique_id=814992604 node_paths=PackedStringArray("claw")]
+[node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
-claw = NodePath("")
 
 [node name="Walls" type="Node" parent="." unique_id=1447572787]
 
@@ -28,9 +28,9 @@ collision_mask = 16
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=1933633481]
-position = Vector2(-139.00002, 95.00001)
+position = Vector2(-131, 141)
 rotation = -3.1415925
-scale = Vector2(6.3600006, -0.07999945)
+scale = Vector2(6.3600006, -0.87999946)
 shape = SubResource("RectangleShape2D_imfbs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall/CollisionShape2D" unique_id=2064890330]
@@ -43,9 +43,9 @@ collision_mask = 16
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1803671940]
-position = Vector2(-564, 2.999999)
+position = Vector2(-605, 5)
 rotation = -3.1415925
-scale = Vector2(0.12, -4.255)
+scale = Vector2(0.96000135, -5.6150007)
 shape = SubResource("RectangleShape2D_imfbs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall2/CollisionShape2D" unique_id=196644921]
@@ -58,9 +58,9 @@ collision_mask = 16
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3" unique_id=1005363347]
-position = Vector2(-139.00002, 95.00001)
+position = Vector2(-139, 30.000015)
 rotation = -3.1415925
-scale = Vector2(6.3600006, -0.07999945)
+scale = Vector2(6.3600006, -1.3599994)
 shape = SubResource("RectangleShape2D_imfbs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall3/CollisionShape2D" unique_id=1603703215]
@@ -73,9 +73,9 @@ collision_mask = 16
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4" unique_id=1225373754]
-position = Vector2(-564, 2.999999)
+position = Vector2(-518, 3)
 rotation = -3.1415925
-scale = Vector2(0.12, -4.255)
+scale = Vector2(1.0000038, -5.8549995)
 shape = SubResource("RectangleShape2D_imfbs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall4/CollisionShape2D" unique_id=1369724450]
@@ -89,3 +89,75 @@ claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
 
 [node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
 position = Vector2(-153, 7)
+
+[node name="Loot" parent="." unique_id=596486904 instance=ExtResource("6_6hamn")]
+position = Vector2(77, -152)
+
+[node name="Loot2" parent="." unique_id=987739729 instance=ExtResource("6_6hamn")]
+position = Vector2(-129, 191)
+
+[node name="Loot3" parent="." unique_id=1356929305 instance=ExtResource("6_6hamn")]
+position = Vector2(96, 100)
+
+[node name="Loot4" parent="." unique_id=1654726171 instance=ExtResource("6_6hamn")]
+position = Vector2(-427, 9)
+
+[node name="Loot5" parent="." unique_id=2005018646 instance=ExtResource("6_6hamn")]
+position = Vector2(-224, 8)
+
+[node name="Loot6" parent="." unique_id=709930049 instance=ExtResource("6_6hamn")]
+position = Vector2(-92, 84)
+
+[node name="Loot7" parent="." unique_id=216396073 instance=ExtResource("6_6hamn")]
+position = Vector2(133, -7)
+
+[node name="Loot8" parent="." unique_id=374112385 instance=ExtResource("6_6hamn")]
+position = Vector2(-390, -98)
+
+[node name="Loot9" parent="." unique_id=702552544 instance=ExtResource("6_6hamn")]
+position = Vector2(-179, -65)
+
+[node name="Loot10" parent="." unique_id=327028529 instance=ExtResource("6_6hamn")]
+position = Vector2(-47, 11)
+
+[node name="Loot11" parent="." unique_id=713028287 instance=ExtResource("6_6hamn")]
+position = Vector2(178, -80)
+
+[node name="Loot12" parent="." unique_id=492681763 instance=ExtResource("6_6hamn")]
+position = Vector2(-345, -171)
+
+[node name="Loot13" parent="." unique_id=1491478327 instance=ExtResource("6_6hamn")]
+position = Vector2(-315, 154)
+
+[node name="Loot14" parent="." unique_id=627229931 instance=ExtResource("6_6hamn")]
+position = Vector2(-183, 230)
+
+[node name="Loot15" parent="." unique_id=1878537930 instance=ExtResource("6_6hamn")]
+position = Vector2(42, 139)
+
+[node name="Loot16" parent="." unique_id=280435915 instance=ExtResource("6_6hamn")]
+position = Vector2(-481, 48)
+
+[node name="Loot17" parent="." unique_id=489327910 instance=ExtResource("6_6hamn")]
+position = Vector2(-278, 47)
+
+[node name="Loot18" parent="." unique_id=1438026654 instance=ExtResource("6_6hamn")]
+position = Vector2(-146, 123)
+
+[node name="Loot19" parent="." unique_id=1415573398 instance=ExtResource("6_6hamn")]
+position = Vector2(79, 32)
+
+[node name="Loot20" parent="." unique_id=1945655761 instance=ExtResource("6_6hamn")]
+position = Vector2(-444, -59)
+
+[node name="Loot21" parent="." unique_id=1440083391 instance=ExtResource("6_6hamn")]
+position = Vector2(-233, -26)
+
+[node name="Loot22" parent="." unique_id=1522615502 instance=ExtResource("6_6hamn")]
+position = Vector2(-101, 50)
+
+[node name="Loot23" parent="." unique_id=2098286521 instance=ExtResource("6_6hamn")]
+position = Vector2(124, -41)
+
+[node name="Loot24" parent="." unique_id=1035743096 instance=ExtResource("6_6hamn")]
+position = Vector2(-399, -132)

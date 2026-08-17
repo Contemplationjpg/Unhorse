@@ -1,17 +1,28 @@
 [gd_scene format=3 uid="uid://bg6bv76kcabub"]
 
-[ext_resource type="Script" uid="uid://gr7qwksqutaa" path="res://Chemical/basic_claw.gd" id="1_pj4pq"]
+[ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_u2qwf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_urhjn"]
+size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 
 [node name="Claw" type="CharacterBody2D" unique_id=208071505]
 scale = Vector2(5, 5)
-collision_layer = 16
+collision_layer = 0
 collision_mask = 8
+motion_mode = 1
 script = ExtResource("1_pj4pq")
-max_scale = 0.4
-min_scale = 0.115
+
+[node name="Area2D" type="Area2D" parent="." unique_id=643624714]
+scale = Vector2(0.99999994, 0.99999994)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126843928]
+shape = SubResource("RectangleShape2D_urhjn")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=214776933]
 scale = Vector2(0.4, 0.4)
