@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Unhorse"
-run/main_scene="uid://dl5pgnv81xf6c"
+run/main_scene="uid://vyjphham488s"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

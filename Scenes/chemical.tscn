@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
+[ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -15,12 +16,26 @@ size = Vector2(125, 125)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1552847658]
-
-[node name="Node" type="Node" parent="CanvasLayer" unique_id=1792794943]
+[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("info_hud", "score_box")]
 script = ExtResource("1_5u0wd")
+info_hud = NodePath("UICanvas/InfoHUD")
+score_box = NodePath("ScreenCanvas/ScoreIncrease")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Node" unique_id=1044586713]
+[node name="ScreenCanvas" type="CanvasLayer" parent="HUD" unique_id=1254409264]
+follow_viewport_enabled = true
+
+[node name="ScoreIncrease" type="RichTextLabel" parent="HUD/ScreenCanvas" unique_id=321073578]
+offset_left = 896.0
+offset_top = 187.0
+offset_right = 1052.0
+offset_bottom = 326.0
+text = "Gaming
+"
+fit_content = true
+
+[node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
+
+[node name="InfoHUD" type="RichTextLabel" parent="HUD/UICanvas" unique_id=1044586713]
 offset_left = 968.0
 offset_top = 3.0
 offset_right = 1149.0
@@ -100,77 +115,86 @@ player = NodePath("../Player")
 claw_origin = NodePath("../ClawOrigin")
 claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
 
+[node name="Hole2" parent="." unique_id=1664343926 instance=ExtResource("7_05swk")]
+position = Vector2(-386, 107)
+
+[node name="Hole" parent="." unique_id=1542862474 instance=ExtResource("7_05swk")]
+position = Vector2(-75, -145)
+point_modifier = 2.0
+
 [node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
 position = Vector2(-153, 7)
 
-[node name="Loot" parent="." unique_id=596486904 instance=ExtResource("6_6hamn")]
+[node name="LootHolder" type="Node" parent="." unique_id=1977437672]
+
+[node name="Loot" parent="LootHolder" unique_id=596486904 instance=ExtResource("6_6hamn")]
 position = Vector2(77, -152)
 
-[node name="Loot2" parent="." unique_id=987739729 instance=ExtResource("6_6hamn")]
+[node name="Loot2" parent="LootHolder" unique_id=987739729 instance=ExtResource("6_6hamn")]
 position = Vector2(-129, 191)
 
-[node name="Loot3" parent="." unique_id=1356929305 instance=ExtResource("6_6hamn")]
+[node name="Loot3" parent="LootHolder" unique_id=1356929305 instance=ExtResource("6_6hamn")]
 position = Vector2(96, 100)
 
-[node name="Loot4" parent="." unique_id=1654726171 instance=ExtResource("6_6hamn")]
+[node name="Loot4" parent="LootHolder" unique_id=1654726171 instance=ExtResource("6_6hamn")]
 position = Vector2(-427, 9)
 
-[node name="Loot5" parent="." unique_id=2005018646 instance=ExtResource("6_6hamn")]
+[node name="Loot5" parent="LootHolder" unique_id=2005018646 instance=ExtResource("6_6hamn")]
 position = Vector2(-224, 8)
 
-[node name="Loot6" parent="." unique_id=709930049 instance=ExtResource("6_6hamn")]
+[node name="Loot6" parent="LootHolder" unique_id=709930049 instance=ExtResource("6_6hamn")]
 position = Vector2(-92, 84)
 
-[node name="Loot7" parent="." unique_id=216396073 instance=ExtResource("6_6hamn")]
+[node name="Loot7" parent="LootHolder" unique_id=216396073 instance=ExtResource("6_6hamn")]
 position = Vector2(133, -7)
 
-[node name="Loot8" parent="." unique_id=374112385 instance=ExtResource("6_6hamn")]
+[node name="Loot8" parent="LootHolder" unique_id=374112385 instance=ExtResource("6_6hamn")]
 position = Vector2(-390, -98)
 
-[node name="Loot9" parent="." unique_id=702552544 instance=ExtResource("6_6hamn")]
+[node name="Loot9" parent="LootHolder" unique_id=702552544 instance=ExtResource("6_6hamn")]
 position = Vector2(-179, -65)
 
-[node name="Loot10" parent="." unique_id=327028529 instance=ExtResource("6_6hamn")]
+[node name="Loot10" parent="LootHolder" unique_id=327028529 instance=ExtResource("6_6hamn")]
 position = Vector2(-47, 11)
 
-[node name="Loot11" parent="." unique_id=713028287 instance=ExtResource("6_6hamn")]
+[node name="Loot11" parent="LootHolder" unique_id=713028287 instance=ExtResource("6_6hamn")]
 position = Vector2(178, -80)
 
-[node name="Loot12" parent="." unique_id=492681763 instance=ExtResource("6_6hamn")]
+[node name="Loot12" parent="LootHolder" unique_id=492681763 instance=ExtResource("6_6hamn")]
 position = Vector2(-345, -171)
 
-[node name="Loot13" parent="." unique_id=1491478327 instance=ExtResource("6_6hamn")]
+[node name="Loot13" parent="LootHolder" unique_id=1491478327 instance=ExtResource("6_6hamn")]
 position = Vector2(-315, 154)
 
-[node name="Loot14" parent="." unique_id=627229931 instance=ExtResource("6_6hamn")]
+[node name="Loot14" parent="LootHolder" unique_id=627229931 instance=ExtResource("6_6hamn")]
 position = Vector2(-183, 230)
 
-[node name="Loot15" parent="." unique_id=1878537930 instance=ExtResource("6_6hamn")]
+[node name="Loot15" parent="LootHolder" unique_id=1878537930 instance=ExtResource("6_6hamn")]
 position = Vector2(42, 139)
 
-[node name="Loot16" parent="." unique_id=280435915 instance=ExtResource("6_6hamn")]
+[node name="Loot16" parent="LootHolder" unique_id=280435915 instance=ExtResource("6_6hamn")]
 position = Vector2(-481, 48)
 
-[node name="Loot17" parent="." unique_id=489327910 instance=ExtResource("6_6hamn")]
+[node name="Loot17" parent="LootHolder" unique_id=489327910 instance=ExtResource("6_6hamn")]
 position = Vector2(-278, 47)
 
-[node name="Loot18" parent="." unique_id=1438026654 instance=ExtResource("6_6hamn")]
+[node name="Loot18" parent="LootHolder" unique_id=1438026654 instance=ExtResource("6_6hamn")]
 position = Vector2(-146, 123)
 
-[node name="Loot19" parent="." unique_id=1415573398 instance=ExtResource("6_6hamn")]
+[node name="Loot19" parent="LootHolder" unique_id=1415573398 instance=ExtResource("6_6hamn")]
 position = Vector2(79, 32)
 
-[node name="Loot20" parent="." unique_id=1945655761 instance=ExtResource("6_6hamn")]
+[node name="Loot20" parent="LootHolder" unique_id=1945655761 instance=ExtResource("6_6hamn")]
 position = Vector2(-444, -59)
 
-[node name="Loot21" parent="." unique_id=1440083391 instance=ExtResource("6_6hamn")]
+[node name="Loot21" parent="LootHolder" unique_id=1440083391 instance=ExtResource("6_6hamn")]
 position = Vector2(-233, -26)
 
-[node name="Loot22" parent="." unique_id=1522615502 instance=ExtResource("6_6hamn")]
+[node name="Loot22" parent="LootHolder" unique_id=1522615502 instance=ExtResource("6_6hamn")]
 position = Vector2(-101, 50)
 
-[node name="Loot23" parent="." unique_id=2098286521 instance=ExtResource("6_6hamn")]
+[node name="Loot23" parent="LootHolder" unique_id=2098286521 instance=ExtResource("6_6hamn")]
 position = Vector2(124, -41)
 
-[node name="Loot24" parent="." unique_id=1035743096 instance=ExtResource("6_6hamn")]
+[node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
 position = Vector2(-399, -132)

@@ -26,8 +26,11 @@ extends CharacterBody2D
 @export var max_scale : float = 0.5
 @export var min_scale : float = 0.25
 
-
-
+@export_category("Loot Modifiers")
+@export var loot_drop_time_modifier : float = 1
+@export var loot_impulse_modifier : float = 1
+@export var loot_velocity_modifier : float = 1
+@export var loot_point_value_modifier : float = 1
 
 
 
@@ -90,10 +93,13 @@ func _ready() -> void:
 	sprite.self_modulate.a = min_opacity
 	sprite.scale = Vector2(max_scale,max_scale)
 	sprite.animation = "idle"
+	update_stats()
 	
 	#setting up signals------------------
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
+
+
 
 func claw_process(delta : float): 
 	
@@ -113,12 +119,18 @@ func claw_process(delta : float):
 		if dropping: 
 			if sprite.self_modulate.a < max_opacity:
 				sprite.self_modulate.a += drop_opacity_change_per_sec*delta
+			else:
+				#the 0.01 is safety precaution because setting a = min_opacity would sometimes end up with floating point number that is larger than the min_opacity so this is just for consistency with the rising end
+				sprite.self_modulate.a = max_opacity + 0.01
+			if sprite.scale > Vector2(min_scale, min_scale):
 				sprite.scale -= Vector2(drop_scale_change_per_sec*delta,drop_scale_change_per_sec*delta)
-			else: #this chunk happens when the claw has effectively touched the ground
-				sprite.self_modulate.a = max_opacity
+			else:
 				sprite.scale = Vector2(min_scale, min_scale)
+				
+			if sprite.self_modulate.a >= max_opacity and sprite.scale == Vector2(min_scale, min_scale):#this chunk happens when the claw has effectively touched the ground
 				claw_end_drop.emit() 
-		
+
+
 		#this section is for the process of being down and scooping
 				#there is are 3 pauses that can be tuned here: pre_scoop, scoop, grab_pause
 		elif down:
@@ -137,13 +149,19 @@ func claw_process(delta : float):
 		elif rising:
 			if sprite.self_modulate.a > min_opacity:
 				sprite.self_modulate.a -= rise_opacity_change_per_sec*delta
+			else:
+				#the 0.01 is safety precaution because setting a = min_opacity would sometimes end up with floating point number that is larger than the min_opacity
+				sprite.self_modulate.a = min_opacity-0.01
+			if sprite.scale < Vector2(max_scale, max_scale):
 				sprite.scale += Vector2(rise_scale_change_per_sec*delta,rise_scale_change_per_sec*delta)
 			else:
-				#print("ending claw rise")
-				sprite.self_modulate.a = min_opacity
 				sprite.scale = Vector2(max_scale, max_scale)
+
+			if sprite.self_modulate.a <= min_opacity and sprite.scale == Vector2(max_scale, max_scale):#this chunk happens when the claw has effectively reached the top
+				print("rose")
 				claw_end_rise.emit() #tells that we made it back to the top
 	
+
 	if loot_held.size() > 0:
 		holding = true
 	
@@ -269,8 +287,7 @@ func drop():
 	#print("dropping")
 	while (loot_held.size() > 0):
 		loot_held[-1].reparent(get_parent())
-		loot_held[-1].get_dropped()
-		loot_held[-1].linear_velocity = velocity #applies claw velocity to the loot being dropped
+		loot_held[-1].get_dropped(self)
 		loot_held.remove_at(-1)
 	holding = false
 	sprite.animation = "idle" #after you drop everything, goes back to idle
@@ -279,11 +296,11 @@ func drop():
 func pick_up_loot():
 	if loot_in_range.size() > 0: 
 		for i in loot_in_range:
-			i.get_grabbed(self) #tell the loot they are getting grabbed
-			i.global_position = global_position #lock the loot into our claw's position
-			i.reparent(self) #parent the loot so that they follow the claw before they are dropped
-			loot_held.append(i) #add loot to our list of currently held loot (used by drop() to know which loot to drop)
-			loot_in_range.erase(i) #remove from loot_in_range because that array is only for loot we haven't picked up yet
+			if i.get_grabbed(self): #ask the loot to get grabbed
+				i.global_position = global_position #lock the loot into our claw's position
+				i.reparent(self) #parent the loot so that they follow the claw before they are dropped
+				loot_held.append(i) #add loot to our list of currently held loot (used by drop() to know which loot to drop)
+			loot_in_range.erase(i) #remove from loot_in_range because either we picked it up or we can't
 
 
 #loot detection-------------------------------------------------------------------

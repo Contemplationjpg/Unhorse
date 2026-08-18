@@ -44,6 +44,8 @@ collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_pj4pq")
 scoop_time = 0.1
+min_scale = 0.155
+loot_drop_time_modifier = 20.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=643624714]
 scale = Vector2(0.99999994, 0.99999994)
@@ -57,7 +59,7 @@ shape = SubResource("RectangleShape2D_urhjn")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624133184]
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_d5xax")
-animation = &"grab"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2102089201]
 shape = SubResource("RectangleShape2D_d5xax")

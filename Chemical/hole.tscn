@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://d1hkr6spq6y2g"]
+
+[ext_resource type="Script" uid="uid://dqjj3l2ewa40" path="res://Chemical/hole.gd" id="1_k36ln"]
+[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_kl8mm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
+size = Vector2(80, 80)
+
+[node name="Hole" type="Node2D" unique_id=1664343926 node_paths=PackedStringArray("mult_label")]
+script = ExtResource("1_k36ln")
+mult_label = NodePath("CanvasLayer/MultLabel")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=656120448]
+self_modulate = Color(0.28, 0.28, 0.28, 1)
+texture = ExtResource("2_kl8mm")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=446930248]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1119785818]
+position = Vector2(0.4999981, 0)
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1723011743]
+follow_viewport_enabled = true
+
+[node name="MultLabel" type="RichTextLabel" parent="CanvasLayer" unique_id=158084294]
+visible = false
+anchors_preset = -1
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+text = "x1"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -11,6 +11,7 @@ signal on_spend_spins(spins_spent : int)
 
 signal on_any_update() #this "on_any_update" signal is intended for things like updating ui but tbh you can go wild with this if you want
 
+signal on_loot_scored(position : Vector2, amount : int)
 
 
 #resources--------------------------------
