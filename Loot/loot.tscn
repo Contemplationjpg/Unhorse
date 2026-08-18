@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bs5mn6vsda2j8"]
+
+[ext_resource type="Script" uid="uid://c6j6i0mpm4e25" path="res://Chemical/loot.gd" id="1_51vy6"]
+[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_4iveu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]
+friction = 0.2
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
+
+[node name="Loot" type="RigidBody2D" unique_id=596486904]
+collision_layer = 2
+collision_mask = 10
+physics_material_override = SubResource("PhysicsMaterial_6hamn")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_51vy6")
+bounce_bonus_increase_per_bounce = 0.25
+mult_bounce_speed_up = 1.5
+impulse_amount = 500.0
+min_scale = 0.125
+max_scale = 0.5
+color_value_lower_speed = 0.25
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_4iveu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1047960950]
+shape = SubResource("CircleShape2D_d5xax")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1594934862]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1719631366]
+shape = SubResource("CircleShape2D_imfbs")

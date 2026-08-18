@@ -1,0 +1,200 @@
+[gd_scene format=3 uid="uid://vyjphham488s"]
+
+[ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
+[ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
+[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
+[ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
+[ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
+[ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
+[ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
+[ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
+size = Vector2(125, 125)
+
+[node name="Chemical" type="Node2D" unique_id=2089471138]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
+
+[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("info_hud", "score_box")]
+script = ExtResource("1_5u0wd")
+info_hud = NodePath("UICanvas/InfoHUD")
+score_box = NodePath("ScreenCanvas/ScoreIncrease")
+
+[node name="ScreenCanvas" type="CanvasLayer" parent="HUD" unique_id=1254409264]
+follow_viewport_enabled = true
+
+[node name="ScoreIncrease" type="RichTextLabel" parent="HUD/ScreenCanvas" unique_id=321073578]
+offset_left = 896.0
+offset_top = 187.0
+offset_right = 1052.0
+offset_bottom = 326.0
+text = "Gaming
+"
+fit_content = true
+
+[node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
+
+[node name="InfoHUD" type="RichTextLabel" parent="HUD/UICanvas" unique_id=1044586713]
+offset_left = 968.0
+offset_top = 3.0
+offset_right = 1149.0
+offset_bottom = 430.0
+text = "Gaming
+"
+fit_content = true
+
+[node name="Player" type="Node" parent="." unique_id=814992604]
+script = ExtResource("1_81wnh")
+
+[node name="Walls" type="Node" parent="." unique_id=1447572787]
+
+[node name="Wall" type="RigidBody2D" parent="Walls" unique_id=23168292]
+position = Vector2(2, 173)
+collision_layer = 8
+collision_mask = 16
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=1933633481]
+position = Vector2(-131, 141)
+rotation = -3.1415925
+scale = Vector2(6.3600006, -0.87999946)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall/CollisionShape2D" unique_id=2064890330]
+texture = ExtResource("1_s6qaj")
+
+[node name="Wall2" type="RigidBody2D" parent="Walls" unique_id=1875822702]
+position = Vector2(32, 9)
+collision_layer = 8
+collision_mask = 16
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1803671940]
+position = Vector2(-605, 5)
+rotation = -3.1415925
+scale = Vector2(0.96000135, -5.6150007)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall2/CollisionShape2D" unique_id=196644921]
+texture = ExtResource("1_s6qaj")
+
+[node name="Wall3" type="RigidBody2D" parent="Walls" unique_id=431331739]
+position = Vector2(17, -346)
+collision_layer = 8
+collision_mask = 16
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3" unique_id=1005363347]
+position = Vector2(-139, 30.000015)
+rotation = -3.1415925
+scale = Vector2(6.3600006, -1.3599994)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall3/CollisionShape2D" unique_id=1603703215]
+texture = ExtResource("1_s6qaj")
+
+[node name="Wall4" type="RigidBody2D" parent="Walls" unique_id=1335919348]
+position = Vector2(840, 13)
+collision_layer = 8
+collision_mask = 16
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4" unique_id=1225373754]
+position = Vector2(-518, 3)
+rotation = -3.1415925
+scale = Vector2(1.0000038, -5.8549995)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall4/CollisionShape2D" unique_id=1369724450]
+texture = ExtResource("1_s6qaj")
+
+[node name="ClawManager" type="Node" parent="." unique_id=1116939556 node_paths=PackedStringArray("player", "claw_origin")]
+script = ExtResource("3_ef0cl")
+player = NodePath("../Player")
+claw_origin = NodePath("../ClawOrigin")
+claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
+
+[node name="Hole2" parent="." unique_id=1664343926 instance=ExtResource("7_05swk")]
+position = Vector2(-386, 107)
+
+[node name="Hole" parent="." unique_id=1542862474 instance=ExtResource("7_05swk")]
+position = Vector2(-75, -145)
+point_modifier = 2.0
+
+[node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
+position = Vector2(-153, 7)
+
+[node name="LootHolder" type="Node" parent="." unique_id=1977437672]
+
+[node name="Loot" parent="LootHolder" unique_id=596486904 instance=ExtResource("6_6hamn")]
+position = Vector2(77, -152)
+
+[node name="Loot2" parent="LootHolder" unique_id=987739729 instance=ExtResource("6_6hamn")]
+position = Vector2(-129, 191)
+
+[node name="Loot3" parent="LootHolder" unique_id=1356929305 instance=ExtResource("6_6hamn")]
+position = Vector2(96, 100)
+
+[node name="Loot4" parent="LootHolder" unique_id=1654726171 instance=ExtResource("6_6hamn")]
+position = Vector2(-427, 9)
+
+[node name="Loot5" parent="LootHolder" unique_id=2005018646 instance=ExtResource("6_6hamn")]
+position = Vector2(-224, 8)
+
+[node name="Loot6" parent="LootHolder" unique_id=709930049 instance=ExtResource("6_6hamn")]
+position = Vector2(-92, 84)
+
+[node name="Loot7" parent="LootHolder" unique_id=216396073 instance=ExtResource("6_6hamn")]
+position = Vector2(133, -7)
+
+[node name="Loot8" parent="LootHolder" unique_id=374112385 instance=ExtResource("6_6hamn")]
+position = Vector2(-390, -98)
+
+[node name="Loot9" parent="LootHolder" unique_id=702552544 instance=ExtResource("6_6hamn")]
+position = Vector2(-179, -65)
+
+[node name="Loot10" parent="LootHolder" unique_id=327028529 instance=ExtResource("6_6hamn")]
+position = Vector2(-47, 11)
+
+[node name="Loot11" parent="LootHolder" unique_id=713028287 instance=ExtResource("6_6hamn")]
+position = Vector2(178, -80)
+
+[node name="Loot12" parent="LootHolder" unique_id=492681763 instance=ExtResource("6_6hamn")]
+position = Vector2(-345, -171)
+
+[node name="Loot13" parent="LootHolder" unique_id=1491478327 instance=ExtResource("6_6hamn")]
+position = Vector2(-315, 154)
+
+[node name="Loot14" parent="LootHolder" unique_id=627229931 instance=ExtResource("6_6hamn")]
+position = Vector2(-183, 230)
+
+[node name="Loot15" parent="LootHolder" unique_id=1878537930 instance=ExtResource("6_6hamn")]
+position = Vector2(42, 139)
+
+[node name="Loot16" parent="LootHolder" unique_id=280435915 instance=ExtResource("6_6hamn")]
+position = Vector2(-481, 48)
+
+[node name="Loot17" parent="LootHolder" unique_id=489327910 instance=ExtResource("6_6hamn")]
+position = Vector2(-278, 47)
+
+[node name="Loot18" parent="LootHolder" unique_id=1438026654 instance=ExtResource("6_6hamn")]
+position = Vector2(-146, 123)
+
+[node name="Loot19" parent="LootHolder" unique_id=1415573398 instance=ExtResource("6_6hamn")]
+position = Vector2(79, 32)
+
+[node name="Loot20" parent="LootHolder" unique_id=1945655761 instance=ExtResource("6_6hamn")]
+position = Vector2(-444, -59)
+
+[node name="Loot21" parent="LootHolder" unique_id=1440083391 instance=ExtResource("6_6hamn")]
+position = Vector2(-233, -26)
+
+[node name="Loot22" parent="LootHolder" unique_id=1522615502 instance=ExtResource("6_6hamn")]
+position = Vector2(-101, 50)
+
+[node name="Loot23" parent="LootHolder" unique_id=2098286521 instance=ExtResource("6_6hamn")]
+position = Vector2(124, -41)
+
+[node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
+position = Vector2(-399, -132)
