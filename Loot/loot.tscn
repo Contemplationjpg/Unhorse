@@ -20,6 +20,7 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_51vy6")
 bounce_bonus_increase_per_bounce = 0.25
+bounces_until_max_color = 3
 mult_bounce_speed_up = 1.5
 impulse_amount = 500.0
 min_scale = 0.125
