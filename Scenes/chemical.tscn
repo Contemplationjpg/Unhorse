@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
+[ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
+[ext_resource type="Theme" uid="uid://dedv6yk4jg6wf" path="res://Chemical/ShopTheme.tres" id="3_n1mt2"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
@@ -18,7 +20,7 @@ size = Vector2(125, 125)
 
 [node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("info_hud", "score_box")]
 script = ExtResource("1_5u0wd")
-info_hud = NodePath("UICanvas/InfoHUD")
+info_hud = NodePath("UICanvas/Shop/SidePanel/InfoHUD")
 score_box = NodePath("ScreenCanvas/ScoreIncrease")
 
 [node name="ScreenCanvas" type="CanvasLayer" parent="HUD" unique_id=1254409264]
@@ -35,14 +37,194 @@ fit_content = true
 
 [node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
 
-[node name="InfoHUD" type="RichTextLabel" parent="HUD/UICanvas" unique_id=1044586713]
-offset_left = 968.0
-offset_top = 3.0
-offset_right = 1149.0
-offset_bottom = 430.0
+[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082]
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("2_fbaj0")
+
+[node name="SidePanel" type="Panel" parent="HUD/UICanvas/Shop" unique_id=1704762268]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InfoHUD" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1044586713]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 43.0
+grow_horizontal = 2
 text = "Gaming
 "
 fit_content = true
+
+[node name="ShopSign" type="Panel" parent="HUD/UICanvas/Shop/SidePanel" unique_id=77448793]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 200.0
+offset_right = 40.0
+offset_bottom = 240.0
+grow_horizontal = 2
+
+[node name="ShopLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/ShopSign" unique_id=608791239]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SHOP"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShopColumns" type="VBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1945822806]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 270.0
+offset_right = 212.0
+offset_bottom = 790.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("3_n1mt2")
+theme_override_constants/separation = 30
+
+[node name="ClawScrollShopRow" type="ScrollContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=706615222]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+scroll_horizontal_by_default = true
+
+[node name="ShopRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow" unique_id=1471045620]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1671560288]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+offset_transform_position = Vector2(2.235, 0)
+text = "Item1"
+
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1685812203]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+text = "Item2"
+
+[node name="Item3" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1754411273]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+text = "Item3"
+
+[node name="Item4" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=441592857]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+text = "Item4"
+
+[node name="Item5" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=2140686633]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+text = "Item5"
+
+[node name="Item6" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=568857501]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+text = "Item6"
+
+[node name="ShopRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=329501938]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=172416228]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(2.235, 0)
+text = "Item1"
+
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item2"
+
+[node name="ShopRow2" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1399396011]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=705010144]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(2.235, 0)
+text = "Item1"
+
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=1351639114]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item2"
+
+[node name="ShopRow3" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=315400804]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=1819945892]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(2.235, 0)
+text = "Item1"
+
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item2"
+
+[node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -51.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BuyPlay" type="Button" parent="HUD/UICanvas/Shop/SidePanel/BottomRow" unique_id=859632767]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(2.235, 0)
+text = "Buy Play"
+
+[node name="Restock" type="Button" parent="HUD/UICanvas/Shop/SidePanel/BottomRow" unique_id=247600218]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Restock"
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
@@ -115,12 +297,24 @@ player = NodePath("../Player")
 claw_origin = NodePath("../ClawOrigin")
 claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
 
-[node name="Hole2" parent="." unique_id=1664343926 instance=ExtResource("7_05swk")]
-position = Vector2(-386, 107)
+[node name="BigTimes1Hole" parent="." unique_id=1664343926 instance=ExtResource("7_05swk")]
+position = Vector2(-119.00001, -119)
+scale = Vector2(1.5, 1.5)
 
-[node name="Hole" parent="." unique_id=1542862474 instance=ExtResource("7_05swk")]
-position = Vector2(-75, -145)
+[node name="MediumTimes2Hole" parent="." unique_id=1542862474 instance=ExtResource("7_05swk")]
+position = Vector2(-376.00003, 56)
+scale = Vector2(0.75, 0.75)
 point_modifier = 2.0
+
+[node name="MediumTimes2Hole2" parent="." unique_id=1461735364 instance=ExtResource("7_05swk")]
+position = Vector2(110, 56)
+scale = Vector2(0.75, 0.75)
+point_modifier = 2.0
+
+[node name="SmallTimes3Hole" parent="." unique_id=1183377378 instance=ExtResource("7_05swk")]
+position = Vector2(-124, 225)
+scale = Vector2(0.5, 0.5)
+point_modifier = 3.0
 
 [node name="ClawOrigin" type="Node2D" parent="." unique_id=1696382043]
 position = Vector2(-153, 7)
