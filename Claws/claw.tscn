@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_u2qwf"]
-[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/sprite_sheet.png" id="2_xig0c"]
+[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_xig0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urhjn"]
 size = Vector2(8, 8)

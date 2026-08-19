@@ -1,18 +1,83 @@
 [gd_scene format=3 uid="uid://d1hkr6spq6y2g"]
 
 [ext_resource type="Script" uid="uid://dqjj3l2ewa40" path="res://Chemical/hole.gd" id="1_k36ln"]
-[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_kl8mm"]
+[ext_resource type="Texture2D" uid="uid://coadv5cwb3v7n" path="res://Assets/Sprites/hole_sprites.png" id="2_k36ln"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
-size = Vector2(80, 80)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kl8mm"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(0, 0, 600, 600)
 
-[node name="Hole" type="Node2D" unique_id=1664343926 node_paths=PackedStringArray("mult_label")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_515a6"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(600, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jxek"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(1200, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6773"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(0, 600, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fsvh"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(600, 600, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjfe1"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(1200, 600, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhrlh"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(0, 1200, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfxw6"]
+atlas = ExtResource("2_k36ln")
+region = Rect2(600, 1200, 600, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d5xax"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kl8mm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_515a6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jxek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6773")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fsvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjfe1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhrlh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfxw6")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 1.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
+radius = 50.0
+
+[node name="Hole" type="Node2D" unique_id=1664343926 node_paths=PackedStringArray("mult_label", "sprite")]
 script = ExtResource("1_k36ln")
 mult_label = NodePath("CanvasLayer/MultLabel")
+sprite = NodePath("AnimatedSprite2D")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=656120448]
-self_modulate = Color(0.28, 0.28, 0.28, 1)
-texture = ExtResource("2_kl8mm")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1216121412]
+scale = Vector2(0.21, 0.21)
+sprite_frames = SubResource("SpriteFrames_d5xax")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=446930248]
 collision_layer = 0
@@ -21,7 +86,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1119785818]
 position = Vector2(0.4999981, 0)
-shape = SubResource("RectangleShape2D_d5xax")
+shape = SubResource("CircleShape2D_imfbs")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1723011743]
 follow_viewport_enabled = true
