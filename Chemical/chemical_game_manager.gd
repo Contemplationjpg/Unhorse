@@ -62,5 +62,3 @@ func spend_spins(s : int) -> bool:
 	on_spend_spins.emit(s)
 	on_any_update.emit()
 	return true
-
-

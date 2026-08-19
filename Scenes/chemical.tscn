@@ -151,18 +151,20 @@ layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=172416228]
+[node name="MidHoleMultiplier" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=172416228]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Item1"
+text = "Mid Hole Multiplier + 1
+COST: 20"
 
-[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
+[node name="SmallHoleMultiplier" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Item2"
+text = "Small Hole Multiplier + 1
+COST: 20"
 
 [node name="ShopRow2" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1399396011]
 layout_mode = 2
@@ -392,3 +394,8 @@ position = Vector2(124, -41)
 
 [node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
 position = Vector2(-399, -132)
+
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/MidHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_mid_hole_multiplier_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_small_hole_multiplier_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/Restock" to="HUD/UICanvas/Shop" method="_on_restock_pressed"]
