@@ -27,9 +27,6 @@ func _on_buy_play_pressed() -> void:
 
 func _on_restock_pressed() -> void:
 	pass # Replace with function body.
-	#if loot_base_points_upgrades > 0:
-		#for child in $"../../../LootHolder".get_children():
-			#child.base_point_value += loot_current_point_upgrade_amount
 			
 
 
@@ -73,10 +70,10 @@ func _on_mid_hole_multiplier_pressed() -> void:
 		
 		mid_hole_upgrades += 1
 		if new_price == 0:
-			button.text = "Mid Hole Multiplier Max"
+			button.text = "Mid Hole Mult Max"
 			button.disabled = true
 		else:
-			button.text = "Mid Hole Multiplier + " + str(next_amount_to_upgrade_by) + "\nCost: " + str(new_price)
+			button.text = "Mid Hole" + "\n+ " + str(next_amount_to_upgrade_by) + " Mult" + "\nCost: " + str(new_price)
 
 
 func _on_small_hole_multiplier_pressed() -> void:
@@ -112,10 +109,10 @@ func _on_small_hole_multiplier_pressed() -> void:
 		
 		small_hole_upgrades += 1
 		if new_price == 0:
-			button.text = "Small Hole Multiplier Max"
+			button.text = "Small Hole Mult Max"
 			button.disabled = true
 		else:
-			button.text = "Small Hole Multiplier + " + str(next_amount_to_upgrade_by) + "\nCost: " + str(new_price)
+			button.text = "Small Hole" + "\n+ " + str(next_amount_to_upgrade_by) + " Mult" + "\nCost: " + str(new_price)
 
 
 func _on_loot_base_points_pressed() -> void:
@@ -144,13 +141,12 @@ func _on_loot_base_points_pressed() -> void:
 		
 	var spendable = gm.spend_points(price)
 	if spendable == true:
-		for child in $"../../../LootHolder".get_children():
-			child.base_point_value += amount_to_upgrade_by
-			
-		loot_current_point_upgrade_amount = amount_to_upgrade_by
+		loot_current_point_upgrade_amount += amount_to_upgrade_by
+		gm.loot_current_point_upgrade_amount = loot_current_point_upgrade_amount
+		gm.update_loot.emit()
 		loot_base_points_upgrades += 1
 		if new_price == 0:
-			button.text = "Loot Base Points Max"
+			button.text = "Loot Value Max"
 			button.disabled = true
 		else:
-			button.text = "Loot Base Points + " + str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
+			button.text = "Loot Value + " + "\n+ "+ str(next_amount_to_upgrade_by) + " Points" + "\nCost:" + str(new_price)

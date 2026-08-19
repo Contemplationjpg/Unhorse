@@ -13,12 +13,15 @@ signal on_any_update() #this "on_any_update" signal is intended for things like 
 
 signal on_loot_scored(position : Vector2, amount : int)
 
+signal update_loot()
 
 #resources--------------------------------
 var points : int = 500
 var plays : int = 3
 var spins : int = 0
 
+
+var loot_current_point_upgrade_amount: int = 0
 
 #gaining resource-------------------------
 func gain_points(p : int):

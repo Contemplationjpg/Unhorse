@@ -75,9 +75,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -40.0
-offset_top = 200.0
+offset_top = 160.0
 offset_right = 40.0
-offset_bottom = 240.0
+offset_bottom = 200.0
 grow_horizontal = 2
 
 [node name="ShopLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/ShopSign" unique_id=608791239]
@@ -93,11 +93,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShopColumns" type="VBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1945822806]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
 offset_left = 20.0
-offset_top = 270.0
-offset_right = 212.0
-offset_bottom = 790.0
+offset_top = 220.0
+offset_right = -20.0
+offset_bottom = 584.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -156,14 +158,16 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Mid Hole Multiplier + 1
+text = "Mid Hole
++ 1 Mult
 COST: 500"
 
 [node name="SmallHoleMultiplier" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Small Hole Multiplier + 2
+text = "Small Hole
++ 2 Mult
 COST: 3000"
 
 [node name="ShopRow2" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1399396011]
@@ -176,14 +180,17 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Loot Base Points + 10
+text = "Loot Value
++ 10 Points
 COST: 50"
 
-[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=1351639114]
+[node name="LootBounceBonus" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=1351639114]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Item2"
+text = "Loot Bounce Bonus
+
+"
 
 [node name="ShopRow3" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=315400804]
 layout_mode = 2
