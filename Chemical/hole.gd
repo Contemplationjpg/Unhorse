@@ -4,6 +4,7 @@ extends Node2D
 
 @export var point_modifier : float = 1
 @export var mult_label : RichTextLabel
+@export var sprite : AnimatedSprite2D
 
 
 @onready var area : Area2D = $Area2D
@@ -15,6 +16,9 @@ func _ready() -> void:
 	area.body_exited.connect(on_area_exit)
 	item_rect_changed.connect(update_mult_label)
 	update_mult_label()
+	var start_frame = randi_range(0,3)
+	sprite.frame = start_frame
+	sprite.play()
 
 
 func _physics_process(delta: float) -> void:
@@ -49,6 +53,3 @@ func on_area_exit(body : Node2D):
 		var loot_index = loot_in_range.find(new_loot)
 		if loot_index != -1:
 			loot_in_range.remove_at(loot_index)
-
-
-

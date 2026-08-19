@@ -2,25 +2,39 @@
 
 [ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_u2qwf"]
-[ext_resource type="Texture2D" uid="uid://q3kom7kvwyf5" path="res://green_icon.png" id="2_xig0c"]
-[ext_resource type="Texture2D" uid="uid://c0ud3hmljk6iq" path="res://purple_icon.png" id="3_xig0c"]
+[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_xig0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urhjn"]
 size = Vector2(8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u44jh"]
+atlas = ExtResource("2_xig0c")
+region = Rect2(600, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woths"]
+atlas = ExtResource("2_xig0c")
+region = Rect2(0, 600, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1eij8"]
+atlas = ExtResource("2_xig0c")
+region = Rect2(0, 0, 600, 600)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d5xax"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_xig0c")
+"texture": SubResource("AtlasTexture_u44jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woths")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"grab",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_xig0c")
+"texture": SubResource("AtlasTexture_woths")
 }],
 "loop": 1,
 "name": &"holding",
@@ -28,7 +42,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_u2qwf")
+"texture": SubResource("AtlasTexture_1eij8")
 }],
 "loop": 1,
 "name": &"idle",
@@ -45,7 +59,6 @@ motion_mode = 1
 script = ExtResource("1_pj4pq")
 scoop_time = 0.1
 min_scale = 0.155
-loot_drop_time_modifier = 20.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=643624714]
 scale = Vector2(0.99999994, 0.99999994)
@@ -59,7 +72,7 @@ shape = SubResource("RectangleShape2D_urhjn")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624133184]
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_d5xax")
-animation = &"idle"
+animation = &"grab"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2102089201]
 shape = SubResource("RectangleShape2D_d5xax")
