@@ -157,14 +157,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
 text = "Mid Hole Multiplier + 1
-COST: 500"
+COST: 20"
 
 [node name="SmallHoleMultiplier" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Small Hole Multiplier + 2
-COST: 3000"
+text = "Small Hole Multiplier + 1
+COST: 20"
 
 [node name="ShopRow2" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1399396011]
 layout_mode = 2

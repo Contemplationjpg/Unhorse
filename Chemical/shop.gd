@@ -10,6 +10,10 @@ var restock_price: int = 10
 #upgrade amounts
 var mid_hole_upgrades: int = 0
 var small_hole_upgrades: int = 0
+var loot_base_points_upgrades: int = 0
+
+var loot_current_point_upgrade_amount: int = 0
+
 
 func _ready() -> void:
 	return
@@ -23,28 +27,41 @@ func _on_buy_play_pressed() -> void:
 
 func _on_restock_pressed() -> void:
 	pass # Replace with function body.
+	#if loot_base_points_upgrades > 0:
+		#for child in $"../../../LootHolder".get_children():
+			#child.base_point_value += loot_current_point_upgrade_amount
+			
 
 
 func _on_mid_hole_multiplier_pressed() -> void:
 	var button = $SidePanel/ShopColumns/ShopRow/MidHoleMultiplier
 	
-	var price: int = 20
-	var new_price: int = 50
+	var price: int = 500
+	var new_price: int = 2000
 	var amount_to_upgrade_by: int = 1
+	var next_amount_to_upgrade_by: int = 1
+	
+	#price is current price of upgrade
+	#new_price is what the price will become once bought
+	#amount_to_upgrade_by in case we want to up by different values
+	#next_amount_to_upgrade_by same idea as new_price
 	
 	match mid_hole_upgrades:
 		1: 
-			price = 50 
-			new_price = 80
+			price = 2000 
+			new_price = 4500
 			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 1
 		2: 
-			price = 80
-			new_price = 120
+			price = 4500
+			new_price = 8000
 			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 1
 		3: 
-			price = 120
+			price = 8000
 			new_price = 0
 			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
 		
 	var spendable = gm.spend_points(price)
 	if spendable == true:
@@ -59,29 +76,33 @@ func _on_mid_hole_multiplier_pressed() -> void:
 			button.text = "Mid Hole Multiplier Max"
 			button.disabled = true
 		else:
-			button.text = "Mid Hole Multiplier + 1\nCost: " + str(new_price)
+			button.text = "Mid Hole Multiplier + " + str(next_amount_to_upgrade_by) + "\nCost: " + str(new_price)
 
 
 func _on_small_hole_multiplier_pressed() -> void:
 	var button = $SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier
 	
-	var price: int = 20
-	var new_price: int = 50
-	var amount_to_upgrade_by: int = 1
+	var price: int = 3000
+	var new_price: int = 9000
+	var amount_to_upgrade_by: int = 2
+	var next_amount_to_upgrade_by: int = 3
 	
 	match small_hole_upgrades:
 		1: 
-			price = 50 
-			new_price = 80
-			amount_to_upgrade_by = 1
+			price = 9000 
+			new_price = 15000
+			amount_to_upgrade_by = 3
+			next_amount_to_upgrade_by = 2
 		2: 
-			price = 80
-			new_price = 120
-			amount_to_upgrade_by = 1
+			price = 15000
+			new_price = 30000
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 1
 		3: 
-			price = 120
+			price = 40000
 			new_price = 0
 			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
 		
 	var spendable = gm.spend_points(price)
 	if spendable == true:
@@ -94,4 +115,42 @@ func _on_small_hole_multiplier_pressed() -> void:
 			button.text = "Small Hole Multiplier Max"
 			button.disabled = true
 		else:
-			button.text = "Small Hole Multiplier + 1\nCost: " + str(new_price)
+			button.text = "Small Hole Multiplier + " + str(next_amount_to_upgrade_by) + "\nCost: " + str(new_price)
+
+
+func _on_loot_base_points_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow2/LootBasePoints
+	
+	var price: int = 50
+	var new_price: int = 200
+	var amount_to_upgrade_by: int = 10
+	var next_amount_to_upgrade_by: int = 20
+	
+	match loot_base_points_upgrades:
+		1: 
+			price = 200
+			new_price = 250
+			amount_to_upgrade_by = 20
+			next_amount_to_upgrade_by = 10
+		2: 
+			price = 250
+			new_price = 400
+			amount_to_upgrade_by = 10
+			next_amount_to_upgrade_by = 30
+		3: 
+			price = 400
+			new_price = 0
+			amount_to_upgrade_by = 30
+		
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		for child in $"../../../LootHolder".get_children():
+			child.base_point_value += amount_to_upgrade_by
+			
+		loot_current_point_upgrade_amount = amount_to_upgrade_by
+		loot_base_points_upgrades += 1
+		if new_price == 0:
+			button.text = "Loot Base Points Max"
+			button.disabled = true
+		else:
+			button.text = "Loot Base Points + " + str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
