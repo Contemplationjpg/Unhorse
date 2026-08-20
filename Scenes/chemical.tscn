@@ -285,8 +285,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
 theme_override_font_sizes/font_size = 11
-text = "Claw Move 
-Speed
+text = "Claw Move Speed
+x2
+COST: 200
 "
 
 [node name="ClawGravity" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
@@ -294,7 +295,7 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "Item2"
+text = "Claw Gravity"
 
 [node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
 layout_mode = 1

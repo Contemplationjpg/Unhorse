@@ -4,7 +4,6 @@ extends Node
 @export var claw : Claw
 
 
-
 func _ready() -> void:
 	return
 
