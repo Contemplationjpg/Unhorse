@@ -125,9 +125,9 @@ func post_spin_procedure():
 
 #if there is a shared input for both starting and stopping the wheel, use this function
 func handle_spin_input():
-	if not gm.spend_spins(1):
-		return
 	if not spinning:
+		if not gm.spend_spins(1):
+			return
 		spin_wheel()
 	else:
 		buffer_stop_spin_input()
