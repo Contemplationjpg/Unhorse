@@ -18,7 +18,7 @@ signal update_loot()
 #resources--------------------------------
 var points : int = 500
 var plays : int = 3
-var spins : int = 0
+var spins : int = 3
 
 
 var loot_current_point_upgrade_amount: int = 0

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://emovigvikg0k"]
+
+[ext_resource type="Script" uid="uid://djmxwn5ve0uyn" path="res://Chemical/float_text.gd" id="1_eqjeo"]
+
+[node name="FloatText" type="RichTextLabel" unique_id=697591526]
+offset_left = 896.0
+offset_top = 187.0
+offset_right = 1052.0
+offset_bottom = 326.0
+text = "Gaming
+"
+fit_content = true
+script = ExtResource("1_eqjeo")
