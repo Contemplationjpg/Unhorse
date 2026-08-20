@@ -11,8 +11,10 @@ var restock_price: int = 10
 var mid_hole_upgrades: int = 0
 var small_hole_upgrades: int = 0
 var loot_base_points_upgrades: int = 0
+var loot_bounce_bonus_upgrades: int = 0
 
 var loot_current_point_upgrade_amount: int = 0
+var loot_current_bounce_bonus_upgrade_amount: int = 0
 
 
 func _ready() -> void:
@@ -149,4 +151,45 @@ func _on_loot_base_points_pressed() -> void:
 			button.text = "Loot Value Max"
 			button.disabled = true
 		else:
-			button.text = "Loot Value + " + "\n+ "+ str(next_amount_to_upgrade_by) + " Points" + "\nCost:" + str(new_price)
+			button.text = "Loot Value " + "\n+ "+ str(next_amount_to_upgrade_by) + " Points" + "\nCost:" + str(new_price)
+
+
+func _on_loot_bounce_bonus_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow2/LootBounceBonus
+	
+	var price: int = 100
+	var new_price: int = 250
+	var amount_to_upgrade_by: int = 1
+	var next_amount_to_upgrade_by: int = 2
+	
+	match loot_bounce_bonus_upgrades:
+		1:
+			price = 250
+			new_price = 500
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 1
+		2:
+			price = 500
+			new_price = 0
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
+			
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		loot_current_bounce_bonus_upgrade_amount += amount_to_upgrade_by
+		gm.loot_current_bounce_bonus_upgrade_amount = loot_current_bounce_bonus_upgrade_amount
+		gm.update_loot.emit()
+		loot_bounce_bonus_upgrades += 1
+		if new_price == 0:
+			button.text = "Loot Bounce Bonus Max"
+			button.disabled = true
+		else:
+			button.text = "Loot Bounce Bonus " + "\n+ "+ str(next_amount_to_upgrade_by) + " Mult" + "\nCost:" + str(new_price)
+
+
+func _on_claw_move_speed_pressed() -> void:
+	pass
+
+
+func _on_claw_gravity_pressed() -> void:
+	pass # Replace with function body.

@@ -22,6 +22,7 @@ var spins : int = 0
 
 
 var loot_current_point_upgrade_amount: int = 0
+var loot_current_bounce_bonus_upgrade_amount: int = 0
 
 #gaining resource-------------------------
 func gain_points(p : int):
