@@ -48,6 +48,7 @@ extends RigidBody2D
 @export_group("")
 ##if true, can be picked up by claw
 @export var grabbable : bool = true
+@export var do_impulse_on_landing = true
 ##the strength that this loot will impulse other loot objects if this lands on them after being dropped from the claw
 @export var impulse_amount : float = 30
 
@@ -67,6 +68,8 @@ var rise_time : float = 1
 
 signal just_bounced()
 signal just_scored()
+
+signal just_landed()
 
 
 
@@ -119,8 +122,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	#apply speed cap------------------------------------------
 	if has_speed_cap:
-		if linear_velocity > Vector2(speed_cap, speed_cap):
-			linear_velocity = Vector2(speed_cap-1, speed_cap-1)
+		if linear_velocity.length() > speed_cap:
+			linear_velocity = linear_velocity.normalized()*speed_cap
 
 	#checking if scorable----------------------------------
 	if linear_velocity.length() < maximum_speed_before_unscorable:
@@ -153,6 +156,7 @@ func _process(delta: float) -> void:
 	#procedure for being picked up into the air
 	if picked_up:
 		coll.disabled = true
+		z_index = 2 #should be on a higher z_index than items on the ground (ground = z_index 1)
 		linear_velocity = Vector2.ZERO
 		if sprite.scale < Vector2(max_scale, max_scale):
 			sprite.scale += Vector2(rise_scale_change_per_sec * delta, rise_scale_change_per_sec * delta)
@@ -160,14 +164,17 @@ func _process(delta: float) -> void:
 			sprite.scale = Vector2(max_scale, max_scale) #failsafe for if it lags and we go past the max size
 	
 	#procedure for falling (collision is disabled when in the air, so the following only applies until touching the ground)
-	elif coll.disabled:
+	elif coll.disabled == true:
 		if sprite.scale > Vector2(min_scale, min_scale):
 			sprite.scale -= Vector2(drop_scale_change_per_sec * delta, drop_scale_change_per_sec * delta)	
 		elif sprite.scale < Vector2(min_scale, min_scale):
 			sprite.scale = Vector2(min_scale, min_scale) #failsafe for if it lags and we go past the min size
 		else: #once we are exactly the minimum size, we can assume that we have touched the ground
+			just_landed.emit()
+			z_index = 1 #z_index 1 is ground level
 			coll.disabled = false #since we touched ground, we can interact with other loot now
-			push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
+			if do_impulse_on_landing:
+				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
 	
 	#procedure for darkening sprite color value until fully dark
 	elif scoring:
@@ -220,15 +227,23 @@ func on_bounce(_body : Node2D):
 		if bounces < bounces_until_max_bounce_bonus:
 			bounce_bonus += bounce_bonus_increase_per_bounce
 	if speeds_up_with_bounces:
+		#make copy of linear_velocity to edit
+		var new_linear_velocity = linear_velocity
 		#creating flat vector from flat value
 		var flat_vector = Vector2(linear_velocity.x, linear_velocity.y)
 		flat_vector = flat_vector.normalized()*flat_bounce_speed_up
-		linear_velocity+=flat_vector
+		new_linear_velocity+=flat_vector
 		#multiply mult value
-		linear_velocity*=mult_bounce_speed_up
+		new_linear_velocity*=mult_bounce_speed_up
 		#optional use of bounce bonus
 		if bounce_speed_up_uses_bounce_bonus:
-			linear_velocity*=bounce_bonus
+			new_linear_velocity*=bounce_bonus
+		#check if there is a speed cap
+		if has_speed_cap:
+			if new_linear_velocity.length() > speed_cap:
+				#max velocity is direction * speedcap
+				new_linear_velocity = new_linear_velocity.normalized()*speed_cap 
+		linear_velocity = new_linear_velocity
 	if has_bounce_limit:
 		if bounces >= bounce_limit:
 			if scores_on_bounce_limit:

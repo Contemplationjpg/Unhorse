@@ -21,13 +21,12 @@ size = Vector2(5.795, 136.855)
 
 [node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow")]
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_left = -1152.0
 offset_right = -1152.0
-offset_bottom = -648.0
-grow_horizontal = 2
-grow_vertical = 2
+grow_horizontal = 0
 script = ExtResource("1_6dxip")
 wheel = NodePath("RouletteWheel")
 arrow = NodePath("RouletteWheelArrow/Area2D")
@@ -40,7 +39,8 @@ time_before_auto_stop = 3.0
 
 [node name="RouletteWheel" type="TextureRect" parent="." unique_id=1719831233]
 layout_mode = 1
-offset_right = 600.0
+offset_left = -619.0
+offset_right = -19.0
 offset_bottom = 600.0
 pivot_offset = Vector2(300, 300)
 texture = ExtResource("1_broq7")
@@ -229,14 +229,15 @@ shape = SubResource("RectangleShape2D_05ovp")
 
 [node name="RouletteWheelFrame" type="TextureRect" parent="." unique_id=49554604]
 layout_mode = 1
-offset_right = 600.0
+offset_left = -619.0
+offset_right = -19.0
 offset_bottom = 600.0
 texture = ExtResource("2_6dxip")
 
 [node name="RouletteWheelArrow" type="TextureRect" parent="." unique_id=142245901]
 layout_mode = 1
-offset_left = 19.585
-offset_right = 619.585
+offset_left = -599.415
+offset_right = 0.585022
 offset_bottom = 600.0
 texture = ExtResource("3_nk2ym")
 

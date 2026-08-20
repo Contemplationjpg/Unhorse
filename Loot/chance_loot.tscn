@@ -14,6 +14,7 @@ radius = 15.0
 radius = 15.0
 
 [node name="ChanceLoot" type="RigidBody2D" unique_id=596486904]
+z_index = 1
 collision_layer = 2
 collision_mask = 10
 physics_material_override = SubResource("PhysicsMaterial_6hamn")

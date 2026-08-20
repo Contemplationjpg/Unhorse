@@ -8,10 +8,12 @@ extends Node2D
 
 
 @onready var area : Area2D = $Area2D
+@onready var gm : ChemicalGameManager = ChemicalGameManager
 
 var loot_in_range : Array[Loot] = []
 
 func _ready() -> void:
+	gm.update_holes.connect(update_mult_label)
 	area.body_entered.connect(on_area_enter)
 	area.body_exited.connect(on_area_exit)
 	item_rect_changed.connect(update_mult_label)

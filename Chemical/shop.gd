@@ -1,5 +1,9 @@
 extends Control
 
+@export var large_holes : Array[Hole] = []
+@export var medium_holes : Array[Hole] = []
+@export var small_holes : Array[Hole] = []
+
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
 
@@ -64,11 +68,11 @@ func _on_mid_hole_multiplier_pressed() -> void:
 		
 	var spendable = gm.spend_points(price)
 	if spendable == true:
-		$"../../../MediumTimes2Hole".point_modifier += amount_to_upgrade_by
-		$"../../../MediumTimes2Hole".update_mult_label()
+		for i in medium_holes:
+			i.point_modifier += amount_to_upgrade_by
+			
+		gm.update_holes.emit()
 		
-		$"../../../MediumTimes2Hole2".point_modifier += amount_to_upgrade_by
-		$"../../../MediumTimes2Hole2".update_mult_label()
 		
 		mid_hole_upgrades += 1
 		if new_price == 0:
@@ -105,9 +109,11 @@ func _on_small_hole_multiplier_pressed() -> void:
 		
 	var spendable = gm.spend_points(price)
 	if spendable == true:
-		$"../../../SmallTimes3Hole".point_modifier += amount_to_upgrade_by
-		$"../../../SmallTimes3Hole".update_mult_label()
-		
+		for i in small_holes:
+			i.point_modifier += amount_to_upgrade_by
+
+		gm.update_holes.emit()
+
 		
 		small_hole_upgrades += 1
 		if new_price == 0:
@@ -178,13 +184,14 @@ func _on_loot_bounce_bonus_pressed() -> void:
 	if spendable == true:
 		loot_current_bounce_bonus_upgrade_amount += amount_to_upgrade_by
 		gm.loot_current_bounce_bonus_upgrade_amount = loot_current_bounce_bonus_upgrade_amount
+
 		gm.update_loot.emit()
 		loot_bounce_bonus_upgrades += 1
 		if new_price == 0:
-			button.text = "Loot Bounce Bonus Max"
+			button.text = "Bounce Bonus Max"
 			button.disabled = true
 		else:
-			button.text = "Loot Bounce Bonus " + "\n+ "+ str(next_amount_to_upgrade_by) + " Mult" + "\nCost:" + str(new_price)
+			button.text = "Bounce Bonus " + "\n+ "+ str(next_amount_to_upgrade_by) + " Mult" + "\nCost:" + str(new_price)
 
 
 func _on_claw_move_speed_pressed() -> void:

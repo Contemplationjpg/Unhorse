@@ -14,6 +14,7 @@ signal on_any_update() #this "on_any_update" signal is intended for things like 
 signal on_loot_scored(position : Vector2, amount : int)
 
 signal update_loot()
+signal update_holes()
 
 #resources--------------------------------
 var points : int = 500

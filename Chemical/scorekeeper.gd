@@ -5,6 +5,7 @@ extends Node
 @export var plays_label : RichTextLabel
 @export var spins_label : RichTextLabel
 @export var screen_canvas : CanvasLayer
+@export var ui_canvas : CanvasLayer
 @export var float_text_scene : PackedScene
 @export var float_text_rand_radius : float = 10
 
@@ -18,18 +19,18 @@ func _ready() -> void:
 	update_ui()
 	gm.on_any_update.connect(update_ui)
 	gm.on_loot_scored.connect(on_loot_score_detected)
-	#gm.on_gain_points.connect(spawn_floating_text_ui_plays)
+	gm.on_gain_points.connect(spawn_floating_text_ui_points)
 	gm.on_gain_plays.connect(spawn_floating_text_ui_plays)
 	gm.on_gain_spins.connect(spawn_floating_text_ui_spins)
 
 
 func update_ui():
 	var res : String
-	res = "points: " + str(gm.points)
+	res = str(gm.points)
 	points_label.text = res
-	res = "plays: " + str(gm.plays)
+	res = str(gm.plays)
 	plays_label.text = res
-	res = "spins: " + str(gm.spins) 
+	res = str(gm.spins) 
 	spins_label.text = res
 
 func _process(delta: float) -> void:
@@ -65,20 +66,21 @@ func get_global_position_to_match_screen_position_of_UI(ui_node : Control) -> Ve
 func spawn_floating_text_ui_points(point_gain : int):
 	if float_text_scene:
 		var float_text : FloatText = float_text_scene.instantiate()
-		float_text.prime_text(str("+" + str(point_gain)),get_global_position_to_match_screen_position_of_UI(points_label),0,2,Vector2(1,-1))
-		screen_canvas.add_child(float_text)
+		float_text.prime_text(str("+" + str(point_gain)),points_label.global_position,15,2,Vector2(1,-1),20)
+		ui_canvas.add_child(float_text)
+		return
 
 func spawn_floating_text_ui_plays(play_gain : int):
 	if float_text_scene:
 		var float_text : FloatText = float_text_scene.instantiate()
-		float_text.prime_text(str("+" + str(play_gain)),get_global_position_to_match_screen_position_of_UI(plays_label),0,2,Vector2(1,-1))
-		screen_canvas.add_child(float_text)
+		float_text.prime_text(str("+" + str(play_gain)),plays_label.global_position,0,2,Vector2(1,-1))
+		ui_canvas.add_child(float_text)
 
 func spawn_floating_text_ui_spins(spin_gain : int):
 	if float_text_scene:
 		var float_text : FloatText = float_text_scene.instantiate()
-		float_text.prime_text(str("+" + str(spin_gain)),get_global_position_to_match_screen_position_of_UI(spins_label),0,2,Vector2(1,-1))
-		screen_canvas.add_child(float_text)
+		float_text.prime_text(str("+" + str(spin_gain)),spins_label.global_position,0,2,Vector2(1,-1))
+		ui_canvas.add_child(float_text)
 
 
 
