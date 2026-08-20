@@ -1,6 +1,195 @@
 extends Control
 
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
+var gm: ChemicalGameManager = ChemicalGameManager
+
+#prices
+var play_price: int = 5
+var restock_price: int = 10
+
+#upgrade amounts
+var mid_hole_upgrades: int = 0
+var small_hole_upgrades: int = 0
+var loot_base_points_upgrades: int = 0
+var loot_bounce_bonus_upgrades: int = 0
+
+var loot_current_point_upgrade_amount: int = 0
+var loot_current_bounce_bonus_upgrade_amount: int = 0
+
 
 func _ready() -> void:
-    return
+	return
+
+
+func _on_buy_play_pressed() -> void:
+	var spendable = gm.spend_points(play_price)
+	if spendable == true:
+		gm.gain_plays(1)
+
+
+func _on_restock_pressed() -> void:
+	pass # Replace with function body.
+			
+
+
+func _on_mid_hole_multiplier_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow/MidHoleMultiplier
+	
+	var price: int = 500
+	var new_price: int = 2000
+	var amount_to_upgrade_by: int = 1
+	var next_amount_to_upgrade_by: int = 1
+	
+	#price is current price of upgrade
+	#new_price is what the price will become once bought
+	#amount_to_upgrade_by in case we want to up by different values
+	#next_amount_to_upgrade_by same idea as new_price
+	
+	match mid_hole_upgrades:
+		1: 
+			price = 2000 
+			new_price = 4500
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 1
+		2: 
+			price = 4500
+			new_price = 8000
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 1
+		3: 
+			price = 8000
+			new_price = 0
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
+		
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		$"../../../MediumTimes2Hole".point_modifier += amount_to_upgrade_by
+		$"../../../MediumTimes2Hole".update_mult_label()
+		
+		$"../../../MediumTimes2Hole2".point_modifier += amount_to_upgrade_by
+		$"../../../MediumTimes2Hole2".update_mult_label()
+		
+		mid_hole_upgrades += 1
+		if new_price == 0:
+			button.text = "Mid Hole Mult Max"
+			button.disabled = true
+		else:
+			button.text = "Mid Hole" + "\n+ " + str(next_amount_to_upgrade_by) + " Mult" + "\nCost: " + str(new_price)
+
+
+func _on_small_hole_multiplier_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier
+	
+	var price: int = 3000
+	var new_price: int = 9000
+	var amount_to_upgrade_by: int = 2
+	var next_amount_to_upgrade_by: int = 3
+	
+	match small_hole_upgrades:
+		1: 
+			price = 9000 
+			new_price = 15000
+			amount_to_upgrade_by = 3
+			next_amount_to_upgrade_by = 2
+		2: 
+			price = 15000
+			new_price = 30000
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 1
+		3: 
+			price = 40000
+			new_price = 0
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
+		
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		$"../../../SmallTimes3Hole".point_modifier += amount_to_upgrade_by
+		$"../../../SmallTimes3Hole".update_mult_label()
+		
+		
+		small_hole_upgrades += 1
+		if new_price == 0:
+			button.text = "Small Hole Mult Max"
+			button.disabled = true
+		else:
+			button.text = "Small Hole" + "\n+ " + str(next_amount_to_upgrade_by) + " Mult" + "\nCost: " + str(new_price)
+
+
+func _on_loot_base_points_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow2/LootBasePoints
+	
+	var price: int = 50
+	var new_price: int = 200
+	var amount_to_upgrade_by: int = 10
+	var next_amount_to_upgrade_by: int = 20
+	
+	match loot_base_points_upgrades:
+		1: 
+			price = 200
+			new_price = 250
+			amount_to_upgrade_by = 20
+			next_amount_to_upgrade_by = 10
+		2: 
+			price = 250
+			new_price = 400
+			amount_to_upgrade_by = 10
+			next_amount_to_upgrade_by = 30
+		3: 
+			price = 400
+			new_price = 0
+			amount_to_upgrade_by = 30
+		
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		loot_current_point_upgrade_amount += amount_to_upgrade_by
+		gm.loot_current_point_upgrade_amount = loot_current_point_upgrade_amount
+		gm.update_loot.emit()
+		loot_base_points_upgrades += 1
+		if new_price == 0:
+			button.text = "Loot Value Max"
+			button.disabled = true
+		else:
+			button.text = "Loot Value " + "\n+ "+ str(next_amount_to_upgrade_by) + " Points" + "\nCost:" + str(new_price)
+
+
+func _on_loot_bounce_bonus_pressed() -> void:
+	var button = $SidePanel/ShopColumns/ShopRow2/LootBounceBonus
+	
+	var price: int = 100
+	var new_price: int = 250
+	var amount_to_upgrade_by: int = 1
+	var next_amount_to_upgrade_by: int = 2
+	
+	match loot_bounce_bonus_upgrades:
+		1:
+			price = 250
+			new_price = 500
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 1
+		2:
+			price = 500
+			new_price = 0
+			amount_to_upgrade_by = 1
+			next_amount_to_upgrade_by = 0
+			
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		loot_current_bounce_bonus_upgrade_amount += amount_to_upgrade_by
+		gm.loot_current_bounce_bonus_upgrade_amount = loot_current_bounce_bonus_upgrade_amount
+		gm.update_loot.emit()
+		loot_bounce_bonus_upgrades += 1
+		if new_price == 0:
+			button.text = "Loot Bounce Bonus Max"
+			button.disabled = true
+		else:
+			button.text = "Loot Bounce Bonus " + "\n+ "+ str(next_amount_to_upgrade_by) + " Mult" + "\nCost:" + str(new_price)
+
+
+func _on_claw_move_speed_pressed() -> void:
+	pass
+
+
+func _on_claw_gravity_pressed() -> void:
+	pass # Replace with function body.

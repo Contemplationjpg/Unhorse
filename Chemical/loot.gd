@@ -79,6 +79,9 @@ var point_value_modifier : float = 1
 
 var hole_point_modifier : float = 1
 
+var base_point_value_upgrade : int = 0
+var bounce_bonus_upgrade : int = 0
+
 var rise_scale_change_per_sec : float = (max_scale - min_scale)/rise_time
 var drop_scale_change_per_sec : float = (max_scale - min_scale)/drop_time*drop_time_modifier
 
@@ -108,6 +111,9 @@ func _ready() -> void:
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
 	body_entered.connect(on_bounce)
+	gm.update_loot.connect(update_upgrades)
+	update_upgrades()
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -199,7 +205,8 @@ func on_score(): #scores, then destroys self (made before the non-destroy versio
 	queue_free() #gets destroyed
 
 func on_score_non_destroy(): #scores without destroying self
-	var score : int = int(base_point_value * bounce_bonus * point_value_modifier * hole_point_modifier) #score rounded down to nearest int
+	
+	var score : int = int((base_point_value + base_point_value_upgrade) * (bounce_bonus + bounce_bonus_upgrade) * point_value_modifier * hole_point_modifier) #score rounded down to nearest int
 	gm.gain_points(score)
 	just_scored.emit()
 	gm.on_loot_scored.emit(global_position, score) #on_loot_scored() used for scorekeeper to spawn point notifs around the score location
@@ -292,6 +299,14 @@ func get_dropped(c : Claw):
 	linear_velocity = c.velocity*velocity_modifier #applies claw velocity * velocity_modifier to the loot linear velocity
 	velocity_modifier = 1
 
+
+#stats--------------------------------------------------------------------------
+
+func update_upgrades():
+	base_point_value_upgrade = gm.loot_current_point_upgrade_amount
+	bounce_bonus_upgrade = gm.loot_current_bounce_bonus_upgrade_amount
+
+
 #misc---------------------------------------------------------------------------
 
 func reset_all_modifiers():
@@ -299,4 +314,5 @@ func reset_all_modifiers():
 	impulse_modifier = 1
 	velocity_modifier = 1
 	point_value_modifier = 1
-
+	
+	

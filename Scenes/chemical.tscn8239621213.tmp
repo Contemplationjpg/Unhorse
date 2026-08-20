@@ -3,17 +3,13 @@
 [ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
-[ext_resource type="PackedScene" uid="uid://emovigvikg0k" path="res://Chemical/float_text.tscn" id="2_0kl5h"]
 [ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
 [ext_resource type="Theme" uid="uid://dedv6yk4jg6wf" path="res://Chemical/ShopTheme.tres" id="3_n1mt2"]
-[ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
-[ext_resource type="PackedScene" uid="uid://c61baogkacke0" path="res://Loot/chance_loot.tscn" id="12_kkfpl"]
-[ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -22,17 +18,22 @@ size = Vector2(125, 125)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
 
-[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("points_label", "plays_label", "spins_label", "screen_canvas")]
+[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("info_hud", "score_box")]
 script = ExtResource("1_5u0wd")
-points_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer/PointsLabel")
-plays_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer/PlaysLabel")
-spins_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer/SpinsLabel")
-screen_canvas = NodePath("ScreenCanvas")
-float_text_scene = ExtResource("2_0kl5h")
+info_hud = NodePath("UICanvas/Shop/SidePanel/InfoHUD")
+score_box = NodePath("ScreenCanvas/ScoreIncrease")
 
 [node name="ScreenCanvas" type="CanvasLayer" parent="HUD" unique_id=1254409264]
-layer = 2
 follow_viewport_enabled = true
+
+[node name="ScoreIncrease" type="RichTextLabel" parent="HUD/ScreenCanvas" unique_id=321073578]
+offset_left = 896.0
+offset_top = 187.0
+offset_right = 1052.0
+offset_bottom = 326.0
+text = "Gaming
+"
+fit_content = true
 
 [node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
 
@@ -55,37 +56,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StatsLabels" type="Control" parent="HUD/UICanvas/Shop/SidePanel" unique_id=746234153]
+[node name="InfoHUD" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1044586713]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-grow_horizontal = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/StatsLabels" unique_id=561435076]
-layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 166.0
-theme_override_constants/separation = 16
-
-[node name="PointsLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer" unique_id=1044586713]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Gaming
-"
-fit_content = true
-
-[node name="PlaysLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer" unique_id=2085800691]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Gaming
-"
-fit_content = true
-
-[node name="SpinsLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/StatsLabels/VBoxContainer" unique_id=1572914698]
-layout_mode = 2
-size_flags_vertical = 3
+offset_right = -20.0
+offset_bottom = 43.0
+grow_horizontal = 2
 text = "Gaming
 "
 fit_content = true
@@ -96,9 +75,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -40.0
-offset_top = 160.0
+offset_top = 200.0
 offset_right = 40.0
-offset_bottom = 200.0
+offset_bottom = 240.0
 grow_horizontal = 2
 
 [node name="ShopLabel" type="RichTextLabel" parent="HUD/UICanvas/Shop/SidePanel/ShopSign" unique_id=608791239]
@@ -114,13 +93,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShopColumns" type="VBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1945822806]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
+layout_mode = 0
 offset_left = 20.0
-offset_top = 220.0
-offset_right = -20.0
-offset_bottom = 584.0
+offset_top = 270.0
+offset_right = 212.0
+offset_bottom = 790.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -179,17 +156,15 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Mid Hole
-+ 1 Mult
-COST: 500"
+text = "Mid Hole Multiplier + 1
+COST: 20"
 
 [node name="SmallHoleMultiplier" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow" unique_id=1676422990]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Small Hole
-+ 2 Mult
-COST: 3000"
+text = "Small Hole Multiplier + 1
+COST: 20"
 
 [node name="ShopRow2" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1399396011]
 layout_mode = 2
@@ -201,34 +176,28 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Loot Value
-+ 10 Points
+text = "Loot Base Points + 10
 COST: 50"
 
-[node name="LootBounceBonus" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=1351639114]
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2" unique_id=1351639114]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Loot Bounce Bonus
-+ 1 Mult
-COST: 100
-
-"
+text = "Item2"
 
 [node name="ShopRow3" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=315400804]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="ClawMoveSpeed" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=1819945892]
+[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=1819945892]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Claw Move Speed
-"
+text = "Item1"
 
-[node name="ClawGravity" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
+[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -259,17 +228,6 @@ text = "Buy Play"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Restock"
-
-[node name="RouletteWheel" parent="HUD/UICanvas" unique_id=747206326 instance=ExtResource("4_b0vl6")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_bottom = 0.0
-offset_left = -488.0
-offset_right = -488.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 1
-scale = Vector2(0.4, 0.4)
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
@@ -438,20 +396,8 @@ position = Vector2(124, -41)
 [node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
 position = Vector2(-399, -132)
 
-
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/MidHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_mid_hole_multiplier_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_small_hole_multiplier_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2/LootBasePoints" to="HUD/UICanvas/Shop" method="_on_loot_base_points_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2/LootBounceBonus" to="HUD/UICanvas/Shop" method="_on_loot_bounce_bonus_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/ClawMoveSpeed" to="HUD/UICanvas/Shop" method="_on_claw_move_speed_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/ClawGravity" to="HUD/UICanvas/Shop" method="_on_claw_gravity_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/Restock" to="HUD/UICanvas/Shop" method="_on_restock_pressed"]
-
-[node name="ChanceLoot" parent="LootHolder" unique_id=982874356 instance=ExtResource("12_kkfpl")]
-position = Vector2(-35, 174)
-
-[node name="ChanceLoot2" parent="LootHolder" unique_id=722748118 instance=ExtResource("12_kkfpl")]
-position = Vector2(-180, 70)
-
-[node name="GPUParticles2D" parent="." unique_id=777645101 instance=ExtResource("14_fqalb")]
