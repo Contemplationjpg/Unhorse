@@ -17,7 +17,7 @@ signal on_loot_scored(position : Vector2, amount : int)
 #resources--------------------------------
 var points : int = 500
 var plays : int = 3
-var spins : int = 0
+var spins : int = 3
 
 
 #gaining resource-------------------------

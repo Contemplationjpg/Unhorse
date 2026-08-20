@@ -1,0 +1,248 @@
+[gd_scene format=3 uid="uid://dlej3k1cokt0x"]
+
+[ext_resource type="Script" uid="uid://cbh21ixr08e4n" path="res://Chemical/roulette_wheel.gd" id="1_6dxip"]
+[ext_resource type="Texture2D" uid="uid://dokn6ar22didi" path="res://Assets/Sprites/wheelonly.png" id="1_broq7"]
+[ext_resource type="Texture2D" uid="uid://s2vh4y6nui7x" path="res://Assets/Sprites/wheelframewithunhorse.png" id="2_6dxip"]
+[ext_resource type="Texture2D" uid="uid://ct6t3dxuu70nl" path="res://Assets/Sprites/wheelarrow.png" id="3_nk2ym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
+size = Vector2(6.082962, 59.13535)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkl0w"]
+size = Vector2(5.815674, 59.07493)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtrws"]
+size = Vector2(5.575, 35.435)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05ovp"]
+size = Vector2(5.795, 136.855)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_d5xax"]
+
+[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6dxip")
+wheel = NodePath("RouletteWheel")
+arrow = NodePath("RouletteWheelArrow/Area2D")
+max_spin_velocity = 5.0
+spin_acceleration = 3.0
+spin_deceleration = 2.0
+time_before_stoppable = 1.0
+stop_buffer_window = 0.5
+time_before_auto_stop = 3.0
+
+[node name="RouletteWheel" type="TextureRect" parent="." unique_id=1719831233]
+layout_mode = 1
+offset_right = 600.0
+offset_bottom = 600.0
+pivot_offset = Vector2(300, 300)
+texture = ExtResource("1_broq7")
+
+[node name="Yellow" type="Area2D" parent="RouletteWheel" unique_id=642937685]
+position = Vector2(527, 300)
+monitoring = false
+metadata/color = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Yellow" unique_id=988901399]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="BigRed" type="Area2D" parent="RouletteWheel" unique_id=996877116]
+position = Vector2(513.21375, 223.94165)
+rotation = -0.36939612
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/BigRed" unique_id=1341110442]
+position = Vector2(2.8009033, -0.49716187)
+scale = Vector2(0.9999997, 0.99999964)
+shape = SubResource("RectangleShape2D_fkl0w")
+
+[node name="BigRed2" type="Area2D" parent="RouletteWheel" unique_id=232466888]
+position = Vector2(511.98557, 378.40363)
+rotation = 0.37220567
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/BigRed2" unique_id=877555411]
+position = Vector2(2.8009033, -0.49716187)
+scale = Vector2(0.9999997, 0.99999964)
+shape = SubResource("RectangleShape2D_fkl0w")
+
+[node name="Yellow2" type="Area2D" parent="RouletteWheel" unique_id=390966601]
+position = Vector2(60.39633, 299.7132)
+monitoring = false
+metadata/color = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Yellow2" unique_id=1500421308]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="BigRed3" type="Area2D" parent="RouletteWheel" unique_id=1818471828]
+position = Vector2(80.892, 220.08955)
+rotation = 0.3238895
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/BigRed3" unique_id=684121101]
+position = Vector2(2.8009033, -0.49716187)
+scale = Vector2(0.9999997, 0.99999964)
+shape = SubResource("RectangleShape2D_fkl0w")
+
+[node name="BigRed4" type="Area2D" parent="RouletteWheel" unique_id=1740343072]
+position = Vector2(81.079834, 380.4671)
+rotation = -0.33581722
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/BigRed4" unique_id=499321802]
+position = Vector2(2.8009033, -0.49716187)
+scale = Vector2(0.9999997, 0.99999964)
+shape = SubResource("RectangleShape2D_fkl0w")
+
+[node name="Yellow3" type="Area2D" parent="RouletteWheel" unique_id=694591228]
+position = Vector2(299.6434, 538.6061)
+rotation = -1.5647881
+monitoring = false
+metadata/color = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Yellow3" unique_id=1496226139]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="SmallRed" type="Area2D" parent="RouletteWheel" unique_id=279071075]
+position = Vector2(242.24524, 520.56604)
+rotation = -1.293991
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/SmallRed" unique_id=878346257]
+position = Vector2(-3.0542603, -0.49700928)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_dtrws")
+
+[node name="SmallRed2" type="Area2D" parent="RouletteWheel" unique_id=921113751]
+position = Vector2(360.51584, 520.31525)
+rotation = -1.8493305
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RouletteWheel/SmallRed2" unique_id=1519856430]
+position = Vector2(-3.0542603, -0.49700928)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_dtrws")
+
+[node name="Yellow4" type="Area2D" parent="RouletteWheel" unique_id=1117117456]
+position = Vector2(300.196, 73.43442)
+rotation = -1.5647881
+monitoring = false
+metadata/color = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Yellow4" unique_id=1976019769]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="SmallRed3" type="Area2D" parent="RouletteWheel" unique_id=1473184776]
+position = Vector2(362.2543, 72.10223)
+rotation = -1.293991
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/SmallRed3" unique_id=949725181]
+position = Vector2(-3.0542603, -0.49700928)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_dtrws")
+
+[node name="SmallRed4" type="Area2D" parent="RouletteWheel" unique_id=1015852075]
+position = Vector2(238.92615, 71.7042)
+rotation = -1.8493305
+scale = Vector2(1.0515306, 1.6668695)
+monitoring = false
+metadata/color = 1
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RouletteWheel/SmallRed4" unique_id=334895102]
+position = Vector2(-3.0542603, -0.49700928)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_dtrws")
+
+[node name="Blue" type="Area2D" parent="RouletteWheel" unique_id=40284134]
+position = Vector2(439.6804, 132.84924)
+rotation = -0.8551173
+monitoring = false
+metadata/color = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Blue" unique_id=1990051710]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_05ovp")
+
+[node name="Blue2" type="Area2D" parent="RouletteWheel" unique_id=414303737]
+position = Vector2(149.90446, 475.89862)
+rotation = -0.8551173
+monitoring = false
+metadata/color = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Blue2" unique_id=262744256]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_05ovp")
+
+[node name="Blue3" type="Area2D" parent="RouletteWheel" unique_id=1608211693]
+position = Vector2(157.96977, 132.4995)
+rotation = -2.2601132
+monitoring = false
+metadata/color = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Blue3" unique_id=224933222]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_05ovp")
+
+[node name="Blue4" type="Area2D" parent="RouletteWheel" unique_id=1068485995]
+position = Vector2(447.6458, 476.1298)
+rotation = -2.2601132
+monitoring = false
+metadata/color = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheel/Blue4" unique_id=462758825]
+position = Vector2(6.569702, 0.415802)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_05ovp")
+
+[node name="RouletteWheelFrame" type="TextureRect" parent="." unique_id=49554604]
+layout_mode = 1
+offset_right = 600.0
+offset_bottom = 600.0
+texture = ExtResource("2_6dxip")
+
+[node name="RouletteWheelArrow" type="TextureRect" parent="." unique_id=142245901]
+layout_mode = 1
+offset_left = 19.585
+offset_right = 619.585
+offset_bottom = 600.0
+texture = ExtResource("3_nk2ym")
+
+[node name="Area2D" type="Area2D" parent="RouletteWheelArrow" unique_id=1879849891]
+position = Vector2(520, 290)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheelArrow/Area2D" unique_id=1650092553]
+rotation = 1.5707964
+shape = SubResource("SegmentShape2D_d5xax")

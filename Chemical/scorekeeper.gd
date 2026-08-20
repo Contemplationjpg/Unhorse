@@ -27,8 +27,8 @@ func update_ui():
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("debug"): #hiiiiiii
 		#gm.gain_points(15)
-		gm.gain_plays(3)
-		#return
+		#gm.gain_plays(3)
+		return
 
 #for now just moves a textbox to the location of score, but later will spawn a textbox that destroys itself after a little
 #rn this can only keep track of one instance of scoring at a time and doesn't ever go away

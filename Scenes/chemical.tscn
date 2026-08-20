@@ -6,10 +6,12 @@
 [ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
 [ext_resource type="Theme" uid="uid://dedv6yk4jg6wf" path="res://Chemical/ShopTheme.tres" id="3_n1mt2"]
+[ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
+[ext_resource type="PackedScene" uid="uid://c61baogkacke0" path="res://Loot/chance_loot.tscn" id="12_kkfpl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -226,6 +228,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Restock"
 
+[node name="RouletteWheel" parent="HUD/UICanvas" unique_id=747206326 instance=ExtResource("4_b0vl6")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -488.0
+offset_right = -488.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 1
+scale = Vector2(0.4, 0.4)
+
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
 
@@ -392,3 +405,9 @@ position = Vector2(124, -41)
 
 [node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
 position = Vector2(-399, -132)
+
+[node name="ChanceLoot" parent="LootHolder" unique_id=982874356 instance=ExtResource("12_kkfpl")]
+position = Vector2(-35, 174)
+
+[node name="ChanceLoot2" parent="LootHolder" unique_id=722748118 instance=ExtResource("12_kkfpl")]
+position = Vector2(-180, 70)
