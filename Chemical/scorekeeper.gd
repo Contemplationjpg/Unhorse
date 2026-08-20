@@ -1,8 +1,12 @@
 class_name Scorekeeper
 extends Node
 
-@export var info_hud : RichTextLabel
-@export var score_box : RichTextLabel
+@export var points_label : RichTextLabel
+@export var plays_label : RichTextLabel
+@export var spins_label : RichTextLabel
+@export var screen_canvas : CanvasLayer
+@export var float_text_scene : PackedScene
+@export var float_text_rand_radius : float = 10
 
 
 @onready var gm : ChemicalGameManager = ChemicalGameManager
@@ -14,15 +18,19 @@ func _ready() -> void:
 	update_ui()
 	gm.on_any_update.connect(update_ui)
 	gm.on_loot_scored.connect(on_loot_score_detected)
+	#gm.on_gain_points.connect(spawn_floating_text_ui_plays)
+	gm.on_gain_plays.connect(spawn_floating_text_ui_plays)
+	gm.on_gain_spins.connect(spawn_floating_text_ui_spins)
 
 
 func update_ui():
-	#this bit here is temporary until we have actual ui set up
 	var res : String
-	res = "points: " + str(gm.points) + "\n"
-	res += "plays: " + str(gm.plays) + "\n"
-	res += "spins: " + str(gm.spins) + "\n"
-	info_hud.text = res
+	res = "points: " + str(gm.points)
+	points_label.text = res
+	res = "plays: " + str(gm.plays)
+	plays_label.text = res
+	res = "spins: " + str(gm.spins) 
+	spins_label.text = res
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("debug"): #hiiiiiii
@@ -33,6 +41,47 @@ func _process(delta: float) -> void:
 #for now just moves a textbox to the location of score, but later will spawn a textbox that destroys itself after a little
 #rn this can only keep track of one instance of scoring at a time and doesn't ever go away
 func on_loot_score_detected(position : Vector2, amount : int):
-	print("Loot just scored " + str(amount) + " points at screen position " + str(position))
-	score_box.text = str("+" + str(amount))
-	score_box.global_position = position
+	#print("Loot just scored " + str(amount) + " points at screen position " + str(position))
+	#score_box.text = str("+" + str(amount))
+	#score_box.global_position = position
+	spawn_floating_text_score(position, str("+" + str(amount)))
+
+func spawn_floating_text_score(position : Vector2, message : String):
+	if float_text_scene:
+		var float_text : FloatText = float_text_scene.instantiate()
+		var dir
+		if randi_range(0,1) == 0:
+			dir = Vector2(1,-1)
+		else:
+			dir = Vector2(-1,-1)
+		float_text.prime_text(message, position, float_text_rand_radius, 2, dir, 10, Color.WHITE)
+		screen_canvas.add_child(float_text)
+
+func get_global_position_to_match_screen_position_of_UI(ui_node : Control) -> Vector2:
+	var screen_pos : Vector2 = ui_node.global_position
+	var new_global_pos : Vector2 = get_viewport().get_canvas_transform().affine_inverse() * screen_pos
+	return new_global_pos
+
+func spawn_floating_text_ui_points(point_gain : int):
+	if float_text_scene:
+		var float_text : FloatText = float_text_scene.instantiate()
+		float_text.prime_text(str("+" + str(point_gain)),get_global_position_to_match_screen_position_of_UI(points_label),0,2,Vector2(1,-1))
+		screen_canvas.add_child(float_text)
+
+func spawn_floating_text_ui_plays(play_gain : int):
+	if float_text_scene:
+		var float_text : FloatText = float_text_scene.instantiate()
+		float_text.prime_text(str("+" + str(play_gain)),get_global_position_to_match_screen_position_of_UI(plays_label),0,2,Vector2(1,-1))
+		screen_canvas.add_child(float_text)
+
+func spawn_floating_text_ui_spins(spin_gain : int):
+	if float_text_scene:
+		var float_text : FloatText = float_text_scene.instantiate()
+		float_text.prime_text(str("+" + str(spin_gain)),get_global_position_to_match_screen_position_of_UI(spins_label),0,2,Vector2(1,-1))
+		screen_canvas.add_child(float_text)
+
+
+
+
+		
+	

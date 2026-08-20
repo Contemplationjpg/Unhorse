@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://0stsuy3dymut"]
+
+[ext_resource type="Texture2D" uid="uid://dlg1kr6rib4us" path="res://Assets/Sprites/unhorse.png" id="1_d7koe"]
+
+[sub_resource type="Gradient" id="Gradient_o6s1u"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0kl5h"]
+gradient = SubResource("Gradient_o6s1u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_imfbs"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 46.98
+initial_velocity_max = 382.55
+orbit_velocity_min = 1.2740002
+orbit_velocity_max = 1.2740002
+gravity = Vector3(0, 0, 0)
+scale_min = 0.049999997
+scale_max = 0.049999997
+color_ramp = SubResource("GradientTexture1D_0kl5h")
+
+[node name="HorseBomb" type="GPUParticles2D" unique_id=777645101]
+emitting = false
+amount = 80
+sub_emitter = NodePath(".")
+texture = ExtResource("1_d7koe")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.29
+local_coords = true
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_imfbs")
