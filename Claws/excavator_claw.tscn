@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://7wsldwognxj6"]
+
+[ext_resource type="Script" uid="uid://b70kvwjjmul04" path="res://Chemical/excavator_claw.gd" id="1_75sjp"]
+[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_7ssoo"]
+[ext_resource type="Texture2D" uid="uid://cl54im6kx48jj" path="res://Assets/Sprites/crosshair.png" id="3_75sjp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_71its"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2occh"]
+size = Vector2(10, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u44jh"]
+atlas = ExtResource("2_7ssoo")
+region = Rect2(600, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woths"]
+atlas = ExtResource("2_7ssoo")
+region = Rect2(0, 600, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1eij8"]
+atlas = ExtResource("2_7ssoo")
+region = Rect2(0, 0, 600, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enoe2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u44jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woths")
+}],
+"loop": 0,
+"name": &"grab",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woths")
+}],
+"loop": 1,
+"name": &"holding",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1eij8")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woths")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u44jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1eij8")
+}],
+"loop": 0,
+"name": &"release_fail",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1eij8")
+}],
+"loop": 0,
+"name": &"release_success",
+"speed": 10.0
+}]
+
+[node name="ExcavatorClaw" type="CharacterBody2D" unique_id=208071505 node_paths=PackedStringArray("sprite", "area")]
+modulate = Color(3.045841, 3.045841, 3.045841, 1)
+scale = Vector2(5, 5)
+collision_layer = 0
+collision_mask = 8
+motion_mode = 1
+script = ExtResource("1_75sjp")
+sprite = NodePath("AnimatedSprite2D")
+area = NodePath("Area2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=100967101]
+z_index = 2
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_71its")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=772185002]
+scale = Vector2(0.99999976, 0.99999976)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1520790649]
+z_index = 1
+shape = SubResource("RectangleShape2D_2occh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1375440166]
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_enoe2")
+animation = &"grab"
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1529056592]
+self_modulate = Color(1, 1, 1, 0.49803922)
+z_index = 6
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_75sjp")
