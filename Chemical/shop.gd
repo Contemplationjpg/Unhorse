@@ -16,10 +16,12 @@ var mid_hole_upgrades: int = 0
 var small_hole_upgrades: int = 0
 var loot_base_points_upgrades: int = 0
 var loot_bounce_bonus_upgrades: int = 0
+var claw_move_speed_upgrades: int = 0
 
 var loot_current_point_upgrade_amount: int = 0
 var loot_current_bounce_bonus_upgrade_amount: int = 0
 
+var claw_current_move_speed_upgrade_amount: int = 1
 
 func _ready() -> void:
 	return
@@ -195,8 +197,33 @@ func _on_loot_bounce_bonus_pressed() -> void:
 
 
 func _on_claw_move_speed_pressed() -> void:
-	pass
-
-
+	var button = $SidePanel/ShopColumns/ShopRow3/ClawMoveSpeed
+	
+	var price: int = 200
+	var new_price: int = 500
+	var amount_to_upgrade_by: int = 2
+	var next_amount_to_upgrade_by: int = 2
+	
+	match claw_move_speed_upgrades:
+		1:
+			price = 500
+			new_price = 0
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 0
+			
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		claw_current_move_speed_upgrade_amount += amount_to_upgrade_by
+		gm.claw_current_move_speed_upgrade_amount = claw_current_move_speed_upgrade_amount
+		claw_move_speed_upgrades += 1
+		
+		
+		if new_price == 0:
+			button.text = "Claw Move Speed Max"
+			button.disabled = true
+		else:
+			button.text = "Claw Move Speed " + "\nx "+ str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
+		
+		
 func _on_claw_gravity_pressed() -> void:
 	pass # Replace with function body.
