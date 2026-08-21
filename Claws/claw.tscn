@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://bg6bv76kcabub"]
 
 [ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
-[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_u2qwf"]
 [ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_xig0c"]
+[ext_resource type="Texture2D" uid="uid://cl54im6kx48jj" path="res://Assets/Sprites/crosshair.png" id="3_u2qwf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urhjn"]
-size = Vector2(8, 8)
+size = Vector2(10, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u44jh"]
 atlas = ExtResource("2_xig0c")
@@ -47,37 +49,65 @@ animations = [{
 "loop": 1,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woths")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u44jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1eij8")
+}],
+"loop": 0,
+"name": &"release_fail",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1eij8")
+}],
+"loop": 0,
+"name": &"release_success",
+"speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
-
-[node name="Claw" type="CharacterBody2D" unique_id=208071505]
+[node name="Claw" type="CharacterBody2D" unique_id=208071505 node_paths=PackedStringArray("sprite", "area")]
 scale = Vector2(5, 5)
 collision_layer = 0
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_pj4pq")
+move_speed = 250.0
 scoop_time = 0.1
-min_scale = 0.155
+max_scale = 1.0
+min_scale = 0.3
+sprite = NodePath("AnimatedSprite2D")
+area = NodePath("Area2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2102089201]
+z_index = 2
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=643624714]
-scale = Vector2(0.99999994, 0.99999994)
+scale = Vector2(0.99999976, 0.99999976)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=126843928]
+z_index = 1
 shape = SubResource("RectangleShape2D_urhjn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624133184]
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_d5xax")
 animation = &"grab"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2102089201]
-shape = SubResource("RectangleShape2D_d5xax")
-
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1301336807]
-visible = false
-scale = Vector2(0.155, 0.155)
-texture = ExtResource("2_u2qwf")
+self_modulate = Color(1, 1, 1, 0.49803922)
+z_index = 6
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("3_u2qwf")

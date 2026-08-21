@@ -4,6 +4,9 @@ extends Control
 @export var medium_holes : Array[Hole] = []
 @export var small_holes : Array[Hole] = []
 
+@export var bumper_scene : PackedScene
+@export var player : Player
+
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
 
@@ -195,8 +198,46 @@ func _on_loot_bounce_bonus_pressed() -> void:
 
 
 func _on_claw_move_speed_pressed() -> void:
+<<<<<<< Updated upstream
 	pass
 
 
+=======
+	var button = $SidePanel/ShopColumns/ShopRow3/ClawMoveSpeed
+	
+	var price: int = 200
+	var new_price: int = 500
+	var amount_to_upgrade_by: int = 2
+	var next_amount_to_upgrade_by: int = 2
+	
+	match claw_move_speed_upgrades:
+		1:
+			price = 500
+			new_price = 0
+			amount_to_upgrade_by = 2
+			next_amount_to_upgrade_by = 0
+			
+	var spendable = gm.spend_points(price)
+	if spendable == true:
+		claw_current_move_speed_upgrade_amount += amount_to_upgrade_by
+		gm.claw_current_move_speed_upgrade_amount = claw_current_move_speed_upgrade_amount
+		claw_move_speed_upgrades += 1
+		
+		
+		if new_price == 0:
+			button.text = "Claw Move Speed Max"
+			button.disabled = true
+		else:
+			button.text = "Claw Move Speed " + "\nx "+ str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
+
+		
+>>>>>>> Stashed changes
 func _on_claw_gravity_pressed() -> void:
+	spawn_bumper()
 	pass # Replace with function body.
+
+func spawn_bumper():
+	var bumper = bumper_scene.instantiate()
+	player.add_child(bumper)
+	bumper.global_position = Vector2.ZERO
+	

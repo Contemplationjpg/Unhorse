@@ -12,12 +12,16 @@ signal on_spend_spins(spins_spent : int)
 signal on_any_update() #this "on_any_update" signal is intended for things like updating ui but tbh you can go wild with this if you want
 
 signal on_loot_scored(position : Vector2, amount : int)
+signal on_loot_bonus_update(position : Vector2, bonus : float)
 
 signal update_loot()
 signal update_holes()
 
 signal start_restock()
 signal clear_all_loot()
+
+signal request_claw()
+signal send_claw(claw : Claw)
 
 #resources--------------------------------
 var points : int = 500

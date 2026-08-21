@@ -9,15 +9,15 @@ friction = 0.2
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
-radius = 25.6
+radius = 86.023254
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
-radius = 99.54
+radius = 315.76733
 
 [node name="UnstableLoot" type="RigidBody2D" unique_id=596486904 node_paths=PackedStringArray("explosion_effect")]
 z_index = 1
 collision_layer = 2
-collision_mask = 10
+collision_mask = 26
 physics_material_override = SubResource("PhysicsMaterial_6hamn")
 gravity_scale = 0.0
 contact_monitor = true
@@ -32,12 +32,12 @@ has_speed_cap = true
 speed_cap = 120.0
 do_impulse_on_landing = false
 impulse_amount = 2000.0
-min_scale = 0.145
-max_scale = 0.35
+min_scale = 0.35
+max_scale = 0.7
 color_value_lower_speed = 0.25
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
-scale = Vector2(0.145, 0.145)
+scale = Vector2(0.35, 0.35)
 texture = ExtResource("2_ijfrh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1047960950]
@@ -51,3 +51,6 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_imfbs")
 
 [node name="HorseBomb" parent="." unique_id=777645101 instance=ExtResource("3_moqe0")]
+scale = Vector2(3.155, 3.155)
+amount = 100
+lifetime = 0.6

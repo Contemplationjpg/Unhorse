@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
-[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="1_s6qaj"]
 [ext_resource type="PackedScene" uid="uid://emovigvikg0k" path="res://Chemical/float_text.tscn" id="2_0kl5h"]
 [ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
@@ -11,14 +10,17 @@
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
+[ext_resource type="Texture2D" uid="uid://db8p2mqfk0trb" path="res://Assets/Sprites/cranemachineborder.png" id="7_i5c22"]
 [ext_resource type="Script" uid="uid://da51dwybjwdoa" path="res://Chemical/loot_spawner.gd" id="8_o6s1u"]
 [ext_resource type="Resource" uid="uid://ct8gfj3o0td78" path="res://Loot/small_loot.tres" id="9_i5c22"]
 [ext_resource type="Resource" uid="uid://ccnoh1gnjowpv" path="res://Loot/chance_loot.tres" id="10_bxr3p"]
 [ext_resource type="Resource" uid="uid://dk7j78hhjy7s1" path="res://Loot/unstable_loot.tres" id="11_i5c22"]
+[ext_resource type="Texture2D" uid="uid://bgg4aeffk6tjv" path="res://Assets/Sprites/straight_bumper.png" id="13_u1noj"]
+[ext_resource type="PackedScene" uid="uid://dkynhabmqo2kb" path="res://Chemical/bumper.tscn" id="14_dlqoq"]
 [ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
-size = Vector2(125, 125)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
+size = Vector2(200, 520)
 
 [node name="Chemical" type="Node2D" unique_id=2089471138]
 
@@ -37,7 +39,7 @@ follow_viewport_enabled = true
 
 [node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
 
-[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes")]
+[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes", "player")]
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -47,9 +49,11 @@ offset_left = -240.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("2_fbaj0")
-large_holes = [NodePath("../../../MapElements/BigTimes1Hole")]
-medium_holes = [NodePath("../../../MapElements/MediumTimes2Hole"), NodePath("../../../MapElements/MediumTimes2Hole2")]
-small_holes = [NodePath("../../../MapElements/SmallTimes3Hole")]
+large_holes = [NodePath("../../../MapElements/Holes/BigTimes1Hole")]
+medium_holes = [NodePath("../../../MapElements/Holes/MediumTimes2Hole"), NodePath("../../../MapElements/Holes/MediumTimes2Hole2")]
+small_holes = [NodePath("../../../MapElements/Holes/SmallTimes3Hole")]
+bumper_scene = ExtResource("14_dlqoq")
+player = NodePath("../../../Player")
 
 [node name="SidePanel" type="Panel" parent="HUD/UICanvas/Shop" unique_id=1704762268]
 layout_mode = 1
@@ -327,69 +331,9 @@ text = "Restock"
 script = ExtResource("1_81wnh")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1062995422]
-
-[node name="Walls" type="Node2D" parent="." unique_id=1308358038]
-position = Vector2(-24, -6)
-
-[node name="Wall" type="RigidBody2D" parent="Walls" unique_id=23168292]
-position = Vector2(2, 173)
-collision_layer = 8
-collision_mask = 16
-freeze = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=1933633481]
-position = Vector2(-131, 141)
-rotation = -3.1415925
-scale = Vector2(6.3600006, -0.87999946)
-shape = SubResource("RectangleShape2D_imfbs")
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall/CollisionShape2D" unique_id=2064890330]
-texture = ExtResource("1_s6qaj")
-
-[node name="Wall2" type="RigidBody2D" parent="Walls" unique_id=1875822702]
-position = Vector2(32, 9)
-collision_layer = 8
-collision_mask = 16
-freeze = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1803671940]
-position = Vector2(-605, 5)
-rotation = -3.1415925
-scale = Vector2(0.96000135, -5.6150007)
-shape = SubResource("RectangleShape2D_imfbs")
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall2/CollisionShape2D" unique_id=196644921]
-texture = ExtResource("1_s6qaj")
-
-[node name="Wall3" type="RigidBody2D" parent="Walls" unique_id=431331739]
-position = Vector2(17, -346)
-collision_layer = 8
-collision_mask = 16
-freeze = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3" unique_id=1005363347]
-position = Vector2(-139, 30.000015)
-rotation = -3.1415925
-scale = Vector2(6.3600006, -1.3599994)
-shape = SubResource("RectangleShape2D_imfbs")
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall3/CollisionShape2D" unique_id=1603703215]
-texture = ExtResource("1_s6qaj")
-
-[node name="Wall4" type="RigidBody2D" parent="Walls" unique_id=1335919348]
-position = Vector2(840, 13)
-collision_layer = 8
-collision_mask = 16
-freeze = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4" unique_id=1225373754]
-position = Vector2(-518, 3)
-rotation = -3.1415925
-scale = Vector2(1.0000038, -5.8549995)
-shape = SubResource("RectangleShape2D_imfbs")
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall4/CollisionShape2D" unique_id=1369724450]
-texture = ExtResource("1_s6qaj")
+position = Vector2(-79, -16)
+offset = Vector2(200.59, 0)
+zoom = Vector2(0.5, 0.5)
 
 [node name="LootSpawner" type="Node" parent="." unique_id=1664982518 node_paths=PackedStringArray("loot_holder")]
 script = ExtResource("8_o6s1u")
@@ -401,137 +345,277 @@ loot_holder = NodePath("LootHolder")
 position = Vector2(-24, -6)
 
 [node name="LootSpawnPoint" type="Node2D" parent="LootSpawner/LootHolder" unique_id=36567937]
-position = Vector2(-465, -190)
+position = Vector2(-221, -251)
 
-[node name="LootSpawnPoint2" type="Node2D" parent="LootSpawner/LootHolder" unique_id=513159666]
-position = Vector2(-467, -123)
+[node name="LootSpawnPoint2" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1798625612]
+position = Vector2(-331, -74)
 
-[node name="LootSpawnPoint3" type="Node2D" parent="LootSpawner/LootHolder" unique_id=578723427]
-position = Vector2(-466, -57)
+[node name="LootSpawnPoint3" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1872690311]
+position = Vector2(-423, 82)
 
-[node name="LootSpawnPoint4" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1964788555]
-position = Vector2(-462, 58)
+[node name="LootSpawnPoint4" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1142715229]
+position = Vector2(-269, 194)
 
-[node name="LootSpawnPoint5" type="Node2D" parent="LootSpawner/LootHolder" unique_id=76737615]
-position = Vector2(-464, 125)
+[node name="LootSpawnPoint5" type="Node2D" parent="LootSpawner/LootHolder" unique_id=989044227]
+position = Vector2(-244, 47)
 
-[node name="LootSpawnPoint6" type="Node2D" parent="LootSpawner/LootHolder" unique_id=738426779]
-position = Vector2(-463, 191)
+[node name="LootSpawnPoint6" type="Node2D" parent="LootSpawner/LootHolder" unique_id=958241359]
+position = Vector2(-160, -104)
 
-[node name="LootSpawnPoint7" type="Node2D" parent="LootSpawner/LootHolder" unique_id=664903856]
-position = Vector2(-330, -186)
+[node name="LootSpawnPoint9" type="Node2D" parent="LootSpawner/LootHolder" unique_id=901575229]
+position = Vector2(-97, 123)
 
-[node name="LootSpawnPoint8" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1558802182]
-position = Vector2(-332, -119)
+[node name="LootSpawnPoint10" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1321868245]
+position = Vector2(-95, 258)
 
-[node name="LootSpawnPoint9" type="Node2D" parent="LootSpawner/LootHolder" unique_id=358001814]
-position = Vector2(-331, -53)
+[node name="LootSpawnPoint11" type="Node2D" parent="LootSpawner/LootHolder" unique_id=381697198]
+position = Vector2(197, 242)
 
-[node name="LootSpawnPoint10" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1035645625]
-position = Vector2(-276, 33)
+[node name="LootSpawnPoint12" type="Node2D" parent="LootSpawner/LootHolder" unique_id=38375872]
+position = Vector2(80, 105)
 
-[node name="LootSpawnPoint11" type="Node2D" parent="LootSpawner/LootHolder" unique_id=42668495]
-position = Vector2(-329, 129)
+[node name="LootSpawnPoint13" type="Node2D" parent="LootSpawner/LootHolder" unique_id=835953594]
+position = Vector2(42, -69)
 
-[node name="LootSpawnPoint12" type="Node2D" parent="LootSpawner/LootHolder" unique_id=421544737]
-position = Vector2(-328, 195)
+[node name="LootSpawnPoint14" type="Node2D" parent="LootSpawner/LootHolder" unique_id=742723079]
+position = Vector2(287, 91)
 
-[node name="LootSpawnPoint13" type="Node2D" parent="LootSpawner/LootHolder" unique_id=858646995]
-position = Vector2(-223, -190)
+[node name="LootSpawnPoint15" type="Node2D" parent="LootSpawner/LootHolder" unique_id=287939416]
+position = Vector2(443, 348)
 
-[node name="LootSpawnPoint14" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1387807240]
-position = Vector2(-251, -126)
+[node name="LootSpawnPoint16" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1370396149]
+position = Vector2(-425, 412)
 
-[node name="LootSpawnPoint15" type="Node2D" parent="LootSpawner/LootHolder" unique_id=248946783]
-position = Vector2(-224, -57)
+[node name="LootSpawnPoint17" type="Node2D" parent="LootSpawner/LootHolder" unique_id=176888373]
+position = Vector2(-714, 143)
 
-[node name="LootSpawnPoint16" type="Node2D" parent="LootSpawner/LootHolder" unique_id=616325792]
-position = Vector2(-181, 69)
+[node name="LootSpawnPoint18" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1271306809]
+position = Vector2(658, 135)
 
-[node name="LootSpawnPoint17" type="Node2D" parent="LootSpawner/LootHolder" unique_id=699129555]
-position = Vector2(-222, 125)
+[node name="LootSpawnPoint19" type="Node2D" parent="LootSpawner/LootHolder" unique_id=647057111]
+position = Vector2(697, -110)
 
-[node name="LootSpawnPoint18" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1263142893]
-position = Vector2(-221, 191)
+[node name="LootSpawnPoint20" type="Node2D" parent="LootSpawner/LootHolder" unique_id=602356329]
+position = Vector2(476, -160)
 
-[node name="LootSpawnPoint19" type="Node2D" parent="LootSpawner/LootHolder" unique_id=939062984]
-position = Vector2(-13, -188)
+[node name="LootSpawnPoint21" type="Node2D" parent="LootSpawner/LootHolder" unique_id=2053934206]
+position = Vector2(201, -220)
 
-[node name="LootSpawnPoint20" type="Node2D" parent="LootSpawner/LootHolder" unique_id=286323082]
-position = Vector2(34, -123)
+[node name="LootSpawnPoint22" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1527569145]
+position = Vector2(234, -457)
 
-[node name="LootSpawnPoint21" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1478092375]
-position = Vector2(-14, -55)
+[node name="LootSpawnPoint23" type="Node2D" parent="LootSpawner/LootHolder" unique_id=2000765541]
+position = Vector2(302, -339)
 
-[node name="LootSpawnPoint22" type="Node2D" parent="LootSpawner/LootHolder" unique_id=931715346]
-position = Vector2(-10, 60)
-
-[node name="LootSpawnPoint23" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1553275521]
-position = Vector2(-12, 127)
-
-[node name="LootSpawnPoint24" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1046896283]
-position = Vector2(-103, 114)
-
-[node name="LootSpawnPoint25" type="Node2D" parent="LootSpawner/LootHolder" unique_id=324061307]
-position = Vector2(104, -181)
-
-[node name="LootSpawnPoint26" type="Node2D" parent="LootSpawner/LootHolder" unique_id=670661345]
-position = Vector2(102, -114)
-
-[node name="LootSpawnPoint27" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1648994437]
-position = Vector2(103, -48)
-
-[node name="LootSpawnPoint28" type="Node2D" parent="LootSpawner/LootHolder" unique_id=749045144]
-position = Vector2(150, -4)
-
-[node name="LootSpawnPoint29" type="Node2D" parent="LootSpawner/LootHolder" unique_id=78185840]
-position = Vector2(105, 134)
-
-[node name="LootSpawnPoint30" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1595741411]
-position = Vector2(106, 200)
-
-[node name="LootSpawnPoint31" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1666230850]
-position = Vector2(196, -180)
-
-[node name="LootSpawnPoint32" type="Node2D" parent="LootSpawner/LootHolder" unique_id=109115716]
-position = Vector2(194, -113)
-
-[node name="LootSpawnPoint33" type="Node2D" parent="LootSpawner/LootHolder" unique_id=78245221]
-position = Vector2(195, -47)
-
-[node name="LootSpawnPoint34" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1286282181]
-position = Vector2(199, 68)
-
-[node name="LootSpawnPoint35" type="Node2D" parent="LootSpawner/LootHolder" unique_id=2049503368]
-position = Vector2(197, 135)
-
-[node name="LootSpawnPoint36" type="Node2D" parent="LootSpawner/LootHolder" unique_id=299993120]
-position = Vector2(198, 201)
+[node name="LootSpawnPoint24" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1540956618]
+position = Vector2(-474, -399)
 
 [node name="MapElements" type="Node2D" parent="." unique_id=1021434687]
-position = Vector2(-24, -6)
-
-[node name="BigTimes1Hole" parent="MapElements" unique_id=1664343926 instance=ExtResource("7_05swk")]
-position = Vector2(-119.00001, -119)
-scale = Vector2(1.5, 1.5)
-
-[node name="MediumTimes2Hole" parent="MapElements" unique_id=1542862474 instance=ExtResource("7_05swk")]
-position = Vector2(-376.00003, 56)
-scale = Vector2(0.75, 0.75)
-point_modifier = 2.0
-
-[node name="MediumTimes2Hole2" parent="MapElements" unique_id=1461735364 instance=ExtResource("7_05swk")]
-position = Vector2(110, 56)
-scale = Vector2(0.75, 0.75)
-point_modifier = 2.0
-
-[node name="SmallTimes3Hole" parent="MapElements" unique_id=1183377378 instance=ExtResource("7_05swk")]
-position = Vector2(-124, 225)
-scale = Vector2(0.5, 0.5)
-point_modifier = 3.0
 
 [node name="ClawOrigin" type="Node2D" parent="MapElements" unique_id=1696382043]
-position = Vector2(-153, 7)
+
+[node name="Holes" type="Node2D" parent="MapElements" unique_id=1642318204]
+
+[node name="BigTimes1Hole" parent="MapElements/Holes" unique_id=1664343926 instance=ExtResource("7_05swk")]
+position = Vector2(-25, -396)
+scale = Vector2(3, 3)
+
+[node name="MediumTimes2Hole" parent="MapElements/Holes" unique_id=1542862474 instance=ExtResource("7_05swk")]
+position = Vector2(-648, -221)
+scale = Vector2(2, 2)
+point_modifier = 2.0
+
+[node name="MediumTimes2Hole2" parent="MapElements/Holes" unique_id=1461735364 instance=ExtResource("7_05swk")]
+position = Vector2(162, 434)
+scale = Vector2(2, 2)
+point_modifier = 2.0
+
+[node name="SmallTimes3Hole" parent="MapElements/Holes" unique_id=1183377378 instance=ExtResource("7_05swk")]
+position = Vector2(500, -347)
+point_modifier = 3.0
+
+[node name="Walls" type="Node2D" parent="MapElements" unique_id=1308358038]
+
+[node name="MainWall" type="RigidBody2D" parent="MapElements/Walls" unique_id=23168292]
+z_index = 6
+collision_layer = 8
+collision_mask = 16
+freeze = true
+metadata/main_wall = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/MainWall" unique_id=1846076340]
+texture = ExtResource("7_i5c22")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MapElements/Walls/MainWall" unique_id=1866005362]
+polygon = PackedVector2Array(-49, -682.1, -49, -681, -98.099976, -681, -189.19995, -674, -201.09998, -674, -291.3, -661, -298.2, -661, -392.40002, -641, -397.3, -641, -487.59998, -615, -491.40002, -615, -570.4, -586, -573.4, -586, -657.4, -548, -660.5, -548, -699.6, -527, -701.6, -527, -773.6, -483, -775.7, -483, -837.7, -437, -839.8, -437, -897.8, -385, -899.9, -385, -948.9, -332, -950, -332, -989, -280, -990.2, -280, -1021.1, -228, -1022.3, -228, -1048.4, -170, -1049.5, -170, -1070, -104.29999, -1070, -102.20001, -1066.8, -99, -1061, -99, -993.9, -102, -990.3, -102, -967.3, -95, -964.8, -95, -923, -57.099976, -923, -55.700012, -900.4, -46, -899.2, -46, -884.2, -17, -880.3, -17, -869, -86.79999, -869, -92.79999, -854, -141.70001, -854, -145.5, -842, -173.59998, -842, -176.5, -816, -226.5, -816, -228.4, -800, -252.4, -800, -254.4, -755, -312.3, -755, -314.2, -687, -381.2, -687, -382, -607, -441, -607, -441.8, -541, -479.8, -541, -480.8, -479, -509.7, -479, -510.7, -435, -527.6, -435, -528.6, -368, -550.5, -368, -551.4, -288, -571.4, -288, -572.3, -205, -586.3, -205, -587.2, -133, -594.2, -133, -595.2, -84.900024, -598, 4.800049, -598, 76.900024, -592, 87.69995, -592, 163.80005, -580, 169.5, -580, 246.80005, -562, 250.69995, -562, 334.69995, -535, 337.40002, -535, 421.59998, -499, 424.40002, -499, 492.5, -462, 494.30005, -462, 555.4, -421, 557.19995, -421, 616.30005, -372, 618.1, -372, 675.1, -313, 676, -313, 712, -265, 712.80005, -265, 746.80005, -207, 747.6, -207, 771.69995, -150, 772.3999, -150, 788.3999, -91, 789.19995, -91, 797.19995, -23, 798, -23, 798, 25, 795, 47.900024, 795, 56.599976, 782, 116.79999, 782, 120.5, 758, 182.59998, 758, 185.29999, 727, 241.5, 727, 243.29999, 696, 286.3, 696, 288.2, 658, 331.19995, 658, 333, 608, 380.09998, 608, 381, 556, 421, 556, 421.80005, 503, 455.90002, 503, 456.69995, 461, 479.80005, 461, 480.69995, 392, 512.69995, 392, 513.5, 322, 539.6, 322, 540.4, 249, 561.5, 249, 562.30005, 168, 579.4, 168, 580.19995, 86, 591.19995, 86, 592.1, 40, 595.1, 40, 596, -121.80005, 596, -198.90002, 587, -206.59998, 587, -243.80005, 580, -249.5, 580, -309.8, 566, -314.7, 566, -365.7, 551, -369.59998, 551, -433.59998, 528, -436.40002, 528, -477.59998, 510, -480.5, 510, -540.5, 480, -542.5, 480, -582.4, 456, -584.3, 456, -635.4, 421, -637.2, 421, -669.3, 395, -671.1, 395, -707.2, 362, -709.1, 362, -755.1, 313, -756, 313, -792, 265, -792.9, 265, -811.9, 234, -812.7, 234, -841.7, 175, -842.5, 175, -861.5, 119, -862.3, 119, -873.3, 63, -874.2, 63, -878, 24.799988, -878, -10.799988, -881.2, -14, -884.1, -14, -888, -7.5999756, -888, -6.0999756, -898.7, 1, -906.4, 1, -913.5, -3, -915, -3, -920, -9.700012, -920, -11.299988, -927.5, -15, -929.3, -15, -946.2, -30, -948, -30, -958, -42.799988, -958, -44.900024, -980, -65, -980, -67, -1049, -68, -1056.3, -68, -1070.6, -64, -1074.3, -64, -1076.3, -60, -1077.9, -60, -1080.9, -5, -1082.2, -5, -1078, 50.200012, -1078, 59.200012, -1070, 99.400024, -1070, 104.29999, -1061, 133.20001, -1061, 137.40002, -1038, 193.5, -1038, 196.5, -1024, 222.59998, -1024, 224.59998, -1000, 263.59998, -1000, 265.7, -976, 297.59998, -976, 299.8, -937, 344.69995, -937, 346.90002, -915, 367.90002, -915, 369.90002, -846, 430.80005, -846, 432, -777, 481.09998, -777, 482.19995, -703, 525.19995, -703, 526.30005, -662, 546.19995, -662, 547.30005, -590, 578.30005, -590, 579.4, -523, 603.4, -523, 604.5, -449, 626.4, -449, 627.6, -399, 639.6, -399, 640.69995, -300, 659.6, -300, 660.80005, -237, 668.69995, -237, 669.9, -100, 679.80005, -100, 681, -47, 682, -33, 682, 58.099976, 678, 73.099976, 678, 146.19995, 670, 155.19995, 670, 211.30005, 661, 218.19995, 661, 312.40002, 641, 317.30005, 641, 382.5, 623, 386.40002, 623, 505.40002, 580, 508.40002, 580, 577.5, 548, 580.5, 548, 619.6, 527, 621.6, 527, 693.6, 483, 695.69995, 483, 725.69995, 461, 727.69995, 461, 792.80005, 408, 794.80005, 408, 832.8999, 371, 833.8999, 371, 876, 324, 877, 324, 900, 293, 901.1001, 293, 936.1001, 237, 937.30005, 237, 956.30005, 198, 957.3999, 198, 979.3999, 139, 980.6001, 139, 988.6001, 106, 989.80005, 106, 998.80005, 43, 1000, 43, 1001, 5, 1002.19995, 5, 997, -59.200012, 997, -67.20001, 981, -133.5, 981, -137.40002, 958, -193.59998, 958, -196.5, 923, -258.7, 923, -260.7, 877, -321.7, 877, -323.8, 821, -382.9, 821, -383.9, 761, -435, 761, -436.1, 697, -481.2, 697, -482.2, 623, -525.3, 623, -526.3, 541, -565.3, 541, -566.4, 449, -601.5, 449, -602.5, 369, -626.5, 369, -627.6, 269, -650.7, 269, -651.7, 173, -666.8, 173, -667.9, 60, -677.9, 60, -679)
+
+[node name="StraightWall" type="RigidBody2D" parent="MapElements/Walls" unique_id=1424993534]
+z_index = 2
+position = Vector2(-1651, -293)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall" unique_id=1209079101]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall" unique_id=965197825]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall2" type="RigidBody2D" parent="MapElements/Walls" unique_id=720620117]
+z_index = 2
+position = Vector2(288, -156)
+rotation = 0.41967374
+scale = Vector2(0.275, 0.365)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall2" unique_id=556623677]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall2" unique_id=342742381]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall3" type="RigidBody2D" parent="MapElements/Walls" unique_id=1350561336]
+z_index = 2
+position = Vector2(423, -474)
+rotation = 0.41967374
+scale = Vector2(0.275, 0.365)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall3" unique_id=374775843]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall3" unique_id=1304334993]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall4" type="RigidBody2D" parent="MapElements/Walls" unique_id=1885005080]
+z_index = 2
+position = Vector2(388.99997, -35.999992)
+rotation = 1.9896754
+scale = Vector2(0.275, 0.65)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall4" unique_id=478595313]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall4" unique_id=1309085451]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall5" type="RigidBody2D" parent="MapElements/Walls" unique_id=944479878]
+z_index = 2
+position = Vector2(454, 182)
+rotation = 4.16261
+scale = Vector2(0.275, 0.235)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall5" unique_id=1533543111]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall5" unique_id=17473838]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall6" type="RigidBody2D" parent="MapElements/Walls" unique_id=1229716474]
+z_index = 2
+position = Vector2(-536, 217.00002)
+rotation = -0.5009095
+scale = Vector2(0.275, 0.32)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall6" unique_id=1361721927]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall6" unique_id=1668836001]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall9" type="RigidBody2D" parent="MapElements/Walls" unique_id=1236620267]
+z_index = 2
+position = Vector2(-634.0001, -29.999977)
+rotation = -0.27401668
+scale = Vector2(0.275, 0.32)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall9" unique_id=1159830571]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall9" unique_id=1405289960]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall7" type="RigidBody2D" parent="MapElements/Walls" unique_id=2120919234]
+z_index = 2
+position = Vector2(-242, 367)
+rotation = -1.3072516
+scale = Vector2(0.275, 0.31)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall7" unique_id=1010018386]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall7" unique_id=2027058710]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall8" type="RigidBody2D" parent="MapElements/Walls" unique_id=1716446406]
+z_index = 2
+position = Vector2(-224.00003, 483)
+rotation = 0.6370452
+scale = Vector2(0.275, 0.54)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall8" unique_id=794876408]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall8" unique_id=2139137310]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall10" type="RigidBody2D" parent="MapElements/Walls" unique_id=1574822010]
+z_index = 2
+position = Vector2(-408, -281)
+rotation = 0.48520154
+scale = Vector2(0.275, 1.08)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall10" unique_id=1440520103]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall10" unique_id=1453553143]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="ClawManager" type="Node" parent="." unique_id=1116939556 node_paths=PackedStringArray("player", "claw_origin")]
 script = ExtResource("3_ef0cl")

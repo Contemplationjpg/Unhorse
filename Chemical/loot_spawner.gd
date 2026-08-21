@@ -12,14 +12,20 @@ extends Node
 @onready var spawn_points : Array[Node] = loot_holder.get_children()
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
+var restocking : bool = false
 
 func _ready() -> void:
 	gm.start_restock.connect(restock)
 	spawn_all_loot_types()
 
 func restock():
+	if restocking:
+		return
+	restocking = true
 	clear_all_loot()
+	await get_tree().create_timer(0.2).timeout
 	spawn_all_loot_types()
+	restocking = false
 
 
 func clear_all_loot():
@@ -59,10 +65,10 @@ func spawn_normal_loot(specified_amount : int = 0):
 		if chosen_spawn_point.get_child_count() < 1:
 			#deciding on which loot to spawn-------------------------
 			rng = randi_range(0,additive_rng_threshold-1)
-			print("rng for picking loot is " + str(rng))
+			#print("rng for picking loot is " + str(rng))
 			var index : int = 0
 			while (not chosen_loot):
-				print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
+				#print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
 				if rng >= loot_rng_values[index]:
 					index += 1
 				else:

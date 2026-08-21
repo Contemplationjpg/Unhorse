@@ -19,7 +19,7 @@ size = Vector2(5.795, 136.855)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_d5xax"]
 
-[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow")]
+[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow", "auto_spin_toggle")]
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -30,12 +30,13 @@ grow_horizontal = 0
 script = ExtResource("1_6dxip")
 wheel = NodePath("RouletteWheel")
 arrow = NodePath("RouletteWheelArrow/Area2D")
+auto_spin_toggle = NodePath("AutoSpinToggle/CheckButton")
 max_spin_velocity = 5.0
 spin_acceleration = 3.0
 spin_deceleration = 2.0
-time_before_stoppable = 1.0
+time_before_stoppable = 2.5
 stop_buffer_window = 0.5
-time_before_auto_stop = 3.0
+time_before_auto_stop = 6.0
 
 [node name="RouletteWheel" type="TextureRect" parent="." unique_id=1719831233]
 layout_mode = 1
@@ -247,3 +248,28 @@ position = Vector2(520, 290)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RouletteWheelArrow/Area2D" unique_id=1650092553]
 rotation = 1.5707964
 shape = SubResource("SegmentShape2D_d5xax")
+
+[node name="AutoSpinToggle" type="Control" parent="." unique_id=1027693621]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="CheckButton" type="CheckButton" parent="AutoSpinToggle" unique_id=853108025]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1000.0
+offset_top = -128.0
+offset_right = -759.99994
+offset_bottom = -96.0
+grow_horizontal = 0
+scale = Vector2(4.115, 4.115)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Enable Auto Spin"
+alignment = 1

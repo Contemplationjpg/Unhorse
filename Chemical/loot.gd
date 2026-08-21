@@ -109,6 +109,7 @@ var bounce_bonus : float = 1
 var bounces : int = 0
 
 var nearby_loot_on_drop : Array[Loot] = [] #container for other loot that is nearby when we drop so that we know which loot to impulse
+var nearby_bumpers_on_drop : Array[Bumper] = [] #container for other bumpers that is nearby when we drop so that we know which bumpers to impulse
 
 
 func _ready() -> void:
@@ -139,9 +140,10 @@ func _physics_process(delta: float) -> void:
 
 	#debug------------------------------------------------
 	if print_linear_velocity:
-		print(str(linear_velocity.length()))
-		print(sprite.self_modulate.s)
+		#print(str(linear_velocity.length()))
+		#print(sprite.self_modulate.s)
 		#print(str(bounce_bonus))
+		print(z_index)
 	
 	if score_on_debug_button:
 		if Input.is_action_just_pressed("debug"):
@@ -158,7 +160,7 @@ func _process(delta: float) -> void:
 	#procedure for being picked up into the air
 	if picked_up:
 		coll.disabled = true
-		z_index = 2 #should be on a higher z_index than items on the ground (ground = z_index 1)
+		sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
 		linear_velocity = Vector2.ZERO
 		if sprite.scale < Vector2(max_scale, max_scale):
 			sprite.scale += Vector2(rise_scale_change_per_sec * delta, rise_scale_change_per_sec * delta)
@@ -173,8 +175,9 @@ func _process(delta: float) -> void:
 			sprite.scale = Vector2(min_scale, min_scale) #failsafe for if it lags and we go past the min size
 		else: #once we are exactly the minimum size, we can assume that we have touched the ground
 			just_landed.emit()
-			z_index = 1 #z_index 1 is ground level
+			sprite.z_index = 1 #z_index 1 is ground level
 			coll.disabled = false #since we touched ground, we can interact with other loot now
+			increment_bounce_bonus()
 			if do_impulse_on_landing:
 				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
 	
@@ -219,15 +222,19 @@ func on_score_non_destroy(): #scores without destroying self
 	gm.gain_points(score)
 	just_scored.emit()
 	gm.on_loot_scored.emit(global_position, score) #on_loot_scored() used for scorekeeper to spawn point notifs around the score location
+
+func increment_bounce_bonus():
 	
+	if bounces_until_max_bounce_bonus >= 0:
+		if bounces < bounces_until_max_bounce_bonus:
+			bounce_bonus += bounce_bonus_increase_per_bounce
+			gm.on_loot_bonus_update.emit(global_position, bounce_bonus)
 
 func on_bounce(_body : Node2D):
 	if not track_bounces:
 		return
 	just_bounced.emit()
-	if bounces_until_max_bounce_bonus >= 0:
-		if bounces < bounces_until_max_bounce_bonus:
-			bounce_bonus += bounce_bonus_increase_per_bounce
+	increment_bounce_bonus()
 	if speeds_up_with_bounces:
 		#make copy of linear_velocity to edit
 		var new_linear_velocity = linear_velocity
@@ -272,18 +279,31 @@ func _on_body_entered(body : Node2D):
 	if other_loot:
 		if nearby_loot_on_drop.find(other_loot) == -1: #find() returns -1 if nothing found
 			nearby_loot_on_drop.append(other_loot)
+	var bumper = body as Bumper
+	if bumper:
+		if nearby_bumpers_on_drop.find(bumper) == -1: #find() returns -1 if nothing found
+			nearby_bumpers_on_drop.append(bumper)
 
 func _on_body_exit(body : Node2D):
 	var other_loot = body as Loot
 	if other_loot:
 		if not nearby_loot_on_drop.find(other_loot) == -1:#find() returns -1 if nothing found
 			nearby_loot_on_drop.erase(other_loot)
+	var bumper = body as Bumper
+	if bumper:
+		if not nearby_bumpers_on_drop.find(bumper) == -1: #find() returns -1 if nothing found
+			nearby_bumpers_on_drop.erase(bumper)
 
 func push_away_nearby():
 	for i in nearby_loot_on_drop:
 		var push_dir : Vector2 = (i.global_position - global_position).normalized()
 		i.apply_central_impulse(push_dir * impulse_amount * impulse_modifier)
 		apply_central_impulse(-push_dir*impulse_amount*impulse_modifier) #applies half of impulse on self but this will probably be changed to be full impulse
+	for i in nearby_bumpers_on_drop:
+		var push_dir : Vector2 = (i.global_position - global_position).normalized()
+		i.apply_central_impulse(push_dir * impulse_amount * impulse_modifier)
+		apply_central_impulse(-push_dir*impulse_amount*impulse_modifier) #applies half of impulse on self but this will probably be changed to be full impulse
+		i.on_bump()
 	impulse_modifier = 1
 
 

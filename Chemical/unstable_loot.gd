@@ -7,10 +7,11 @@ var exploding = false
 
 func _ready() -> void:
 	super()
-	just_landed.connect(play_explosion)
-	just_bounced.connect(play_explosion)
+	just_landed.connect(landing_explosion)
+	just_bounced.connect(bouncing_explosion)
 
-func play_explosion():
+
+func explode():
 	if not exploding:
 		exploding = true
 		can_score = false
@@ -20,3 +21,11 @@ func play_explosion():
 		explosion_effect.emitting = true
 		await explosion_effect.finished
 		queue_free()
+
+func landing_explosion():
+	explode()
+
+func bouncing_explosion():
+	if linear_velocity.length() < 50:
+		return
+	explode()

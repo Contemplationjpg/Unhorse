@@ -33,10 +33,8 @@ extends CharacterBody2D
 @export var loot_point_value_modifier : float = 1
 
 
-
-
-@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
-@onready var area : Area2D = $Area2D
+@export var sprite : AnimatedSprite2D 
+@export var area : Area2D
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
 
@@ -93,12 +91,12 @@ func _ready() -> void:
 	sprite.self_modulate.a = min_opacity
 	sprite.scale = Vector2(max_scale,max_scale)
 	sprite.animation = "idle"
+	sprite.play("idle")
 	update_stats()
 	
 	#setting up signals------------------
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
-
 
 
 func claw_process(delta : float): 
@@ -158,7 +156,7 @@ func claw_process(delta : float):
 				sprite.scale = Vector2(max_scale, max_scale)
 
 			if sprite.self_modulate.a <= min_opacity and sprite.scale == Vector2(max_scale, max_scale):#this chunk happens when the claw has effectively reached the top
-				print("rose")
+				#print("rose")
 				claw_end_rise.emit() #tells that we made it back to the top
 	
 
@@ -196,13 +194,19 @@ func update_stats():
 	
 
 #claw actions------------------------------------------------------
-
 func move():
 	#claw movement------------------------------------------
-	if not grabbing: #checks if you are grabbing or not
+	if not grabbing:
 		var move_dir = Input.get_vector("left", "right","up","down")
+<<<<<<< Updated upstream
 		velocity = move_dir * move_speed
 
+=======
+		velocity = move_dir * (move_speed * gm.claw_current_move_speed_upgrade_amount) 
+	
+	else:
+		velocity = Vector2.ZERO
+>>>>>>> Stashed changes
 	move_and_slide() #include this after anything that changes velocity or involves collision
 
 
@@ -226,7 +230,6 @@ func grab():
 
 	#begin the grab process--------------------------
 	grabbing = true #starting grab
-	velocity = Vector2.ZERO
 
 	#claw drop---------------------
 	claw_start_drop.emit()
@@ -242,14 +245,14 @@ func grab():
 	await claw_start_scoop
 	claw_start_scoop.emit()
 	scooping = true
-	sprite.animation = "grab" #does grab animation for active grab box
+	sprite.play("grab")#does grab animation for active grab box
 
 	scoop_time_timer = scoop_time
 	await claw_end_scoop
 	scooping = false
 
 	claw_start_suspension.emit()
-	sprite.animation = "holding" #loops holding animation until claw rises to the top
+	sprite.play("holding")#loops holding animation until claw rises to the top
 	suspending = true
 	grab_pause_timer = grab_pause #starts grab pause
 	await claw_end_suspension #waits for grab pause timer to be up
@@ -265,8 +268,9 @@ func grab():
 	rising = false
 	
 	if not holding:
-		sprite.animation = "idle" #if not actually holding anything, goes back to idle
-
+		sprite.play("release_fail")#if not actually holding anything, do release animation then back to idle
+		await sprite.animation_finished
+		sprite.play("idle")
 	grabbing = false #end of grab process
 	grab_cooldown_timer = grab_cooldown #starts grab cooldown
 
@@ -286,11 +290,14 @@ func drop():
 		return
 	#print("dropping")
 	while (loot_held.size() > 0):
-		loot_held[-1].reparent(get_parent())
-		loot_held[-1].get_dropped(self)
+		if is_instance_valid(loot_held[-1]):
+			loot_held[-1].reparent(get_parent())
+			loot_held[-1].get_dropped(self)
 		loot_held.remove_at(-1)
+	sprite.play("release_success")
+	await sprite.animation_finished
+	sprite.play("idle")#after you drop everything, goes back to idle
 	holding = false
-	sprite.animation = "idle" #after you drop everything, goes back to idle
 
 #repeatedly called when scooping = true to pick up any loot that is within range of the scoopbox
 func pick_up_loot():
@@ -321,3 +328,5 @@ func _on_body_exit(body : Node2D):
 	if loot_index != -1: #find() returns -1 if target not found, so loot_index == -1 if not in our list somehow
 		#print("removing body")
 		loot_in_range.remove_at(loot_index) #uses loot index to know which loot to remove
+
+#misc-------------------------------------

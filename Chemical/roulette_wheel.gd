@@ -3,6 +3,7 @@ extends Control
 @export_group("Wheel Setup")
 @export var wheel : Control
 @export var arrow : Area2D
+@export var auto_spin_toggle : Button
 @export_group("Spin Settings")
 @export var spin_clockwise : bool = true
 @export var max_spin_velocity : float = 100 #degrees of rotation per second
@@ -28,6 +29,7 @@ var stop_input_buffered : bool = false
 var current_spin_velocity : float = 0
 var time_before_stoppable_timer : float = 0
 var time_before_auto_stop_timer : float = 0
+var auto_spin : bool = false
 
 #dealing with rewards
 var last_color : int = 0
@@ -39,6 +41,10 @@ var last_color : int = 0
 
 func _ready() -> void:
 	arrow.area_entered.connect(on_enter_area)
+	auto_spin_toggle.toggled.connect(on_auto_spin_toggle)
+
+func on_auto_spin_toggle(toggle : bool):
+	auto_spin = toggle
 
 #scoring------------------------------------------------------------------
 
@@ -71,7 +77,11 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+<<<<<<< Updated upstream
 	if Input.is_action_just_pressed("debug"):
+=======
+	if Input.is_action_just_pressed("spin") or auto_spin:
+>>>>>>> Stashed changes
 		handle_spin_input()
 
 	#spinning------------------------------------
@@ -80,14 +90,14 @@ func _physics_process(delta: float) -> void:
 		#logic for deciding if the spin should begin stopping process----------------------
 		if not stopping_spin:
 			if time_before_auto_stop > 0 and time_before_auto_stop_timer <= 0:
-				print("autostopping wheel")
+				#print("autostopping wheel")
 				stop_wheel()
 			if stop_input_buffered:
 				if time_before_stoppable_timer <= 0:
 					stop_wheel()
 					stop_input_buffered = false
 				else:
-					print("stop input buffered but still on cooldown")
+					pass#print("stop input buffered but still on cooldown")
 		
 		#calculating the spin velocity of the wheel using spin acceleration-----------------------
 		if not stopping_spin:
@@ -144,7 +154,7 @@ func buffer_stop_spin_input():
 		if time_before_stoppable > 0: #if time_before_stoppable is a positive non-zero number, check the timer
 			if time_before_stoppable_timer <= stop_buffer_window: #only buffers input if close enough to the time
 				stop_input_buffered = true
-				print("stop input buffered")
+				#print("stop input buffered")
 			else: #if no cooldown to stop, just buffers the stop input
 				stop_input_buffered = true
 
@@ -153,7 +163,7 @@ func buffer_stop_spin_input():
 func spin_wheel() -> bool: #starts spinning the wheel and starts associated timers
 	if spinning:
 		return false
-	print("starting wheel")
+	#print("starting wheel")
 	if time_before_stoppable > 0:
 		time_before_stoppable_timer = time_before_stoppable
 	if time_before_auto_stop > 0:
@@ -165,12 +175,12 @@ func spin_wheel() -> bool: #starts spinning the wheel and starts associated time
 
 
 func stop_wheel(): #begins to slow down the wheel
-	print("stopping wheel")
+	#print("stopping wheel")
 	stopping_spin = true
 	on_stop_spin.emit()
 
 func force_stop_wheel():#forces wheel to stop spinning
-	print("wheel fully stopped")
+	#print("wheel fully stopped")
 	spinning = false
 	stop_input_buffered = false
 	current_spin_velocity = 0

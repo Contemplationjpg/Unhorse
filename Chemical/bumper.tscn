@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dkynhabmqo2kb"]
+
+[ext_resource type="Script" uid="uid://bsdvjn7nf8guf" path="res://Chemical/bumper.gd" id="1_s26wb"]
+[ext_resource type="Texture2D" uid="uid://c6d0x8os8kixr" path="res://Assets/Sprites/circle_bumper_sprite_sheets.png" id="2_khhgv"]
+[ext_resource type="Texture2D" uid="uid://dlg1kr6rib4us" path="res://Assets/Sprites/unhorse.png" id="3_khhgv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbpmj"]
+atlas = ExtResource("2_khhgv")
+region = Rect2(600, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbdq3"]
+atlas = ExtResource("2_khhgv")
+region = Rect2(0, 0, 600, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_imfbs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbpmj")
+}],
+"loop": 1,
+"name": &"big",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbdq3")
+}],
+"loop": 1,
+"name": &"small",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ar5xx"]
+radius = 70.38
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
+radius = 114.56
+
+[node name="Bumper" type="RigidBody2D" unique_id=673764108 node_paths=PackedStringArray("sprite", "extend_area", "extend_coll", "bump_counter", "pilot_sprite")]
+z_index = 1
+collision_layer = 2
+collision_mask = 10
+gravity_scale = 0.0
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_s26wb")
+sprite = NodePath("AnimatedSprite2D")
+extend_area = NodePath("Area2D")
+extend_coll = NodePath("ExtendedCollisionShape2D")
+bump_counter = NodePath("CanvasLayer/BumpCount")
+pilot_sprite = NodePath("Sprite2D")
+extend_time = 0.2
+max_bumps = 0
+final_blink_speed = 0.25
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1874487429]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_imfbs")
+animation = &"small"
+
+[node name="RetractedCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1897012052]
+shape = SubResource("CircleShape2D_ar5xx")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1449030361]
+collision_layer = 2
+collision_mask = 2
+
+[node name="ExtendedCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1228371560]
+shape = SubResource("CircleShape2D_d5xax")
+
+[node name="ExtendedCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1796269592]
+shape = SubResource("CircleShape2D_d5xax")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1821718877]
+top_level = true
+z_index = 1
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("3_khhgv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1845491475]
+follow_viewport_enabled = true
+
+[node name="BumpCount" type="RichTextLabel" parent="CanvasLayer" unique_id=432072801]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "asdsadasdasd"
+horizontal_alignment = 1
+vertical_alignment = 1

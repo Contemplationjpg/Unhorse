@@ -1,20 +1,22 @@
 [gd_scene format=3 uid="uid://bnas8m50yl24m"]
 
 [ext_resource type="Script" uid="uid://c6j6i0mpm4e25" path="res://Chemical/loot.gd" id="1_usjsk"]
-[ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_fu0uw"]
+[ext_resource type="Texture2D" uid="uid://dp5827spjw8n5" path="res://Assets/Sprites/small_loot.png" id="2_1jexq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]
 friction = 0.2
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
+radius = 31.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
+radius = 33.0
 
-[node name="Loot" type="RigidBody2D" unique_id=596486904]
+[node name="SmallLoot" type="RigidBody2D" unique_id=596486904]
 z_index = 1
 collision_layer = 2
-collision_mask = 10
+collision_mask = 26
 physics_material_override = SubResource("PhysicsMaterial_6hamn")
 gravity_scale = 0.0
 contact_monitor = true
@@ -25,15 +27,15 @@ bounces_until_max_color = 3
 speeds_up_with_bounces = true
 mult_bounce_speed_up = 1.5
 has_speed_cap = true
-speed_cap = 500.0
+speed_cap = 1000.0
 impulse_amount = 500.0
 min_scale = 0.125
-max_scale = 0.5
+max_scale = 0.25
 color_value_lower_speed = 0.25
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
 scale = Vector2(0.125, 0.125)
-texture = ExtResource("2_fu0uw")
+texture = ExtResource("2_1jexq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1047960950]
 shape = SubResource("CircleShape2D_d5xax")

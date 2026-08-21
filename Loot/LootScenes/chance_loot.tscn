@@ -1,22 +1,22 @@
 [gd_scene format=3 uid="uid://c61baogkacke0"]
 
 [ext_resource type="Script" uid="uid://ck5inm2pfk2ab" path="res://Chemical/chance_loot.gd" id="1_u2b8w"]
-[ext_resource type="Texture2D" uid="uid://q3kom7kvwyf5" path="res://green_icon.png" id="2_tybdk"]
+[ext_resource type="Texture2D" uid="uid://c2jqjgtgr1msh" path="res://Assets/Sprites/chance_loot.png" id="2_mx8wa"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]
 friction = 0.2
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
-radius = 15.0
+radius = 43.011627
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
-radius = 15.0
+radius = 45.099888
 
 [node name="ChanceLoot" type="RigidBody2D" unique_id=596486904]
 z_index = 1
 collision_layer = 2
-collision_mask = 10
+collision_mask = 26
 physics_material_override = SubResource("PhysicsMaterial_6hamn")
 gravity_scale = 0.0
 contact_monitor = true
@@ -28,12 +28,12 @@ bounces_until_max_color = 3
 mult_bounce_speed_up = 1.5
 impulse_amount = 800.0
 min_scale = 0.175
-max_scale = 0.8
+max_scale = 0.35
 color_value_lower_speed = 0.25
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("2_tybdk")
+texture = ExtResource("2_mx8wa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1047960950]
 shape = SubResource("CircleShape2D_d5xax")
