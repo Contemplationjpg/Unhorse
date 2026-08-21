@@ -34,8 +34,8 @@ func _on_buy_play_pressed() -> void:
 
 
 func _on_restock_pressed() -> void:
-	pass # Replace with function body.
-			
+	if gm.spend_points(restock_price):
+		gm.start_restock.emit()
 
 
 func _on_mid_hole_multiplier_pressed() -> void:

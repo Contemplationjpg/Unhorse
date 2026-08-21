@@ -7,6 +7,7 @@ extends RigidBody2D
 
 @export_category("Stats")
 @export var base_point_value : int = 10
+@export var spawn_rate : int = 1
 @export_group("Bounce Bonus")
 ##if this is false, this still experiences collisions but none of the bounce tracking code will work
 @export var track_bounces = true
@@ -115,6 +116,7 @@ func _ready() -> void:
 	area.body_exited.connect(_on_body_exit)
 	body_entered.connect(on_bounce)
 	gm.update_loot.connect(update_upgrades)
+	gm.clear_all_loot.connect(on_clear_all_loot)
 	update_upgrades()
 	
 
@@ -281,7 +283,7 @@ func push_away_nearby():
 	for i in nearby_loot_on_drop:
 		var push_dir : Vector2 = (i.global_position - global_position).normalized()
 		i.apply_central_impulse(push_dir * impulse_amount * impulse_modifier)
-		apply_central_impulse(-push_dir*impulse_amount*impulse_modifier/2) #applies half of impulse on self but this will probably be changed to be full impulse
+		apply_central_impulse(-push_dir*impulse_amount*impulse_modifier) #applies half of impulse on self but this will probably be changed to be full impulse
 	impulse_modifier = 1
 
 
@@ -330,4 +332,6 @@ func reset_all_modifiers():
 	velocity_modifier = 1
 	point_value_modifier = 1
 	
-	
+func on_clear_all_loot():
+	if not picked_up:
+		queue_free()
