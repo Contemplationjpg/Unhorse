@@ -1,4 +1,4 @@
-class_name BasicClaw
+class_name ExcavatorClaw
 extends Claw
 
 #states:
