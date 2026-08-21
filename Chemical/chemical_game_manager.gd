@@ -16,6 +16,9 @@ signal on_loot_scored(position : Vector2, amount : int)
 signal update_loot()
 signal update_holes()
 
+signal start_restock()
+signal clear_all_loot()
+
 #resources--------------------------------
 var points : int = 500
 var plays : int = 3

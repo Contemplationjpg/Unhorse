@@ -10,11 +10,12 @@
 [ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
-[ext_resource type="PackedScene" uid="uid://bs5mn6vsda2j8" path="res://Loot/loot.tscn" id="6_6hamn"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
-[ext_resource type="PackedScene" uid="uid://c61baogkacke0" path="res://Loot/chance_loot.tscn" id="12_kkfpl"]
+[ext_resource type="Script" uid="uid://da51dwybjwdoa" path="res://Chemical/loot_spawner.gd" id="8_o6s1u"]
+[ext_resource type="Resource" uid="uid://ct8gfj3o0td78" path="res://Loot/small_loot.tres" id="9_i5c22"]
+[ext_resource type="Resource" uid="uid://ccnoh1gnjowpv" path="res://Loot/chance_loot.tres" id="10_bxr3p"]
+[ext_resource type="Resource" uid="uid://dk7j78hhjy7s1" path="res://Loot/unstable_loot.tres" id="11_i5c22"]
 [ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
-[ext_resource type="PackedScene" uid="uid://lue0nuj2y0u6" path="res://Loot/unstable_loot.tscn" id="15_fqalb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
 size = Vector2(125, 125)
@@ -390,95 +391,122 @@ shape = SubResource("RectangleShape2D_imfbs")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall4/CollisionShape2D" unique_id=1369724450]
 texture = ExtResource("1_s6qaj")
 
-[node name="LootHolder" type="Node2D" parent="." unique_id=690896822]
+[node name="LootSpawner" type="Node" parent="." unique_id=1664982518 node_paths=PackedStringArray("loot_holder")]
+script = ExtResource("8_o6s1u")
+loot_types = Array[Resource]([ExtResource("9_i5c22"), ExtResource("10_bxr3p")])
+special_loot_types = Array[Resource]([ExtResource("11_i5c22")])
+loot_holder = NodePath("LootHolder")
+
+[node name="LootHolder" type="Node2D" parent="LootSpawner" unique_id=690896822]
 position = Vector2(-24, -6)
 
-[node name="Loot" parent="LootHolder" unique_id=596486904 instance=ExtResource("6_6hamn")]
-position = Vector2(22, -126)
+[node name="LootSpawnPoint" type="Node2D" parent="LootSpawner/LootHolder" unique_id=36567937]
+position = Vector2(-465, -190)
 
-[node name="Loot2" parent="LootHolder" unique_id=987739729 instance=ExtResource("6_6hamn")]
-position = Vector2(-176, 178)
+[node name="LootSpawnPoint2" type="Node2D" parent="LootSpawner/LootHolder" unique_id=513159666]
+position = Vector2(-467, -123)
 
-[node name="Loot3" parent="LootHolder" unique_id=1356929305 instance=ExtResource("6_6hamn")]
-position = Vector2(49, 87)
+[node name="LootSpawnPoint3" type="Node2D" parent="LootSpawner/LootHolder" unique_id=578723427]
+position = Vector2(-466, -57)
 
-[node name="Loot4" parent="LootHolder" unique_id=1654726171 instance=ExtResource("6_6hamn")]
-position = Vector2(-474, -4)
+[node name="LootSpawnPoint4" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1964788555]
+position = Vector2(-462, 58)
 
-[node name="Loot5" parent="LootHolder" unique_id=2005018646 instance=ExtResource("6_6hamn")]
-position = Vector2(-271, -5)
+[node name="LootSpawnPoint5" type="Node2D" parent="LootSpawner/LootHolder" unique_id=76737615]
+position = Vector2(-464, 125)
 
-[node name="Loot6" parent="LootHolder" unique_id=709930049 instance=ExtResource("6_6hamn")]
-position = Vector2(-139, 71)
+[node name="LootSpawnPoint6" type="Node2D" parent="LootSpawner/LootHolder" unique_id=738426779]
+position = Vector2(-463, 191)
 
-[node name="Loot7" parent="LootHolder" unique_id=216396073 instance=ExtResource("6_6hamn")]
-position = Vector2(86, -20)
+[node name="LootSpawnPoint7" type="Node2D" parent="LootSpawner/LootHolder" unique_id=664903856]
+position = Vector2(-330, -186)
 
-[node name="Loot8" parent="LootHolder" unique_id=374112385 instance=ExtResource("6_6hamn")]
-position = Vector2(-437, -111)
+[node name="LootSpawnPoint8" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1558802182]
+position = Vector2(-332, -119)
 
-[node name="Loot9" parent="LootHolder" unique_id=702552544 instance=ExtResource("6_6hamn")]
-position = Vector2(-312, -99)
+[node name="LootSpawnPoint9" type="Node2D" parent="LootSpawner/LootHolder" unique_id=358001814]
+position = Vector2(-331, -53)
 
-[node name="Loot10" parent="LootHolder" unique_id=327028529 instance=ExtResource("6_6hamn")]
-position = Vector2(-94, -2)
+[node name="LootSpawnPoint10" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1035645625]
+position = Vector2(-276, 33)
 
-[node name="Loot11" parent="LootHolder" unique_id=713028287 instance=ExtResource("6_6hamn")]
-position = Vector2(131, -93)
+[node name="LootSpawnPoint11" type="Node2D" parent="LootSpawner/LootHolder" unique_id=42668495]
+position = Vector2(-329, 129)
 
-[node name="Loot12" parent="LootHolder" unique_id=492681763 instance=ExtResource("6_6hamn")]
-position = Vector2(-392, -184)
+[node name="LootSpawnPoint12" type="Node2D" parent="LootSpawner/LootHolder" unique_id=421544737]
+position = Vector2(-328, 195)
 
-[node name="Loot13" parent="LootHolder" unique_id=1491478327 instance=ExtResource("6_6hamn")]
-position = Vector2(-362, 141)
+[node name="LootSpawnPoint13" type="Node2D" parent="LootSpawner/LootHolder" unique_id=858646995]
+position = Vector2(-223, -190)
 
-[node name="Loot14" parent="LootHolder" unique_id=627229931 instance=ExtResource("6_6hamn")]
-position = Vector2(-230, 217)
+[node name="LootSpawnPoint14" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1387807240]
+position = Vector2(-251, -126)
 
-[node name="Loot15" parent="LootHolder" unique_id=1878537930 instance=ExtResource("6_6hamn")]
-position = Vector2(-5, 126)
+[node name="LootSpawnPoint15" type="Node2D" parent="LootSpawner/LootHolder" unique_id=248946783]
+position = Vector2(-224, -57)
 
-[node name="Loot16" parent="LootHolder" unique_id=280435915 instance=ExtResource("6_6hamn")]
-position = Vector2(-481, 56)
+[node name="LootSpawnPoint16" type="Node2D" parent="LootSpawner/LootHolder" unique_id=616325792]
+position = Vector2(-181, 69)
 
-[node name="Loot17" parent="LootHolder" unique_id=489327910 instance=ExtResource("6_6hamn")]
-position = Vector2(-325, 34)
+[node name="LootSpawnPoint17" type="Node2D" parent="LootSpawner/LootHolder" unique_id=699129555]
+position = Vector2(-222, 125)
 
-[node name="Loot18" parent="LootHolder" unique_id=1438026654 instance=ExtResource("6_6hamn")]
-position = Vector2(-193, 110)
+[node name="LootSpawnPoint18" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1263142893]
+position = Vector2(-221, 191)
 
-[node name="Loot19" parent="LootHolder" unique_id=1415573398 instance=ExtResource("6_6hamn")]
-position = Vector2(-6, -38)
+[node name="LootSpawnPoint19" type="Node2D" parent="LootSpawner/LootHolder" unique_id=939062984]
+position = Vector2(-13, -188)
 
-[node name="Loot20" parent="LootHolder" unique_id=1945655761 instance=ExtResource("6_6hamn")]
-position = Vector2(-491, -72)
+[node name="LootSpawnPoint20" type="Node2D" parent="LootSpawner/LootHolder" unique_id=286323082]
+position = Vector2(34, -123)
 
-[node name="Loot21" parent="LootHolder" unique_id=1440083391 instance=ExtResource("6_6hamn")]
-position = Vector2(-280, -39)
+[node name="LootSpawnPoint21" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1478092375]
+position = Vector2(-14, -55)
 
-[node name="Loot22" parent="LootHolder" unique_id=1522615502 instance=ExtResource("6_6hamn")]
-position = Vector2(-148, 37)
+[node name="LootSpawnPoint22" type="Node2D" parent="LootSpawner/LootHolder" unique_id=931715346]
+position = Vector2(-10, 60)
 
-[node name="Loot23" parent="LootHolder" unique_id=2098286521 instance=ExtResource("6_6hamn")]
-position = Vector2(77, -54)
+[node name="LootSpawnPoint23" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1553275521]
+position = Vector2(-12, 127)
 
-[node name="Loot24" parent="LootHolder" unique_id=1035743096 instance=ExtResource("6_6hamn")]
-position = Vector2(-446, -145)
+[node name="LootSpawnPoint24" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1046896283]
+position = Vector2(-103, 114)
 
-[node name="ChanceLoot" parent="LootHolder" unique_id=982874356 instance=ExtResource("12_kkfpl")]
-position = Vector2(-82, 161)
+[node name="LootSpawnPoint25" type="Node2D" parent="LootSpawner/LootHolder" unique_id=324061307]
+position = Vector2(104, -181)
 
-[node name="ChanceLoot2" parent="LootHolder" unique_id=722748118 instance=ExtResource("12_kkfpl")]
-position = Vector2(-227, 57)
+[node name="LootSpawnPoint26" type="Node2D" parent="LootSpawner/LootHolder" unique_id=670661345]
+position = Vector2(102, -114)
 
-[node name="UnstableLoot" parent="LootHolder" unique_id=341451829 instance=ExtResource("15_fqalb")]
-position = Vector2(-44, 84)
+[node name="LootSpawnPoint27" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1648994437]
+position = Vector2(103, -48)
 
-[node name="UnstableLoot2" parent="LootHolder" unique_id=1943994952 instance=ExtResource("15_fqalb")]
-position = Vector2(167, -139)
+[node name="LootSpawnPoint28" type="Node2D" parent="LootSpawner/LootHolder" unique_id=749045144]
+position = Vector2(150, -4)
 
-[node name="UnstableLoot3" parent="LootHolder" unique_id=1677232262 instance=ExtResource("15_fqalb")]
-position = Vector2(-415, 166)
+[node name="LootSpawnPoint29" type="Node2D" parent="LootSpawner/LootHolder" unique_id=78185840]
+position = Vector2(105, 134)
+
+[node name="LootSpawnPoint30" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1595741411]
+position = Vector2(106, 200)
+
+[node name="LootSpawnPoint31" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1666230850]
+position = Vector2(196, -180)
+
+[node name="LootSpawnPoint32" type="Node2D" parent="LootSpawner/LootHolder" unique_id=109115716]
+position = Vector2(194, -113)
+
+[node name="LootSpawnPoint33" type="Node2D" parent="LootSpawner/LootHolder" unique_id=78245221]
+position = Vector2(195, -47)
+
+[node name="LootSpawnPoint34" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1286282181]
+position = Vector2(199, 68)
+
+[node name="LootSpawnPoint35" type="Node2D" parent="LootSpawner/LootHolder" unique_id=2049503368]
+position = Vector2(197, 135)
+
+[node name="LootSpawnPoint36" type="Node2D" parent="LootSpawner/LootHolder" unique_id=299993120]
+position = Vector2(198, 201)
 
 [node name="MapElements" type="Node2D" parent="." unique_id=1021434687]
 position = Vector2(-24, -6)
