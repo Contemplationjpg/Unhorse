@@ -12,8 +12,8 @@ var gm: ChemicalGameManager = ChemicalGameManager
 var current_scroll_value: int = 0
 
 #prices
-var play_price: int = 5
-var restock_price: int = 10
+var play_price: int = 100
+var restock_price: int = 0
 
 #upgrade amounts
 var mid_hole_upgrades: int = 0
@@ -34,6 +34,7 @@ var excavator_owned = false
 
 
 func _ready() -> void:
+	gm.save_loaded.connect(on_save_loaded)
 	return
 
 
@@ -46,6 +47,8 @@ func _on_buy_play_pressed() -> void:
 func _on_restock_pressed() -> void:
 	if gm.spend_points(restock_price):
 		gm.start_restock.emit()
+
+
 
 
 #upgrades---------------------------------------------------------
@@ -94,7 +97,6 @@ func _on_mid_hole_multiplier_pressed() -> void:
 			button.disabled = true
 		else:
 			button.text = "Mid Hole" + "\n+ " + str(next_amount_to_upgrade_by) + " Mult" + "\nCost: " + str(new_price)
-
 
 func _on_small_hole_multiplier_pressed() -> void:
 	var button = $SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier
@@ -237,7 +239,9 @@ func _on_claw_move_speed_pressed() -> void:
 			button.text = "Claw Move Speed " + "\nx "+ str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
 
 func _on_spawn_bumper_pressed() -> void:
-	spawn_bumper()
+	var price = 500
+	if gm.spend_points(price):
+		spawn_bumper()
 	pass # Replace with function body.
 
 func spawn_bumper():
@@ -252,23 +256,24 @@ func spawn_bumper():
 func _on_base_claw_pressed() -> void:
 	var claw_manager = $"../../../ClawManager"
 	
-	claw_manager.change_claw(0)
+	if not player.claw.grabbing and not player.claw.holding:
+		claw_manager.change_claw(0)
 
 
 func _on_excavator_pressed() -> void:
 	var claw_manager = $"../../../ClawManager"
 	var button = $SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator 
 	
-	var price = 10000
-	var spendable = gm.spend_points(price)
+	if not excavator_owned:
+		var price = 10000
+		if gm.spend_points(price):
+			excavator_owned = true
+			button.text = "Excavator"
 	
-	if excavator_owned == true:
+	if excavator_owned and not player.claw.grabbing and not player.claw.holding:
 		claw_manager.change_claw(1)
-	elif spendable == true:
-		claw_manager.change_claw(1)
-		excavator_owned = true
-		button.text = "Excavator"
 	
+
 
 func _on_shop_left_pressed() -> void:
 	var scroll_shop = $SidePanel/ShopColumns/ClawScrollShopRow
@@ -277,3 +282,17 @@ func _on_shop_left_pressed() -> void:
 func _on_shop_right_pressed() -> void:
 	var scroll_shop = $SidePanel/ShopColumns/ClawScrollShopRow
 	scroll_shop.scroll_horizontal += 130
+
+
+
+#load save data--------------------------------------------------------------
+
+func on_save_loaded():
+	loot_current_point_upgrade_amount = gm.loot_current_point_upgrade_amount
+	loot_current_bounce_bonus_upgrade_amount = gm.loot_current_bounce_bonus_upgrade_amount
+
+	claw_current_move_speed_upgrade_amount = gm.claw_current_move_speed_upgrade_amount
+
+	#owned claws
+	excavator_owned = gm.excavator_owned
+

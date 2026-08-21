@@ -190,12 +190,12 @@ layout_mode = 2
 [node name="ShopLeft" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=1633333138]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Left"
+text = "Scroll Left"
 
 [node name="ShopRight" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=2046514575]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Right"
+text = "Scroll Right"
 
 [node name="ClawScrollShopRow" type="ScrollContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=706615222]
 layout_mode = 2
@@ -315,7 +315,9 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "Spawn Bumper"
+text = "Spawn 
+Bumper
+COST: 500"
 
 [node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
 layout_mode = 1
@@ -363,6 +365,15 @@ offset_top = -490.0
 offset_right = 700.0
 offset_bottom = -190.00009
 grow_vertical = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
+offset_left = 113.0
+offset_top = 597.0
+offset_right = 913.0
+offset_bottom = 677.0
+text = "Claw - WASD | Use Claw - Space | Spin Wheel - E 
+If you can't afford play - P | Excavator can be held/moved while dropped"
+fit_content = true
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")

@@ -15,7 +15,9 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	if claw:
-		claw.claw_process(delta)	
+		claw.claw_process(delta)
+	if Input.is_action_just_pressed("debug") and gm.points < 100:
+		gm.gain_points(100)
 
 func set_claw(c : Claw):
 	claw = c

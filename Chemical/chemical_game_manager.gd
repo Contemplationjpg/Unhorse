@@ -39,6 +39,8 @@ var loot_current_bounce_bonus_upgrade_amount: int = 0
 
 var claw_current_move_speed_upgrade_amount: int = 1
 
+var excavator_owned : bool = false
+
 
 #gaining resource-------------------------
 func gain_points(p : int):
@@ -125,6 +127,8 @@ var default_save := {
 	"loot_bounce_bonus_upgrade" : loot_current_bounce_bonus_upgrade_amount,
 	
 	"claw_move_speed_upgrade" : claw_current_move_speed_upgrade_amount,
+
+	"excavator_owned" : excavator_owned,
 	}
 
 var save_dict := {
@@ -137,6 +141,8 @@ var save_dict := {
 	"loot_bounce_bonus_upgrade" : loot_current_bounce_bonus_upgrade_amount,
 	
 	"claw_move_speed_upgrade" : claw_current_move_speed_upgrade_amount,
+	
+	"excavator_owned" : excavator_owned,
 	}
 
 
@@ -162,7 +168,9 @@ func save_game():
 	save_dict["loot_point_upgrade"] = loot_current_point_upgrade_amount
 	save_dict["loot_bounce_bonus_upgrade"] = loot_current_bounce_bonus_upgrade_amount
 
-	save_dict["claw_move_speed_upgrade"] = claw_current_move_speed_upgrade_amount
+	#save_dict["claw_move_speed_upgrade"] = claw_current_move_speed_upgrade_amount
+	
+	save_dict["excavator_owned"] = excavator_owned
 	#done saving each dictionary value-----------------------------
 	
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
@@ -215,6 +223,8 @@ func load_data_from_save(save_data : Dictionary):
 	loot_current_bounce_bonus_upgrade_amount = save_dict["loot_bounce_bonus_upgrade"]
 
 	claw_current_move_speed_upgrade_amount = save_dict["claw_move_speed_upgrade"]
+	
+	excavator_owned = save_dict["excavator_owned"]
 	on_any_update.emit()
 	print("save loaded.")
 
@@ -226,10 +236,3 @@ func clear_save_data():
 	load_data_from_save(default_save) #makes current save the default game state
 	save_game() #saves the game as the default game state
 	just_reset_save_file.emit()
-
-
-
-
-
-
-

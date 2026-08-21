@@ -161,9 +161,10 @@ func _process(delta: float) -> void:
 
 	#procedure for being picked up into the air
 	if picked_up:
-		coll.disabled = true
+		coll.set_deferred("disabled", true)
 		sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
 		linear_velocity = Vector2.ZERO
+		global_position = lerp(global_position, claw.global_position,0.5)
 		if sprite.scale < Vector2(max_scale, max_scale):
 			sprite.scale += Vector2(rise_scale_change_per_sec * delta, rise_scale_change_per_sec * delta)
 		elif sprite.scale > Vector2(max_scale, max_scale):
@@ -178,7 +179,8 @@ func _process(delta: float) -> void:
 		else: #once we are exactly the minimum size, we can assume that we have touched the ground
 			just_landed.emit()
 			sprite.z_index = 1 #z_index 1 is ground level
-			coll.disabled = false #since we touched ground, we can interact with other loot now
+			#coll.disabled = false #since we touched ground, we can interact with other loot now
+			coll.set_deferred("disabled", false)
 			increment_bounce_bonus()
 			if do_impulse_on_landing:
 				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
