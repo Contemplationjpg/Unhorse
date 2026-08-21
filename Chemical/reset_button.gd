@@ -23,3 +23,4 @@ func close_popup():
 
 func reset_save_data():
 	gm.reset_save_file.emit()
+	popup.set_deferred("visible", false)
