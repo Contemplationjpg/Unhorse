@@ -77,11 +77,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-<<<<<<< Updated upstream
-	if Input.is_action_just_pressed("debug"):
-=======
 	if Input.is_action_just_pressed("spin") or auto_spin:
->>>>>>> Stashed changes
 		handle_spin_input()
 
 	#spinning------------------------------------

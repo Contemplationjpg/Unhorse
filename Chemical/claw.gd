@@ -198,15 +198,9 @@ func move():
 	#claw movement------------------------------------------
 	if not grabbing:
 		var move_dir = Input.get_vector("left", "right","up","down")
-<<<<<<< Updated upstream
-		velocity = move_dir * move_speed
-
-=======
-		velocity = move_dir * (move_speed * gm.claw_current_move_speed_upgrade_amount) 
-	
+		velocity = move_dir * (move_speed * gm.claw_current_move_speed_upgrade_amount)
 	else:
 		velocity = Vector2.ZERO
->>>>>>> Stashed changes
 	move_and_slide() #include this after anything that changes velocity or involves collision
 
 

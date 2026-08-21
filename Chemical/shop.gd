@@ -19,10 +19,12 @@ var mid_hole_upgrades: int = 0
 var small_hole_upgrades: int = 0
 var loot_base_points_upgrades: int = 0
 var loot_bounce_bonus_upgrades: int = 0
+var claw_move_speed_upgrades: int = 0
 
 var loot_current_point_upgrade_amount: int = 0
 var loot_current_bounce_bonus_upgrade_amount: int = 0
 
+var claw_current_move_speed_upgrade_amount: int = 1
 
 func _ready() -> void:
 	return
@@ -198,11 +200,6 @@ func _on_loot_bounce_bonus_pressed() -> void:
 
 
 func _on_claw_move_speed_pressed() -> void:
-<<<<<<< Updated upstream
-	pass
-
-
-=======
 	var button = $SidePanel/ShopColumns/ShopRow3/ClawMoveSpeed
 	
 	var price: int = 200
@@ -230,8 +227,6 @@ func _on_claw_move_speed_pressed() -> void:
 		else:
 			button.text = "Claw Move Speed " + "\nx "+ str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
 
-		
->>>>>>> Stashed changes
 func _on_claw_gravity_pressed() -> void:
 	spawn_bumper()
 	pass # Replace with function body.

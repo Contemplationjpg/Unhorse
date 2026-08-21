@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://1rp7msvcu3yc"]
+
+[ext_resource type="Script" uid="uid://duo64ede5mu0c" path="res://Chemical/title_screen.gd" id="1_uebgo"]
+
+[node name="TitleScreen" type="Control" unique_id=932827652]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uebgo")
+
+[node name="RichTextLabel" type="Label" parent="." unique_id=2031667090]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -33.0
+offset_top = 30.0
+offset_right = 33.0
+offset_bottom = 53.0
+grow_horizontal = 2
+text = "Unhorse"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2035683634]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -50.5
+offset_right = 35.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="VBoxContainer" unique_id=71175157]
+layout_mode = 2
+text = "Play"
+
+[node name="Settings" type="Button" parent="VBoxContainer" unique_id=2056883650]
+layout_mode = 2
+text = "Settings"
+
+[node name="Exit" type="Button" parent="VBoxContainer" unique_id=556359214]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

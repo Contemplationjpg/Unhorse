@@ -5,7 +5,6 @@ extends Node
 
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
-
 func _ready() -> void:
 	gm.send_claw.connect(get_claw)
 	return
