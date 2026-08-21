@@ -87,6 +87,7 @@ spin={
 2d_physics/layer_2="Loot"
 2d_physics/layer_4="Wall"
 2d_physics/layer_5="InnerWall"
+2d_physics/layer_6="bumper"
 
 [physics]
 
