@@ -9,6 +9,7 @@ extends Control
 
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
+var current_scroll_value: int = 0
 
 #prices
 var play_price: int = 5
@@ -26,6 +27,12 @@ var loot_current_bounce_bonus_upgrade_amount: int = 0
 
 var claw_current_move_speed_upgrade_amount: int = 1
 
+#owned claws
+var excavator_owned = false
+
+
+
+
 func _ready() -> void:
 	return
 
@@ -40,6 +47,8 @@ func _on_restock_pressed() -> void:
 	if gm.spend_points(restock_price):
 		gm.start_restock.emit()
 
+
+#upgrades---------------------------------------------------------
 
 func _on_mid_hole_multiplier_pressed() -> void:
 	var button = $SidePanel/ShopColumns/ShopRow/MidHoleMultiplier
@@ -227,7 +236,7 @@ func _on_claw_move_speed_pressed() -> void:
 		else:
 			button.text = "Claw Move Speed " + "\nx "+ str(next_amount_to_upgrade_by) + "\nCost:" + str(new_price)
 
-func _on_claw_gravity_pressed() -> void:
+func _on_spawn_bumper_pressed() -> void:
 	spawn_bumper()
 	pass # Replace with function body.
 
@@ -236,3 +245,35 @@ func spawn_bumper():
 	player.add_child(bumper)
 	bumper.global_position = Vector2.ZERO
 	
+	
+#claw switching--------------------------------------------
+
+
+func _on_base_claw_pressed() -> void:
+	var claw_manager = $"../../../ClawManager"
+	
+	claw_manager.change_claw(0)
+
+
+func _on_excavator_pressed() -> void:
+	var claw_manager = $"../../../ClawManager"
+	var button = $SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator 
+	
+	var price = 10000
+	var spendable = gm.spend_points(price)
+	
+	if excavator_owned == true:
+		claw_manager.change_claw(1)
+	elif spendable == true:
+		claw_manager.change_claw(1)
+		excavator_owned = true
+		button.text = "Excavator"
+	
+
+func _on_shop_left_pressed() -> void:
+	var scroll_shop = $SidePanel/ShopColumns/ClawScrollShopRow
+	scroll_shop.scroll_horizontal += -130
+
+func _on_shop_right_pressed() -> void:
+	var scroll_shop = $SidePanel/ShopColumns/ClawScrollShopRow
+	scroll_shop.scroll_horizontal += 130

@@ -8,7 +8,6 @@
 [ext_resource type="Theme" uid="uid://dedv6yk4jg6wf" path="res://Chemical/ShopTheme.tres" id="3_n1mt2"]
 [ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
-[ext_resource type="PackedScene" uid="uid://dplu5kclhqdfm" path="res://Claws/basic_claw.tscn" id="5_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
 [ext_resource type="PackedScene" uid="uid://c1bfgoa1xhugt" path="res://Chemical/reset_button.tscn" id="7_dlqoq"]
 [ext_resource type="Texture2D" uid="uid://db8p2mqfk0trb" path="res://Assets/Sprites/cranemachineborder.png" id="7_i5c22"]
@@ -19,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://bgg4aeffk6tjv" path="res://Assets/Sprites/straight_bumper.png" id="13_u1noj"]
 [ext_resource type="PackedScene" uid="uid://dkynhabmqo2kb" path="res://Chemical/bumper.tscn" id="14_dlqoq"]
 [ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
+[ext_resource type="PackedScene" uid="uid://7wsldwognxj6" path="res://Claws/excavator_claw.tscn" id="17_u1noj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 size = Vector2(200, 520)
@@ -184,6 +184,19 @@ size_flags_vertical = 3
 theme = ExtResource("3_n1mt2")
 theme_override_constants/separation = 20
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=2139235073]
+layout_mode = 2
+
+[node name="ShopLeft" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=1633333138]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Left"
+
+[node name="ShopRight" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=2046514575]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Right"
+
 [node name="ClawScrollShopRow" type="ScrollContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=706615222]
 layout_mode = 2
 size_flags_vertical = 3
@@ -196,16 +209,17 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="Item1" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1671560288]
+[node name="BaseClaw" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1671560288]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 offset_transform_position = Vector2(2.235, 0)
-text = "Item1"
+text = "Base Claw"
 
-[node name="Item2" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1685812203]
+[node name="Excavator" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1685812203]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
-text = "Item2"
+text = "Excavator
+COST: 10,000"
 
 [node name="Item3" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1754411273]
 custom_minimum_size = Vector2(120, 80)
@@ -296,12 +310,12 @@ x2
 COST: 200
 "
 
-[node name="ClawGravity" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
+[node name="SpawnBumper" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3" unique_id=146804772]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "Claw Gravity"
+text = "Spawn Bumper"
 
 [node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
 layout_mode = 1
@@ -644,17 +658,21 @@ shape = SubResource("RectangleShape2D_d5xax")
 script = ExtResource("3_ef0cl")
 player = NodePath("../Player")
 claw_origin = NodePath("../MapElements/ClawOrigin")
-claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("5_vrf4v")])
+claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("17_u1noj")])
 
 [node name="GPUParticles2D" parent="." unique_id=777645101 instance=ExtResource("14_fqalb")]
 lifetime = 0.5
 
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer/ShopLeft" to="HUD/UICanvas/Shop" method="_on_shop_left_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer/ShopRight" to="HUD/UICanvas/Shop" method="_on_shop_right_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator" to="HUD/UICanvas/Shop" method="_on_excavator_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/MidHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_mid_hole_multiplier_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow/SmallHoleMultiplier" to="HUD/UICanvas/Shop" method="_on_small_hole_multiplier_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2/LootBasePoints" to="HUD/UICanvas/Shop" method="_on_loot_base_points_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow2/LootBounceBonus" to="HUD/UICanvas/Shop" method="_on_loot_bounce_bonus_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/ClawMoveSpeed" to="HUD/UICanvas/Shop" method="_on_claw_move_speed_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/ClawGravity" to="HUD/UICanvas/Shop" method="_on_claw_gravity_pressed"]
+[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/SpawnBumper" to="HUD/UICanvas/Shop" method="_on_spawn_bumper_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/Restock" to="HUD/UICanvas/Shop" method="_on_restock_pressed"]
 
