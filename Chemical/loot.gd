@@ -8,9 +8,15 @@ extends RigidBody2D
 @export_category("Stats")
 @export var base_point_value : int = 10
 @export var spawn_rate : int = 1
+
+
+@export_group("Bounce Variation")
+@export var do_bounce_variation : bool = true
+@export var bounce_variation_strength : float = 0.1
+
 @export_group("Bounce Bonus")
 ##if this is false, this still experiences collisions but none of the bounce tracking code will work
-@export var track_bounces = true
+@export var track_bounces : bool = true
 ##the flat amount that will be added to the bounce bonus. bounce bonus is a multiplier applied at time of scoring. i.e. 10 base score * ( 1 bounce bonus + 0.5 increase * 4 bounces) = 10 * 3 = 30 points
 @export var bounce_bonus_increase_per_bounce : float = 0.5
 ##if the loot's linear velocity ever hits this value, reset bounce count and bounce bonus. set to a negative number if you never want it to reset
@@ -235,6 +241,18 @@ func increment_bounce_bonus():
 			gm.on_loot_bonus_update.emit(global_position, bounce_bonus)
 
 func on_bounce(_body : Node2D):
+
+	#add variation on bounce so its less likely for loot to get stuck bouncing indefinitely
+	if do_bounce_variation:
+		var rng = randi_range(0,1)#randomly pick if bounce influence should go to left or right
+		var bounce_variation : Vector2
+		if rng == 1:
+			bounce_variation = Vector2(-linear_velocity.y, linear_velocity.x)*bounce_variation_strength #right variation
+		else:
+			bounce_variation = Vector2(linear_velocity.y, -linear_velocity.x)*bounce_variation_strength #left variation
+		apply_central_impulse(bounce_variation)
+	
+
 	if not track_bounces:
 		return
 	just_bounced.emit()
