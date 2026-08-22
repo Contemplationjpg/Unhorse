@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://vyjphham488s"]
 
 [ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
+[ext_resource type="Script" uid="uid://1eefgydtl7vw" path="res://Scenes/chemical.gd" id="1_62e5f"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
 [ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="1_nwse5"]
 [ext_resource type="PackedScene" uid="uid://emovigvikg0k" path="res://Chemical/float_text.tscn" id="2_0kl5h"]
@@ -26,6 +27,7 @@
 size = Vector2(200, 520)
 
 [node name="Chemical" type="Node2D" unique_id=2089471138]
+script = ExtResource("1_62e5f")
 
 [node name="Settings" parent="." unique_id=763621863 instance=ExtResource("1_nwse5")]
 visible = false

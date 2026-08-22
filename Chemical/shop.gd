@@ -48,14 +48,6 @@ func _on_restock_pressed() -> void:
 	if gm.spend_points(restock_price):
 		gm.start_restock.emit()
 
-
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("menu") and $"../../../Settings".visible == false:
-		$"../../../Settings".visible = true
-	elif Input.is_action_just_pressed("menu") and $"../../../Settings".visible == true:
-		$"../../../Settings".visible = false
-
-
 #upgrades---------------------------------------------------------
 
 func _on_mid_hole_multiplier_pressed() -> void:
