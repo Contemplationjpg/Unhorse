@@ -49,6 +49,11 @@ func _on_restock_pressed() -> void:
 		gm.start_restock.emit()
 
 
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("menu") and $"../../../Settings".visible == false:
+		$"../../../Settings".visible = true
+	elif Input.is_action_just_pressed("menu") and $"../../../Settings".visible == true:
+		$"../../../Settings".visible = false
 
 
 #upgrades---------------------------------------------------------
@@ -295,4 +300,3 @@ func on_save_loaded():
 
 	#owned claws
 	excavator_owned = gm.excavator_owned
-

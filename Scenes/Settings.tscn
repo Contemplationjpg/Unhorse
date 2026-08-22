@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dak85dqjklvlx"]
+
+[ext_resource type="Script" uid="uid://d3y2eoprbu8uq" path="res://Chemical/settings.gd" id="1_4hxq3"]
+[ext_resource type="PackedScene" uid="uid://dp5dm7onojn1w" path="res://Chemical/volume_slider.tscn" id="2_flfri"]
+
+[node name="Settings" type="Control" unique_id=763621863]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4hxq3")
+
+[node name="RichTextLabel" type="Label" parent="." unique_id=1040068808]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -33.0
+offset_top = 30.0
+offset_right = 33.0
+offset_bottom = 53.0
+grow_horizontal = 2
+text = "Settings"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1443562043]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -50.5
+offset_right = 35.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MasterLabel" type="Label" parent="VBoxContainer" unique_id=435534982]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="Master" parent="VBoxContainer" unique_id=180540668 instance=ExtResource("2_flfri")]
+layout_mode = 2
+bus_name = "Master"
+
+[node name="MusicLabel" type="Label" parent="VBoxContainer" unique_id=931993341]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="Music" parent="VBoxContainer" unique_id=1990513574 instance=ExtResource("2_flfri")]
+layout_mode = 2
+bus_name = "Music"
+
+[node name="SFXLabel" type="Label" parent="VBoxContainer" unique_id=1299873179]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="SFX" parent="VBoxContainer" unique_id=1500683818 instance=ExtResource("2_flfri")]
+layout_mode = 2
+bus_name = "SFX"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1908968609]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="Main Menu" type="Button" parent="VBoxContainer" unique_id=891030055]
+layout_mode = 2
+text = "Back To Main Menu"
+
+[connection signal="pressed" from="VBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]

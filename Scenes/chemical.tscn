@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://diwogdhwl6pe2" path="res://Chemical/scorekeeper.gd" id="1_5u0wd"]
 [ext_resource type="Script" uid="uid://cfx7vwxsjnlgk" path="res://Chemical/player.gd" id="1_81wnh"]
+[ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="1_nwse5"]
 [ext_resource type="PackedScene" uid="uid://emovigvikg0k" path="res://Chemical/float_text.tscn" id="2_0kl5h"]
 [ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
@@ -25,6 +26,9 @@
 size = Vector2(200, 520)
 
 [node name="Chemical" type="Node2D" unique_id=2089471138]
+
+[node name="Settings" parent="." unique_id=763621863 instance=ExtResource("1_nwse5")]
+visible = false
 
 [node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("points_label", "plays_label", "spins_label", "screen_canvas", "ui_canvas")]
 script = ExtResource("1_5u0wd")
@@ -679,6 +683,7 @@ lifetime = 0.5
 stream = ExtResource("19_dlqoq")
 volume_db = -15.0
 autoplay = true
+bus = &"Music"
 parameters/looping = true
 
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer/ShopLeft" to="HUD/UICanvas/Shop" method="_on_shop_left_pressed"]
