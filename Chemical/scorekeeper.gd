@@ -4,6 +4,9 @@ extends Node
 @export var points_label : RichTextLabel
 @export var plays_label : RichTextLabel
 @export var spins_label : RichTextLabel
+@export var version_label : RichTextLabel
+
+
 @export var screen_canvas : CanvasLayer
 @export var ui_canvas : CanvasLayer
 @export var float_text_scene : PackedScene
@@ -16,6 +19,8 @@ var last_point_value : int = 0
 
 
 func _ready() -> void:
+	version_label.text = str("Version: " + str(gm.VERSION))
+
 	update_ui()
 	gm.on_any_update.connect(update_ui)
 	gm.on_loot_scored.connect(on_loot_score_detected)

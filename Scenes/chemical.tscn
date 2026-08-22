@@ -25,11 +25,12 @@ size = Vector2(200, 520)
 
 [node name="Chemical" type="Node2D" unique_id=2089471138]
 
-[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("points_label", "plays_label", "spins_label", "screen_canvas", "ui_canvas")]
+[node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("points_label", "plays_label", "spins_label", "version_label", "screen_canvas", "ui_canvas")]
 script = ExtResource("1_5u0wd")
 points_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/StatRows/Points/PointsLabel")
 plays_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/StatRows/Plays/PlaysLabel")
 spins_label = NodePath("UICanvas/Shop/SidePanel/StatsLabels/StatRows/Spins/SpinsLabel")
+version_label = NodePath("UICanvas/VersionLabel")
 screen_canvas = NodePath("ScreenCanvas")
 ui_canvas = NodePath("UICanvas")
 float_text_scene = ExtResource("2_0kl5h")
@@ -374,6 +375,13 @@ offset_bottom = 677.0
 text = "Claw - WASD | Use Claw - Space | Spin Wheel - E 
 If you can't afford play - P | Excavator can be held/moved while dropped"
 fit_content = true
+
+[node name="VersionLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=824970024]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 455.0
+offset_bottom = 33.0
+text = "Unhorse Version"
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")

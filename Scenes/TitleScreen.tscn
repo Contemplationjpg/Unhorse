@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://duo64ede5mu0c" path="res://Chemical/title_screen.gd" id="1_uebgo"]
 
-[node name="TitleScreen" type="Control" unique_id=932827652]
+[node name="TitleScreen" type="Control" unique_id=932827652 node_paths=PackedStringArray("version_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uebgo")
+version_label = NodePath("VersionLabel")
 
 [node name="RichTextLabel" type="Label" parent="." unique_id=2031667090]
 layout_mode = 1
@@ -48,6 +49,18 @@ text = "Settings"
 [node name="Exit" type="Button" parent="VBoxContainer" unique_id=556359214]
 layout_mode = 2
 text = "Exit"
+
+[node name="VersionLabel" type="RichTextLabel" parent="." unique_id=1479929693]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -33.0
+offset_right = 455.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "Unhorse Version"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
