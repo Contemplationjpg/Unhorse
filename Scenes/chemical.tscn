@@ -681,7 +681,6 @@ lifetime = 0.5
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=939615524]
 stream = ExtResource("19_dlqoq")
-volume_db = -15.0
 autoplay = true
 bus = &"Music"
 parameters/looping = true

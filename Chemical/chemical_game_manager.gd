@@ -41,6 +41,21 @@ var claw_current_move_speed_upgrade_amount: int = 1
 
 var excavator_owned : bool = false
 
+#settings----------------------------------
+var master_volume : float
+var music_volume: float
+var sfx_volume: float
+
+
+func save_music_volumes(bus_index, value):
+	match bus_index:
+		0:
+			master_volume = value
+		1:
+			music_volume = value
+		2: 
+			sfx_volume = value
+
 
 #gaining resource-------------------------
 func gain_points(p : int):

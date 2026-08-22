@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://1rp7msvcu3yc"]
 
 [ext_resource type="Script" uid="uid://duo64ede5mu0c" path="res://Chemical/title_screen.gd" id="1_uebgo"]
+[ext_resource type="AudioStream" uid="uid://oa1pd0j483mm" path="res://Assets/Sounds/Unhorse Main Menu.ogg" id="2_vmg2h"]
+[ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="3_8l4an"]
 
 [node name="TitleScreen" type="Control" unique_id=932827652]
 layout_mode = 3
@@ -48,6 +50,16 @@ text = "Settings"
 [node name="Exit" type="Button" parent="VBoxContainer" unique_id=556359214]
 layout_mode = 2
 text = "Exit"
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=2135965770]
+stream = ExtResource("2_vmg2h")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="Settings" parent="." unique_id=763621863 instance=ExtResource("3_8l4an")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
