@@ -45,7 +45,7 @@ shape = SubResource("CircleShape2D_d5xax")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1594934862]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 34
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1719631366]
 shape = SubResource("CircleShape2D_imfbs")

@@ -115,6 +115,8 @@ var nearby_bumpers_on_drop : Array[Bumper] = [] #container for other bumpers tha
 func _ready() -> void:
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
+	area.area_entered.connect(_on_area_entered)
+	area.area_exited.connect(_on_area_exit)
 	body_entered.connect(on_bounce)
 	gm.update_loot.connect(update_upgrades)
 	gm.clear_all_loot.connect(on_clear_all_loot)
@@ -143,7 +145,7 @@ func _physics_process(delta: float) -> void:
 		#print(str(linear_velocity.length()))
 		#print(sprite.self_modulate.s)
 		#print(str(bounce_bonus))
-		print(z_index)
+		print(nearby_bumpers_on_drop)
 	
 	if score_on_debug_button:
 		if Input.is_action_just_pressed("debug"):
@@ -159,9 +161,10 @@ func _process(delta: float) -> void:
 
 	#procedure for being picked up into the air
 	if picked_up:
-		coll.disabled = true
+		coll.set_deferred("disabled", true)
 		sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
 		linear_velocity = Vector2.ZERO
+		global_position = lerp(global_position, claw.global_position,0.5)
 		if sprite.scale < Vector2(max_scale, max_scale):
 			sprite.scale += Vector2(rise_scale_change_per_sec * delta, rise_scale_change_per_sec * delta)
 		elif sprite.scale > Vector2(max_scale, max_scale):
@@ -176,7 +179,8 @@ func _process(delta: float) -> void:
 		else: #once we are exactly the minimum size, we can assume that we have touched the ground
 			just_landed.emit()
 			sprite.z_index = 1 #z_index 1 is ground level
-			coll.disabled = false #since we touched ground, we can interact with other loot now
+			#coll.disabled = false #since we touched ground, we can interact with other loot now
+			coll.set_deferred("disabled", false)
 			increment_bounce_bonus()
 			if do_impulse_on_landing:
 				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
@@ -279,17 +283,23 @@ func _on_body_entered(body : Node2D):
 	if other_loot:
 		if nearby_loot_on_drop.find(other_loot) == -1: #find() returns -1 if nothing found
 			nearby_loot_on_drop.append(other_loot)
-	var bumper = body as Bumper
-	if bumper:
-		if nearby_bumpers_on_drop.find(bumper) == -1: #find() returns -1 if nothing found
-			nearby_bumpers_on_drop.append(bumper)
 
 func _on_body_exit(body : Node2D):
 	var other_loot = body as Loot
 	if other_loot:
 		if not nearby_loot_on_drop.find(other_loot) == -1:#find() returns -1 if nothing found
 			nearby_loot_on_drop.erase(other_loot)
-	var bumper = body as Bumper
+
+
+func _on_area_entered(body : Node2D):
+	var bumper = body.get_parent() as Bumper
+	if bumper:
+		if nearby_bumpers_on_drop.find(bumper) == -1: #find() returns -1 if nothing found
+			nearby_bumpers_on_drop.append(bumper)
+
+
+func _on_area_exit(body : Node2D):
+	var bumper = body.get_parent() as Bumper
 	if bumper:
 		if not nearby_bumpers_on_drop.find(bumper) == -1: #find() returns -1 if nothing found
 			nearby_bumpers_on_drop.erase(bumper)
@@ -303,7 +313,8 @@ func push_away_nearby():
 		var push_dir : Vector2 = (i.global_position - global_position).normalized()
 		i.apply_central_impulse(push_dir * impulse_amount * impulse_modifier)
 		apply_central_impulse(-push_dir*impulse_amount*impulse_modifier) #applies half of impulse on self but this will probably be changed to be full impulse
-		i.on_bump()
+		i.activate_bump()
+		i.just_bumped.emit()
 	impulse_modifier = 1
 
 

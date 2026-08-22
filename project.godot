@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Unhorse"
-run/main_scene="uid://vyjphham488s"
+run/main_scene="uid://1rp7msvcu3yc"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -87,6 +87,7 @@ spin={
 2d_physics/layer_2="Loot"
 2d_physics/layer_4="Wall"
 2d_physics/layer_5="InnerWall"
+2d_physics/layer_6="bumper"
 
 [physics]
 

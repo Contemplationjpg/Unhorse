@@ -39,7 +39,7 @@ radius = 114.56
 
 [node name="Bumper" type="RigidBody2D" unique_id=673764108 node_paths=PackedStringArray("sprite", "extend_area", "extend_coll", "bump_counter", "pilot_sprite")]
 z_index = 1
-collision_layer = 2
+collision_layer = 32
 collision_mask = 10
 gravity_scale = 0.0
 can_sleep = false
@@ -52,7 +52,7 @@ extend_coll = NodePath("ExtendedCollisionShape2D")
 bump_counter = NodePath("CanvasLayer/BumpCount")
 pilot_sprite = NodePath("Sprite2D")
 extend_time = 0.2
-max_bumps = 0
+max_bumps = 10
 final_blink_speed = 0.25
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1874487429]
@@ -64,7 +64,7 @@ animation = &"small"
 shape = SubResource("CircleShape2D_ar5xx")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1449030361]
-collision_layer = 2
+collision_layer = 32
 collision_mask = 2
 
 [node name="ExtendedCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1228371560]

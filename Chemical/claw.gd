@@ -304,6 +304,7 @@ func pick_up_loot():
 			loot_in_range.erase(i) #remove from loot_in_range because either we picked it up or we can't
 
 
+
 #loot detection-------------------------------------------------------------------
 	#detection box never turns off
 func _on_body_entered(body : Node2D):

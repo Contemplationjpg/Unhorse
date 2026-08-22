@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://c1bfgoa1xhugt"]
+
+[ext_resource type="Script" uid="uid://1amncs3v4qhy" path="res://Chemical/reset_button.gd" id="1_xg2ll"]
+
+[node name="ResetButton" type="Control" unique_id=1554113345 node_paths=PackedStringArray("reset_button", "popup", "confirm_button", "decline_button")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 300.0
+script = ExtResource("1_xg2ll")
+reset_button = NodePath("Button")
+popup = NodePath("Popup")
+confirm_button = NodePath("Popup/VBoxContainer/HBoxContainer/Confirm")
+decline_button = NodePath("Popup/VBoxContainer/HBoxContainer/Decline")
+
+[node name="Button" type="Button" parent="." unique_id=1785179417]
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 8.0
+text = "Reset Data"
+
+[node name="Popup" type="Panel" parent="." unique_id=1964976784]
+layout_mode = 1
+offset_right = 500.0
+offset_bottom = 300.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup" unique_id=304121458]
+layout_mode = 1
+offset_right = 500.0
+offset_bottom = 300.0
+
+[node name="ResetPrompt" type="RichTextLabel" parent="Popup/VBoxContainer" unique_id=1679217812]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Are you sure you want to reset all save data?
+(This cannot be undone.)"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/VBoxContainer" unique_id=160028754]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 33
+alignment = 1
+
+[node name="LeftSpacer" type="BoxContainer" parent="Popup/VBoxContainer/HBoxContainer" unique_id=2085005881]
+layout_mode = 2
+
+[node name="Confirm" type="Button" parent="Popup/VBoxContainer/HBoxContainer" unique_id=2013195142]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "yes please"
+
+[node name="Decline" type="Button" parent="Popup/VBoxContainer/HBoxContainer" unique_id=1130440815]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "nope"
+
+[node name="RightSpacer" type="BoxContainer" parent="Popup/VBoxContainer/HBoxContainer" unique_id=4418085]
+layout_mode = 2

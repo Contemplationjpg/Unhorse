@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
+[ext_resource type="PackedScene" uid="uid://c1bfgoa1xhugt" path="res://Chemical/reset_button.tscn" id="7_dlqoq"]
 [ext_resource type="Texture2D" uid="uid://db8p2mqfk0trb" path="res://Assets/Sprites/cranemachineborder.png" id="7_i5c22"]
 [ext_resource type="Script" uid="uid://da51dwybjwdoa" path="res://Chemical/loot_spawner.gd" id="8_o6s1u"]
 [ext_resource type="Resource" uid="uid://ct8gfj3o0td78" path="res://Loot/small_loot.tres" id="9_i5c22"]
@@ -190,12 +191,12 @@ layout_mode = 2
 [node name="ShopLeft" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=1633333138]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Left"
+text = "Scroll Left"
 
 [node name="ShopRight" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer" unique_id=2046514575]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Right"
+text = "Scroll Right"
 
 [node name="ClawScrollShopRow" type="ScrollContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=706615222]
 layout_mode = 2
@@ -315,7 +316,9 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "Spawn Bumper"
+text = "Spawn 
+Bumper
+COST: 500"
 
 [node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
 layout_mode = 1
@@ -342,6 +345,36 @@ text = "Buy Play"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Restock"
+
+[node name="ResetButton" parent="HUD/UICanvas" unique_id=1554113345 instance=ExtResource("7_dlqoq")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -38.0
+offset_right = 210.0
+offset_bottom = 2.0
+grow_vertical = 0
+
+[node name="Popup" parent="HUD/UICanvas/ResetButton" index="1" unique_id=1964976784]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -490.0
+offset_right = 700.0
+offset_bottom = -190.00009
+grow_vertical = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
+offset_left = 113.0
+offset_top = 597.0
+offset_right = 913.0
+offset_bottom = 677.0
+text = "Claw - WASD | Use Claw - Space | Spin Wheel - E 
+If you can't afford play - P | Excavator can be held/moved while dropped"
+fit_content = true
 
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
@@ -660,3 +693,5 @@ parameters/looping = true
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow3/SpawnBumper" to="HUD/UICanvas/Shop" method="_on_spawn_bumper_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/Restock" to="HUD/UICanvas/Shop" method="_on_restock_pressed"]
+
+[editable path="HUD/UICanvas/ResetButton"]
