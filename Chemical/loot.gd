@@ -181,7 +181,8 @@ func _process(delta: float) -> void:
 			sprite.z_index = 1 #z_index 1 is ground level
 			#coll.disabled = false #since we touched ground, we can interact with other loot now
 			coll.set_deferred("disabled", false)
-			increment_bounce_bonus()
+			if not scoring:
+				increment_bounce_bonus()
 			if do_impulse_on_landing:
 				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
 	
@@ -227,9 +228,8 @@ func on_score_non_destroy(): #scores without destroying self
 	just_scored.emit()
 	gm.on_loot_scored.emit(global_position, score) #on_loot_scored() used for scorekeeper to spawn point notifs around the score location
 
-func increment_bounce_bonus():
-	
-	if bounces_until_max_bounce_bonus >= 0:
+func increment_bounce_bonus():	
+	if bounces_until_max_bounce_bonus >= 0 and bounce_bonus_increase_per_bounce > 0:
 		if bounces < bounces_until_max_bounce_bonus:
 			bounce_bonus += bounce_bonus_increase_per_bounce
 			gm.on_loot_bonus_update.emit(global_position, bounce_bonus)

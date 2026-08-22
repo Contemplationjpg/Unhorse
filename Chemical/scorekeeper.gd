@@ -61,10 +61,10 @@ func on_loot_score_detected(position : Vector2, amount : int):
 	spawn_floating_text_score(position, str("+" + str(amount)))
 
 func on_loot_bonus_update_detected(position : Vector2, bonus : float):
-	spawn_floating_text_score(position, str("x" + str(bonus)), 0.5)
+	spawn_floating_text_score(position, str("x" + str(bonus)), 0.5, Color.YELLOW)
 		
 
-func spawn_floating_text_score(position : Vector2, message : String, time : float = 2):
+func spawn_floating_text_score(position : Vector2, message : String, time : float = 2, color : Color = Color.WHITE):
 	if float_text_scene:
 		var float_text : FloatText = float_text_scene.instantiate()
 		var dir
@@ -72,7 +72,7 @@ func spawn_floating_text_score(position : Vector2, message : String, time : floa
 			dir = Vector2(1,-1)
 		else:
 			dir = Vector2(-1,-1)
-		float_text.prime_text(message, position, float_text_rand_radius, time, dir, 10, Color.WHITE)
+		float_text.prime_text(message, position, float_text_rand_radius, time, dir, 10, color)
 		screen_canvas.add_child(float_text)
 
 
