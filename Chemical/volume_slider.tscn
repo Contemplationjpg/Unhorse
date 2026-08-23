@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dp5dm7onojn1w"]
+
+[ext_resource type="Script" uid="uid://dfk0k5wv8xki" path="res://Chemical/volume_slider.gd" id="1_uhxmm"]
+
+[node name="VolumeSlider" type="HSlider" unique_id=180540668]
+max_value = 1.0
+step = 0.001
+script = ExtResource("1_uhxmm")
+
+[connection signal="value_changed" from="." to="." method="_on_value_changed"]

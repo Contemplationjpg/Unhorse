@@ -11,7 +11,7 @@ func _on_play_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
-	pass # Replace with function body.
+	$Settings.visible = true
 
 
 func _on_exit_pressed() -> void:

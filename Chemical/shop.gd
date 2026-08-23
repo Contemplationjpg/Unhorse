@@ -556,9 +556,11 @@ func on_save_loaded():
 	loot_rarity_upgrade = gm.loot_rarity_upgrade 
 
 	#owned claws
-	claw_new_owned = gm.claw_new_owned 
-	claw_excavator_owned = gm.claw_excavator_owned 
-	claw_ufo_owned = gm.claw_ufo_owned 
-	claw_cloner_owned = gm.claw_cloner_owned 
+excavator_owned = gm.excavator_owned
+claw_new_owned = gm.claw_new_owned 
+claw_excavator_owned = gm.claw_excavator_owned 
+claw_ufo_owned = gm.claw_ufo_owned 
+claw_cloner_owned = gm.claw_cloner_owned 
 
-	_update_shop_buttons()
+_update_shop_buttons()
+

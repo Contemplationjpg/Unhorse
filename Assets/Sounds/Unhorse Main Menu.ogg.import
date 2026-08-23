@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://oa1pd0j483mm"
+path="res://.godot/imported/Unhorse Main Menu.ogg-4ae1cd00470a02608cfb04fa5fc07548.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Sounds/Unhorse Main Menu.ogg"
+dest_files=["res://.godot/imported/Unhorse Main Menu.ogg-4ae1cd00470a02608cfb04fa5fc07548.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
