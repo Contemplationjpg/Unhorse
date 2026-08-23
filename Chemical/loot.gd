@@ -14,6 +14,7 @@ extends RigidBody2D
 @export var do_bounce_variation : bool = true
 @export var bounce_variation_strength : float = 0.1
 
+
 @export_group("Bounce Bonus")
 ##if this is false, this still experiences collisions but none of the bounce tracking code will work
 @export var track_bounces : bool = true
@@ -27,6 +28,8 @@ extends RigidBody2D
 @export var bounces_until_max_color : int = 10
 ##the amount of bounces until bounce bonus no longer increases
 @export var bounces_until_max_bounce_bonus : int = 10
+
+
 @export_subgroup("Bounce Speed Up")
 ##every bounce increases linear velocity. always adds flat_bounce_speed_up and then multiplies by mult_bounce_speed_up. optionally multiplies by bounce bonus value at end of calculation.
 @export var speeds_up_with_bounces : bool = false
@@ -36,11 +39,15 @@ extends RigidBody2D
 @export var mult_bounce_speed_up : float = 1
 ##will multiply linear velocity by the current bounce bonus value AFTER the other flat and mult speed ups are applied. requires speeds_up_with_bounces to be true.
 @export var bounce_speed_up_uses_bounce_bonus : bool = false
+
+
 @export_subgroup("Speed Cap")
 ##if this is true, the linear velocity cannot go past the cap specified by speed_cap
 @export var has_speed_cap : bool = false
 ##requires has_speed_cap to be on.
 @export var speed_cap : float = 600
+
+
 @export_subgroup("Bounce Limit")
 @export var has_bounce_limit : bool = false
 ##bounce limit trigger happens at this many bounces
@@ -89,8 +96,24 @@ var point_value_modifier : float = 1
 
 var hole_point_modifier : float = 1
 
-var base_point_value_upgrade : int = 0
-var bounce_bonus_upgrade : int = 0
+#upgrade modifiers-----------------
+
+var value_upgrade : int = 0
+
+var speed_upgrade : int = 0
+
+var bonus_upgrade : int = 0
+
+
+
+var value_upgrade_amount : int = 0
+
+var speed_upgrade_amount : int = 0
+var speed_cap_raise_amount : int = 0
+
+var bonus_upgrade_amount : int = 0
+
+#----------------------------------------------
 
 var rise_scale_change_per_sec : float = (max_scale - min_scale)/rise_time
 var drop_scale_change_per_sec : float = (max_scale - min_scale)/drop_time*drop_time_modifier
@@ -124,7 +147,7 @@ func _ready() -> void:
 	area.area_entered.connect(_on_area_entered)
 	area.area_exited.connect(_on_area_exit)
 	body_entered.connect(on_bounce)
-	gm.update_loot.connect(update_upgrades)
+	gm.update_upgrades.connect(update_upgrades)
 	gm.clear_all_loot.connect(on_clear_all_loot)
 	update_upgrades()
 	
@@ -170,7 +193,7 @@ func _process(delta: float) -> void:
 		coll.set_deferred("disabled", true)
 		sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
 		linear_velocity = Vector2.ZERO
-		global_position = lerp(global_position, claw.global_position,0.5)
+		global_position = lerp(global_position, claw.global_position,0.5*delta)
 		if sprite.scale < Vector2(max_scale, max_scale):
 			sprite.scale += Vector2(rise_scale_change_per_sec * delta, rise_scale_change_per_sec * delta)
 		elif sprite.scale > Vector2(max_scale, max_scale):
@@ -229,7 +252,7 @@ func on_score(): #scores, then destroys self (made before the non-destroy versio
 
 func on_score_non_destroy(): #scores without destroying self
 	
-	var score : int = int((base_point_value + base_point_value_upgrade) * (bounce_bonus + bounce_bonus_upgrade) * point_value_modifier * hole_point_modifier) #score rounded down to nearest int
+	var score : int = int((base_point_value * pow(2, value_upgrade_amount)) * (bounce_bonus) * point_value_modifier * hole_point_modifier) #score rounded down to nearest int
 	gm.gain_points(score)
 	just_scored.emit()
 	gm.on_loot_scored.emit(global_position, score) #on_loot_scored() used for scorekeeper to spawn point notifs around the score location
@@ -237,7 +260,7 @@ func on_score_non_destroy(): #scores without destroying self
 func increment_bounce_bonus():	
 	if bounces_until_max_bounce_bonus >= 0 and bounce_bonus_increase_per_bounce > 0:
 		if bounces < bounces_until_max_bounce_bonus:
-			bounce_bonus += bounce_bonus_increase_per_bounce
+			bounce_bonus += bounce_bonus_increase_per_bounce * pow(2, bonus_upgrade_amount)
 			gm.on_loot_bonus_update.emit(global_position, bounce_bonus)
 
 func on_bounce(_body : Node2D):
@@ -262,7 +285,7 @@ func on_bounce(_body : Node2D):
 		var new_linear_velocity = linear_velocity
 		#creating flat vector from flat value
 		var flat_vector = Vector2(linear_velocity.x, linear_velocity.y)
-		flat_vector = flat_vector.normalized()*flat_bounce_speed_up
+		flat_vector = flat_vector.normalized()*(flat_bounce_speed_up+speed_upgrade_amount)
 		new_linear_velocity+=flat_vector
 		#multiply mult value
 		new_linear_velocity*=mult_bounce_speed_up
@@ -271,9 +294,9 @@ func on_bounce(_body : Node2D):
 			new_linear_velocity*=bounce_bonus
 		#check if there is a speed cap
 		if has_speed_cap:
-			if new_linear_velocity.length() > speed_cap:
+			if new_linear_velocity.length() > (speed_cap+speed_cap_raise_amount):
 				#max velocity is direction * speedcap
-				new_linear_velocity = new_linear_velocity.normalized()*speed_cap 
+				new_linear_velocity = new_linear_velocity.normalized()*(speed_cap + speed_cap_raise_amount)
 		linear_velocity = new_linear_velocity
 	if has_bounce_limit:
 		if bounces >= bounce_limit:
@@ -356,6 +379,24 @@ func get_grabbed(c : Claw) -> bool:
 	angular_velocity = 0
 	return true
 
+func force_to_be_held(c : Claw):
+	claw = c
+	picked_up = true
+	coll.set_deferred("disabled", true)
+	sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
+	linear_velocity = Vector2.ZERO
+	global_position = c.global_position
+	sprite.scale = Vector2(max_scale, max_scale) #force to be max size	
+
+func force_to_be_in_air():
+	await get_tree().create_timer(0.02).timeout
+	coll.set_deferred("disabled", true)
+	sprite.z_index = 7 #should be on a higher z_index than items on the ground (z_index 1) and outer wall (z_index 6)
+	linear_velocity = Vector2.ZERO
+	sprite.scale = Vector2(max_scale, max_scale) #force to be max size	
+	picked_up = false
+
+
 func get_picked_up():
 	picked_up = true
 	claw.claw_start_rise.disconnect(get_picked_up) #immediately after getting the signal for being picked up, we can disconnect the signal since we can only assume we are getting picked up once
@@ -368,9 +409,43 @@ func get_dropped(c : Claw):
 
 #stats--------------------------------------------------------------------------
 
-func update_upgrades():
-	base_point_value_upgrade = gm.loot_current_point_upgrade_amount
-	bounce_bonus_upgrade = gm.loot_current_bounce_bonus_upgrade_amount
+func update_upgrades():	
+	value_upgrade = gm.loot_value_upgrade
+	match value_upgrade:
+		0:
+			value_upgrade_amount = 0
+		1:
+			value_upgrade_amount = 1
+		2:
+			value_upgrade_amount = 2
+		_:
+			value_upgrade_amount = 3
+
+	speed_upgrade = gm.loot_speed_upgrade
+	match speed_upgrade:
+		0:
+			speed_cap_raise_amount = 0
+			speed_upgrade_amount = 0
+		1:
+			speed_cap_raise_amount = 200
+			speed_upgrade_amount = 100
+		2:
+			speed_cap_raise_amount = 500
+			speed_upgrade_amount = 200
+		_:
+			speed_cap_raise_amount = 800
+			speed_upgrade_amount = 250
+
+	bonus_upgrade = gm.loot_bonus_upgrade
+	match bonus_upgrade:
+		0:
+			bonus_upgrade_amount = 0
+		1:
+			bonus_upgrade_amount = 1
+		2:
+			bonus_upgrade_amount = 2
+		_:
+			bonus_upgrade_amount = 3
 
 
 #misc---------------------------------------------------------------------------

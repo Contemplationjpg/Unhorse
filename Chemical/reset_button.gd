@@ -12,7 +12,9 @@ func _ready() -> void:
 	popup.set_deferred("visible", false)
 	reset_button.button_up.connect(open_popup)
 	decline_button.button_up.connect(close_popup)
+	decline_button.set_deferred("enabled", true)
 	confirm_button.button_up.connect(reset_save_data)
+	confirm_button.set_deferred("enabled", true)
 
 	
 func open_popup():

@@ -30,6 +30,7 @@ speeds_up_with_bounces = true
 mult_bounce_speed_up = 1.5
 has_speed_cap = true
 speed_cap = 120.0
+grabbable = false
 do_impulse_on_landing = false
 impulse_amount = 2000.0
 min_scale = 0.35

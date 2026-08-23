@@ -198,7 +198,7 @@ func move():
 	#claw movement------------------------------------------
 	if not grabbing:
 		var move_dir = Input.get_vector("left", "right","up","down")
-		velocity = move_dir * (move_speed * gm.claw_current_move_speed_upgrade_amount)
+		velocity = move_dir * (move_speed)
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide() #include this after anything that changes velocity or involves collision
@@ -267,6 +267,18 @@ func grab():
 		sprite.play("idle")
 	grabbing = false #end of grab process
 	grab_cooldown_timer = grab_cooldown #starts grab cooldown
+
+
+func force_to_hold(new_loot : Loot):
+	sprite.play("holding")
+	holding = true
+	new_loot.get_grabbed(self)
+	new_loot.force_to_be_held(self)
+	new_loot.global_position = global_position
+	new_loot.reparent(self)
+	loot_held.append(new_loot)
+
+
 
 
 #used to check if able to drop
