@@ -1,7 +1,7 @@
 extends Node
 
 
-const VERSION : String = "jam 0.2"
+const VERSION : String = "jam 0.21"
 
 
 #signals for whenever any change to stats happens in case we want to add effects that pay attention to this, so please use the correct resource gain/spend functions
@@ -59,19 +59,34 @@ var claw_cloner_owned : bool = false
 
 
 #settings----------------------------------
-var master_volume : float
-var music_volume: float
-var sfx_volume: float
+var master_volume : float = 0.7
+var music_volume: float = 0.7
+var sfx_volume: float = 0.7
 
 
 func save_music_volumes(bus_index, value):
 	match bus_index:
 		0:
+			#print(str(value))
 			master_volume = value
 		1:
 			music_volume = value
 		2: 
 			sfx_volume = value
+
+func get_music_volumes(bus_index) -> float:
+	match bus_index:
+		0:
+			return master_volume
+		1:
+			return music_volume
+		2: 
+			return sfx_volume
+		_:
+			return 1.0
+
+
+	
 
 
 #gaining resource-------------------------
@@ -173,6 +188,11 @@ var default_save := {
 	"claw_excavator_owned" : claw_excavator_owned, 
 	"claw_ufo_owned" : claw_ufo_owned, 
 	"claw_cloner_owned" : claw_cloner_owned, 
+
+	"master_volume" : master_volume,
+	"music_volume" : music_volume,
+	"sfx_volume" : sfx_volume,
+
 	}
 
 var save_dict := {
@@ -197,6 +217,10 @@ var save_dict := {
 	"claw_excavator_owned" : claw_excavator_owned, 
 	"claw_ufo_owned" : claw_ufo_owned, 
 	"claw_cloner_owned" : claw_cloner_owned,
+
+	"master_volume" : master_volume,
+	"music_volume" : music_volume,
+	"sfx_volume" : sfx_volume,
 
 	}
 
@@ -238,6 +262,9 @@ func save_game():
 	save_dict["claw_ufo_owned"] = claw_ufo_owned 
 	save_dict["claw_cloner_owned"] = claw_cloner_owned
 
+	save_dict["master_volume"] = master_volume
+	save_dict["music_volume"] = music_volume
+	save_dict["sfx_volume"] = sfx_volume
 
 
 
@@ -311,6 +338,10 @@ func load_data_from_save(save_data : Dictionary):
 	claw_ufo_owned = save_dict["claw_ufo_owned"]
 	claw_cloner_owned = save_dict["claw_cloner_owned"]
 
+	master_volume = save_dict["master_volume"]
+	music_volume = save_dict["music_volume"]
+	sfx_volume = save_dict["sfx_volume"]
+
 
 	on_any_update.emit()
 	print("save loaded.")
@@ -339,14 +370,25 @@ func update_handler(save_data : Dictionary) -> Dictionary:
 	updated_save["claw_ufo_owned"] = save_data.get("claw_ufo_owned", default_save["claw_ufo_owned"])
 	updated_save["claw_cloner_owned"] = save_data.get("claw_cloner_owned", default_save["claw_ufo_owned"])
 	
+	
+	updated_save["master_volume"] = save_data.get("master_volume", default_save["master_volume"])
+	updated_save["music_volume"] = save_data.get("music_volume", default_save["music_volume"])
+	updated_save["sfx_volume"] = save_data.get("sfx_volume", default_save["sfx_volume"])
+	
 	return updated_save
 
 
 
 
 func clear_save_data():
+	var saved_master_vol : float = master_volume
+	var saved_music_vol : float = music_volume
+	var saved_sfx_vol : float = sfx_volume
 	load_data_from_save(default_save.duplicate()) #makes current save the default game state
-	save_game() #saves the game as the default game state
+	master_volume = saved_master_vol
+	music_volume = saved_music_vol
+	sfx_volume = saved_sfx_vol
+	save_game() #saves the game as the default game state (except remembers the volume settings)
 	just_reset_save_file.emit()
 	on_any_update.emit()
 	update_upgrades.emit()

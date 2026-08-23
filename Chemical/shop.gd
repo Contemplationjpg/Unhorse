@@ -81,7 +81,8 @@ func _process(delta: float) -> void:
 		#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 		#for i in shop_buttons:
 			#i.pressed.emit(true)
-		gm.gain_points(10000)
+		#gm.gain_points(10000)
+		pass
 
 func _on_buy_play_pressed() -> void:
 	var spendable = gm.spend_points(play_price)
@@ -556,11 +557,10 @@ func on_save_loaded():
 	loot_rarity_upgrade = gm.loot_rarity_upgrade 
 
 	#owned claws
-excavator_owned = gm.excavator_owned
-claw_new_owned = gm.claw_new_owned 
-claw_excavator_owned = gm.claw_excavator_owned 
-claw_ufo_owned = gm.claw_ufo_owned 
-claw_cloner_owned = gm.claw_cloner_owned 
+	claw_new_owned = gm.claw_new_owned 
+	claw_excavator_owned = gm.claw_excavator_owned 
+	claw_ufo_owned = gm.claw_ufo_owned 
+	claw_cloner_owned = gm.claw_cloner_owned 
 
-_update_shop_buttons()
+	_update_shop_buttons()
 

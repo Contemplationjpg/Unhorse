@@ -30,8 +30,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 size = Vector2(200, 520)
 
-[node name="Chemical" type="Node2D" unique_id=2089471138]
+[node name="Chemical" type="Node2D" unique_id=2089471138 node_paths=PackedStringArray("settings")]
 script = ExtResource("1_62e5f")
+settings = NodePath("HUD/UICanvas/Settings")
 
 [node name="Stone" type="Sprite2D" parent="." unique_id=925409399]
 position = Vector2(125.5, -5.4999847)
@@ -467,6 +468,9 @@ offset_bottom = 560.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("8_nwse5")
 
+[node name="Settings" parent="HUD/UICanvas" unique_id=763621863 instance=ExtResource("1_nwse5")]
+visible = false
+
 [node name="Player" type="Node" parent="." unique_id=814992604]
 script = ExtResource("1_81wnh")
 
@@ -750,17 +754,10 @@ claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("17_u1noj")])
 [node name="GPUParticles2D" parent="." unique_id=777645101 instance=ExtResource("14_fqalb")]
 lifetime = 0.5
 
-[node name="Settings" parent="." unique_id=763621863 instance=ExtResource("1_nwse5")]
-visible = false
-
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=939615524]
 stream = ExtResource("19_dlqoq")
 autoplay = true
-bus = &"Music"
 parameters/looping = true
-
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer/ShopLeft" to="HUD/UICanvas/Shop" method="_on_shop_left_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/HBoxContainer/ShopRight" to="HUD/UICanvas/Shop" method="_on_shop_right_pressed"]
 
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator" to="HUD/UICanvas/Shop" method="_on_excavator_pressed"]
@@ -770,3 +767,4 @@ parameters/looping = true
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopRight" to="HUD/UICanvas/Shop" method="_on_shop_right_pressed"]
 
 [editable path="HUD/UICanvas/ResetButton"]
+[editable path="HUD/UICanvas/Settings"]

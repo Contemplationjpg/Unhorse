@@ -278,11 +278,11 @@ func update_upgrades():
 	rarity_upgrade = gm.loot_rarity_upgrade
 	match rarity_upgrade:
 		0:
-			rarity_upgrade_amount = 1
+			rarity_upgrade_amount = 0
 		1:
-			rarity_upgrade_amount = 2
+			rarity_upgrade_amount = 1
 		2:
-			rarity_upgrade_amount = 3
+			rarity_upgrade_amount = 2
 		_:
 			rarity_upgrade_amount = 5
 
