@@ -68,11 +68,12 @@ func give_player_bomb():
 	if player.claw:
 		var new_unhorse = unhorse_scene.instantiate()
 		add_child(new_unhorse)
-		player.claw.force_to_hold(new_unhorse)
-		new_unhorse.impulse_amount*=bomb_strength_upgrade_amount
-		bomb_cooldown_timer = bomb_cooldown-bomb_cooldown_upgrade_amount
-		gm.bomb_on_cooldown.emit()
-
+		if player.claw.force_to_hold(new_unhorse):
+			new_unhorse.impulse_amount*=bomb_strength_upgrade_amount
+			bomb_cooldown_timer = bomb_cooldown-bomb_cooldown_upgrade_amount
+			gm.bomb_on_cooldown.emit()
+		else:
+			new_unhorse.queue_free()
 
 func dim_bomb_cooldown_hud():
 	bomb_hud.self_modulate.v = 0.4

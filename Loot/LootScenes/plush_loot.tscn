@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://qfs2bgw30u8p"]
 
-[ext_resource type="Script" uid="uid://ck5inm2pfk2ab" path="res://Chemical/chance_loot.gd" id="1_12oij"]
+[ext_resource type="Script" uid="uid://c6j6i0mpm4e25" path="res://Chemical/loot.gd" id="1_12oij"]
 [ext_resource type="Texture2D" uid="uid://d31nyxsklx373" path="res://Assets/Sprites/unhorse_plush.png" id="2_12oij"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]

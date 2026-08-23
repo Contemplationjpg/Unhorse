@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dlg1kr6rib4us" path="res://Assets/Sprites/unhorse.png" id="1_d7koe"]
 [ext_resource type="Script" uid="uid://u6xeubrgsesw" path="res://Chemical/horse_bomb.gd" id="2_7vfcd"]
+[ext_resource type="AudioStream" uid="uid://cf2m46wkih3pe" path="res://Assets/Sounds/explosion.wav" id="3_x0dvc"]
 
 [sub_resource type="Gradient" id="Gradient_o6s1u"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -24,7 +25,7 @@ color_ramp = SubResource("GradientTexture1D_0kl5h")
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
 radius = 100.005
 
-[node name="HorseBomb" type="GPUParticles2D" unique_id=777645101 node_paths=PackedStringArray("area")]
+[node name="HorseBomb" type="GPUParticles2D" unique_id=777645101 node_paths=PackedStringArray("area", "sound")]
 z_index = 4
 emitting = false
 amount = 80
@@ -38,9 +39,16 @@ draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_imfbs")
 script = ExtResource("2_7vfcd")
 area = NodePath("Area2D")
+sound = NodePath("Explosion")
 do_knockback_on_detonate = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1808546312]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1777759771]
 shape = SubResource("CircleShape2D_d5xax")
+
+[node name="Explosion" type="AudioStreamPlayer" parent="." unique_id=1292746249]
+stream = ExtResource("3_x0dvc")
+volume_db = 15.0
+pitch_scale = 0.84
+bus = &"SFX"

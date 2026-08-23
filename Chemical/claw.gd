@@ -269,7 +269,9 @@ func grab():
 	grab_cooldown_timer = grab_cooldown #starts grab cooldown
 
 
-func force_to_hold(new_loot : Loot):
+func force_to_hold(new_loot : Loot)->bool:
+	if grabbing:
+		return false
 	sprite.play("holding")
 	holding = true
 	new_loot.get_grabbed(self)
@@ -277,6 +279,7 @@ func force_to_hold(new_loot : Loot):
 	new_loot.global_position = global_position
 	new_loot.reparent(self)
 	loot_held.append(new_loot)
+	return true
 
 
 

@@ -1,7 +1,7 @@
 class_name UnstableLoot
 extends Loot
 
-@export var explosion_effect : GPUParticles2D 
+@export var explosion_effect : HorseBomb 
 @export var walks_around : bool = false
 @export var walk_acceleration : float = 10
 @export var walk_velocity : float = 20
@@ -54,7 +54,8 @@ func explode():
 		push_away_nearby()
 		set_deferred("freeze", true)
 		explosion_effect.emitting = true
-		await explosion_effect.finished
+		explosion_effect.play_sound()
+		await explosion_effect.okay_to_free
 		queue_free()
 
 func landing_explosion():

@@ -2,6 +2,7 @@ class_name HorseBomb
 extends GPUParticles2D
 
 @export var area : Area2D
+@export var sound : AudioStreamPlayer
 
 @export var do_knockback_on_detonate : bool = false
 @export var destroy_after_detonate : bool = true
@@ -11,18 +12,42 @@ var loot_in_range : Array[Loot] = []
 
 var exploding : bool = false
 
+
+var anim_finished : bool = false
+var sound_finished : bool = false
+signal okay_to_free
+
 func _ready():
 	emitting = false
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exit)
+
+	finished.connect(on_anim_finished)
+	sound.finished.connect(on_sound_finished)
 	return
+
+func on_anim_finished():
+	anim_finished = true
+	if anim_finished and sound_finished:
+		okay_to_free.emit()
+
+func on_sound_finished():
+	sound_finished = true
+	if anim_finished and sound_finished:
+		okay_to_free.emit()
+
+func play_sound():	
+	var rng = randf_range(0.8,1.2)
+	sound.pitch_scale = rng
+	sound.playing = true
 
 func explode():
 	if not exploding:
 		exploding = true
 		bump()
 		emitting = true
-		await finished
+		play_sound()
+		await okay_to_free
 		queue_free()
 
 
