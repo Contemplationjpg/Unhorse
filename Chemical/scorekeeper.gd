@@ -9,8 +9,11 @@ extends Node
 
 @export var screen_canvas : CanvasLayer
 @export var ui_canvas : CanvasLayer
+
 @export var float_text_scene : PackedScene
 @export var float_text_rand_radius : float = 10
+
+@export var explosion_scene : PackedScene
 
 
 @onready var gm : ChemicalGameManager = ChemicalGameManager
@@ -25,6 +28,7 @@ func _ready() -> void:
 	gm.on_any_update.connect(update_ui)
 	gm.on_loot_scored.connect(on_loot_score_detected)
 	gm.on_loot_bonus_update.connect(on_loot_bonus_update_detected)
+	gm.on_explosion.connect(spawn_explosion)
 	
 	gm.on_gain_points.connect(spawn_floating_text_ui_points)
 	gm.on_gain_plays.connect(spawn_floating_text_ui_plays)
@@ -74,6 +78,15 @@ func spawn_floating_text_score(position : Vector2, message : String, time : floa
 			dir = Vector2(-1,-1)
 		float_text.prime_text(message, position, float_text_rand_radius, time, dir, 10, color)
 		screen_canvas.add_child(float_text)
+
+#spawning explosions-----------------------------------------------------------------
+
+func spawn_explosion(position : Vector2, size : float):
+	var explosion = (explosion_scene.instantiate() as HorseBomb)
+	ui_canvas.get_parent().add_child(explosion)
+	explosion.global_position = position
+	explosion.global_scale = Vector2(size, size)
+	explosion.explode()
 
 
 

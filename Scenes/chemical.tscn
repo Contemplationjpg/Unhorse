@@ -60,6 +60,7 @@ version_label = NodePath("UICanvas/VersionLabel")
 screen_canvas = NodePath("ScreenCanvas")
 ui_canvas = NodePath("UICanvas")
 float_text_scene = ExtResource("2_0kl5h")
+explosion_scene = ExtResource("14_fqalb")
 
 [node name="ScreenCanvas" type="CanvasLayer" parent="HUD" unique_id=1254409264]
 layer = 2
@@ -469,11 +470,19 @@ offset_bottom = -190.00009
 grow_vertical = 0
 
 [node name="BombCooldownHUD" type="TextureRect" parent="HUD/UICanvas" unique_id=290697275]
-offset_left = -90.0
-offset_top = -40.0
-offset_right = 510.0
-offset_bottom = 560.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -452.0
+offset_top = -198.0
+offset_right = 148.00024
+offset_bottom = 402.0
+grow_horizontal = 0
+grow_vertical = 0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
 texture = ExtResource("8_nwse5")
 
 [node name="Settings" parent="HUD/UICanvas" unique_id=763621863 instance=ExtResource("1_nwse5")]
@@ -530,21 +539,22 @@ position = Vector2(-474, -399)
 [node name="Holes" type="Node2D" parent="MapElements" unique_id=1642318204]
 
 [node name="BigTimes1Hole" parent="MapElements/Holes" unique_id=1664343926 instance=ExtResource("7_05swk")]
-position = Vector2(-25, -396)
-scale = Vector2(3, 3)
+position = Vector2(-89, -456)
+scale = Vector2(2, 2)
 
 [node name="MediumTimes2Hole" parent="MapElements/Holes" unique_id=1542862474 instance=ExtResource("7_05swk")]
-position = Vector2(-648, -221)
-scale = Vector2(2, 2)
+position = Vector2(-519, -361)
+scale = Vector2(1.5, 1.5)
 point_modifier = 2.0
 
 [node name="MediumTimes2Hole2" parent="MapElements/Holes" unique_id=1461735364 instance=ExtResource("7_05swk")]
-position = Vector2(162, 434)
-scale = Vector2(2, 2)
+position = Vector2(135, 434)
+scale = Vector2(1.5, 1.5)
 point_modifier = 2.0
 
 [node name="SmallTimes3Hole" parent="MapElements/Holes" unique_id=1183377378 instance=ExtResource("7_05swk")]
-position = Vector2(500, -347)
+position = Vector2(514, -374)
+scale = Vector2(0.6, 0.6)
 point_modifier = 3.0
 
 [node name="Walls" type="Node2D" parent="MapElements" unique_id=1308358038]
@@ -579,9 +589,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall2" type="RigidBody2D" parent="MapElements/Walls" unique_id=720620117]
 z_index = 2
-position = Vector2(288, -156)
-rotation = 0.41967374
-scale = Vector2(0.275, 0.365)
+position = Vector2(328.99997, -221)
+rotation = -1.0477725
+scale = Vector2(0.08, 0.365)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -596,9 +606,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall3" type="RigidBody2D" parent="MapElements/Walls" unique_id=1350561336]
 z_index = 2
-position = Vector2(423, -474)
-rotation = 0.41967374
-scale = Vector2(0.275, 0.365)
+position = Vector2(461.99997, -433.99997)
+rotation = 1.3832896
+scale = Vector2(0.08, 0.365)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -613,9 +623,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall4" type="RigidBody2D" parent="MapElements/Walls" unique_id=1885005080]
 z_index = 2
-position = Vector2(388.99997, -35.999992)
-rotation = 1.9896754
-scale = Vector2(0.275, 0.65)
+position = Vector2(432, -123)
+rotation = 2.8450484
+scale = Vector2(0.08, 0.22070408)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -628,11 +638,28 @@ texture = ExtResource("13_u1noj")
 z_index = 3
 shape = SubResource("RectangleShape2D_d5xax")
 
+[node name="StraightWall12" type="RigidBody2D" parent="MapElements/Walls" unique_id=872061205]
+z_index = 2
+position = Vector2(465.00003, 89)
+rotation = 3.3627276
+scale = Vector2(0.08, 0.22070408)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall12" unique_id=1037877871]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall12" unique_id=1857945227]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
 [node name="StraightWall5" type="RigidBody2D" parent="MapElements/Walls" unique_id=944479878]
 z_index = 2
-position = Vector2(454, 182)
-rotation = 4.16261
-scale = Vector2(0.275, 0.235)
+position = Vector2(408, 179)
+rotation = 4.030169
+scale = Vector2(0.08, 0.235)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -647,9 +674,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall6" type="RigidBody2D" parent="MapElements/Walls" unique_id=1229716474]
 z_index = 2
-position = Vector2(-536, 217.00002)
-rotation = -0.5009095
-scale = Vector2(0.275, 0.32)
+position = Vector2(-488, 310)
+rotation = -1.1145595
+scale = Vector2(0.08, 0.32071656)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -664,9 +691,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall9" type="RigidBody2D" parent="MapElements/Walls" unique_id=1236620267]
 z_index = 2
-position = Vector2(-634.0001, -29.999977)
-rotation = -0.27401668
-scale = Vector2(0.275, 0.32)
+position = Vector2(-597.99994, 242)
+rotation = -0.8925787
+scale = Vector2(0.08, 0.20323)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -681,9 +708,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall7" type="RigidBody2D" parent="MapElements/Walls" unique_id=2120919234]
 z_index = 2
-position = Vector2(-242, 367)
-rotation = -1.3072516
-scale = Vector2(0.275, 0.31)
+position = Vector2(-221, 402)
+rotation = -1.0677385
+scale = Vector2(0.08, 0.09973389)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -698,9 +725,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall8" type="RigidBody2D" parent="MapElements/Walls" unique_id=1716446406]
 z_index = 2
-position = Vector2(-224.00003, 483)
+position = Vector2(-283.99997, 518)
 rotation = 0.6370452
-scale = Vector2(0.275, 0.54)
+scale = Vector2(0.08, 0.54)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -715,9 +742,9 @@ shape = SubResource("RectangleShape2D_d5xax")
 
 [node name="StraightWall10" type="RigidBody2D" parent="MapElements/Walls" unique_id=1574822010]
 z_index = 2
-position = Vector2(-408, -281)
-rotation = 0.48520154
-scale = Vector2(0.275, 1.08)
+position = Vector2(-399, -116)
+rotation = -0.44190168
+scale = Vector2(0.08, 0.24736452)
 collision_layer = 16
 collision_mask = 0
 freeze = true
@@ -729,6 +756,79 @@ texture = ExtResource("13_u1noj")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall10" unique_id=1453553143]
 z_index = 3
 shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall13" type="RigidBody2D" parent="MapElements/Walls" unique_id=1396884081]
+z_index = 2
+position = Vector2(-218.00002, -256)
+rotation = 0.66747725
+scale = Vector2(0.08, 0.38912386)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall13" unique_id=361739371]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall13" unique_id=801248002]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="StraightWall11" type="RigidBody2D" parent="MapElements/Walls" unique_id=952440003]
+z_index = 2
+position = Vector2(-377, -432)
+rotation = 0.3047128
+scale = Vector2(0.08, 0.634737)
+collision_layer = 16
+collision_mask = 0
+freeze = true
+
+[node name="WallSprite" type="Sprite2D" parent="MapElements/Walls/StraightWall11" unique_id=172460863]
+z_index = 3
+texture = ExtResource("13_u1noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapElements/Walls/StraightWall11" unique_id=1866473338]
+z_index = 3
+shape = SubResource("RectangleShape2D_d5xax")
+
+[node name="BoostArrow" parent="MapElements" unique_id=703814864 instance=ExtResource("28_ch6ns")]
+position = Vector2(-372.00003, 441)
+rotation = -1.5611398
+boost_strength = 3000.0
+
+[node name="BoostArrow2" parent="MapElements" unique_id=900677510 instance=ExtResource("28_ch6ns")]
+position = Vector2(-367, -247.00003)
+rotation = 0.8851875
+boost_strength = 3000.0
+
+[node name="BoostArrow3" parent="MapElements" unique_id=26270573 instance=ExtResource("28_ch6ns")]
+position = Vector2(168, -505)
+rotation = 2.3707845
+boost_strength = 3000.0
+
+[node name="Bumper" parent="MapElements" unique_id=673764108 instance=ExtResource("14_dlqoq")]
+position = Vector2(-433, -9)
+scale = Vector2(0.6, 0.6)
+collision_layer = 0
+collision_mask = 2
+impulse_amount = 1600.0
+max_bumps = 0
+stationary = true
+
+[node name="Area2D" parent="MapElements/Bumper" index="2" unique_id=1449030361]
+disable_mode = 2
+
+[node name="Bumper2" parent="MapElements" unique_id=1787634260 instance=ExtResource("14_dlqoq")]
+position = Vector2(-193, 521)
+scale = Vector2(0.6, 0.6)
+collision_layer = 0
+collision_mask = 2
+impulse_amount = 1600.0
+max_bumps = 0
+stationary = true
+
+[node name="Area2D" parent="MapElements/Bumper2" index="2" unique_id=1449030361]
+disable_mode = 2
 
 [node name="BoundingBox" parent="MapElements" unique_id=303715055 instance=ExtResource("7_05swk")]
 position = Vector2(-1343, -565)
@@ -767,10 +867,6 @@ stream = ExtResource("19_dlqoq")
 autoplay = true
 parameters/looping = true
 
-[node name="BoostArrow" parent="." unique_id=703814864 instance=ExtResource("28_ch6ns")]
-position = Vector2(-53.999985, 259)
-rotation = -1.0012692
-
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator" to="HUD/UICanvas/Shop" method="_on_excavator_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
@@ -780,4 +876,6 @@ rotation = -1.0012692
 
 [editable path="HUD/UICanvas/ResetButton"]
 [editable path="HUD/UICanvas/Settings"]
+[editable path="MapElements/Bumper"]
+[editable path="MapElements/Bumper2"]
 [editable path="MapElements/BoundingBox"]

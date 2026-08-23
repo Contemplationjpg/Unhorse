@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://0stsuy3dymut"]
 
 [ext_resource type="Texture2D" uid="uid://dlg1kr6rib4us" path="res://Assets/Sprites/unhorse.png" id="1_d7koe"]
+[ext_resource type="Script" uid="uid://u6xeubrgsesw" path="res://Chemical/horse_bomb.gd" id="2_7vfcd"]
 
 [sub_resource type="Gradient" id="Gradient_o6s1u"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -20,7 +21,11 @@ scale_min = 0.049999997
 scale_max = 0.049999997
 color_ramp = SubResource("GradientTexture1D_0kl5h")
 
-[node name="HorseBomb" type="GPUParticles2D" unique_id=777645101]
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
+radius = 100.005
+
+[node name="HorseBomb" type="GPUParticles2D" unique_id=777645101 node_paths=PackedStringArray("area")]
+z_index = 4
 emitting = false
 amount = 80
 sub_emitter = NodePath(".")
@@ -31,3 +36,11 @@ randomness = 0.29
 local_coords = true
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_imfbs")
+script = ExtResource("2_7vfcd")
+area = NodePath("Area2D")
+do_knockback_on_detonate = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1808546312]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1777759771]
+shape = SubResource("CircleShape2D_d5xax")

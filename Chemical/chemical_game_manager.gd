@@ -18,6 +18,8 @@ signal on_any_update() #this "on_any_update" signal is intended for things like 
 signal on_loot_scored(position : Vector2, amount : int)
 signal on_loot_bonus_update(position : Vector2, bonus : float)
 
+signal on_explosion(position : Vector2, scale : float)
+
 signal update_upgrades()
 
 signal start_restock()
@@ -31,7 +33,6 @@ signal bomb_off_cooldown()
 
 signal restock_on_cooldown()
 signal restock_off_cooldown()
-
 
 #resources--------------------------------
 var points : int = 500

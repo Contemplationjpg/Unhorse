@@ -13,8 +13,9 @@ extends RigidBody2D
 @export var impulse_amount : float = 400
 @export var extend_time : float = 1
 @export var point_yield_after_destruction : int = 1000
-
 @export var max_bumps : int = 20
+@export var stationary : bool = false
+
 
 @export var final_blink_speed : float = 0.5
 
@@ -78,6 +79,10 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	if stationary:
+		linear_velocity = Vector2.ZERO
+		freeze = true
+
 	limit_velocity()
 
 	if extended:
@@ -110,6 +115,9 @@ func on_final_bump():
 	if point_yield_after_destruction > 0:
 		gm.gain_points(point_yield_after_destruction)
 		gm.on_loot_scored.emit(global_position, point_yield_after_destruction) #on_loot_scored() used for scorekeeper to spawn point notifs around the score location
+	
+	gm.on_explosion.emit(global_position, 2.0) #spawn explosion
+
 	queue_free()
 
 func update_bump_counter():
@@ -132,12 +140,15 @@ func activate_bump(body : Node2D = null):
 		return
 
 	if loot_in_range.size() == 0:
+		#print("no loot in range")
 		return
 
 	if not extended:
 		extended = true
 		bump()
 		extend_time_timer = extend_time
+
+
 
 func bump_self():
 	var push_dir : Vector2 = (Vector2.ZERO - global_position).normalized()
@@ -159,6 +170,9 @@ func _on_body_entered(body : Node2D):
 	if other_loot:
 		if loot_in_range.find(other_loot) == -1: #find() returns -1 if nothing found
 			loot_in_range.append(other_loot)
+	if stationary:
+		#print("I am stationary so I am activating bump")
+		activate_bump(body)
 
 func _on_body_exit(body : Node2D):
 	#print("body exited")
