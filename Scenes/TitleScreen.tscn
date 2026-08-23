@@ -74,7 +74,6 @@ offset_bottom = -10.0
 grow_vertical = 0
 text = "Unhorse Version"
 
-
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
