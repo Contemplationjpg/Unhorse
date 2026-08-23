@@ -20,6 +20,7 @@ offset_bottom = 8.0
 text = "Reset Data"
 
 [node name="Popup" type="Panel" parent="." unique_id=1964976784]
+z_index = -1
 layout_mode = 1
 offset_right = 500.0
 offset_bottom = 300.0

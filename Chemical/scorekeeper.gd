@@ -4,6 +4,9 @@ extends Node
 @export var points_label : RichTextLabel
 @export var plays_label : RichTextLabel
 @export var spins_label : RichTextLabel
+@export var version_label : RichTextLabel
+
+
 @export var screen_canvas : CanvasLayer
 @export var ui_canvas : CanvasLayer
 @export var float_text_scene : PackedScene
@@ -16,6 +19,8 @@ var last_point_value : int = 0
 
 
 func _ready() -> void:
+	version_label.text = str("Version: " + str(gm.VERSION))
+
 	update_ui()
 	gm.on_any_update.connect(update_ui)
 	gm.on_loot_scored.connect(on_loot_score_detected)
@@ -56,10 +61,10 @@ func on_loot_score_detected(position : Vector2, amount : int):
 	spawn_floating_text_score(position, str("+" + str(amount)))
 
 func on_loot_bonus_update_detected(position : Vector2, bonus : float):
-	spawn_floating_text_score(position, str("x" + str(bonus)), 0.5)
+	spawn_floating_text_score(position, str("x" + str(bonus)), 0.5, Color.YELLOW)
 		
 
-func spawn_floating_text_score(position : Vector2, message : String, time : float = 2):
+func spawn_floating_text_score(position : Vector2, message : String, time : float = 2, color : Color = Color.WHITE):
 	if float_text_scene:
 		var float_text : FloatText = float_text_scene.instantiate()
 		var dir
@@ -67,7 +72,7 @@ func spawn_floating_text_score(position : Vector2, message : String, time : floa
 			dir = Vector2(1,-1)
 		else:
 			dir = Vector2(-1,-1)
-		float_text.prime_text(message, position, float_text_rand_radius, time, dir, 10, Color.WHITE)
+		float_text.prime_text(message, position, float_text_rand_radius, time, dir, 10, color)
 		screen_canvas.add_child(float_text)
 
 

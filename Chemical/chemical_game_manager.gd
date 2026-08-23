@@ -1,7 +1,7 @@
 extends Node
 
 
-const VERSION : String = "jam 0.1"
+const VERSION : String = "jam 0.2"
 
 
 #signals for whenever any change to stats happens in case we want to add effects that pay attention to this, so please use the correct resource gain/spend functions
@@ -18,9 +18,7 @@ signal on_any_update() #this "on_any_update" signal is intended for things like 
 signal on_loot_scored(position : Vector2, amount : int)
 signal on_loot_bonus_update(position : Vector2, bonus : float)
 
-signal update_loot()
-signal update_holes()
-signal update_claw()
+signal update_upgrades()
 
 signal start_restock()
 signal clear_all_loot()
@@ -28,18 +26,37 @@ signal clear_all_loot()
 signal request_claw()
 signal send_claw(claw : Claw)
 
+signal bomb_on_cooldown()
+signal bomb_off_cooldown()
+
+signal restock_on_cooldown()
+signal restock_off_cooldown()
+
+
 #resources--------------------------------
 var points : int = 500
 var plays : int = 3
 var spins : int = 3
 
 #upgrade amounts--------------------------
-var loot_current_point_upgrade_amount: int = 0
-var loot_current_bounce_bonus_upgrade_amount: int = 0
 
-var claw_current_move_speed_upgrade_amount: int = 1
+var hole_upgrade : int = 0
+var loot_value_upgrade : int = 0
 
-var excavator_owned : bool = false
+var loot_speed_upgrade : int = 0
+var loot_bonus_upgrade : int = 0
+
+var loot_spawn_upgrade : int = 0
+var loot_rarity_upgrade : int = 0
+
+var bomb_strength_upgrade : int = 0
+var bomb_cooldown_upgrade : int = 0
+
+var claw_new_owned : bool = false
+var claw_excavator_owned : bool = false
+var claw_ufo_owned : bool = false
+var claw_cloner_owned : bool = false
+
 
 
 #gaining resource-------------------------
@@ -111,6 +128,7 @@ func _ready():
 	load_save()
 	reset_save_file.connect(clear_save_data) #reset_save_file should be called by other scripts, namely the settings with the reset data button
 	on_any_update.connect(save_game) #should autosave whenever data changes
+	update_upgrades.connect(save_game) #should autosave whenever buying upgrade
 
 func get_version() -> String:
 	return VERSION
@@ -123,12 +141,23 @@ var default_save := {
 	"plays" : plays,
 	"spins" : spins,
 	
-	"loot_point_upgrade" : loot_current_point_upgrade_amount,
-	"loot_bounce_bonus_upgrade" : loot_current_bounce_bonus_upgrade_amount,
-	
-	"claw_move_speed_upgrade" : claw_current_move_speed_upgrade_amount,
+	"hole_upgrade" : hole_upgrade,
+	"loot_value_upgrade" : loot_value_upgrade,
 
-	"excavator_owned" : excavator_owned,
+	"loot_speed_upgrade" :  loot_speed_upgrade, 
+	"loot_bonus_upgrade" : loot_bonus_upgrade, 
+
+	"loot_spawn_upgrade" : loot_spawn_upgrade, 
+	"loot_rarity_upgrade" : loot_rarity_upgrade, 
+
+	"bomb_strength_upgrade" : bomb_strength_upgrade,
+	"bomb_cooldown_upgrade" : bomb_cooldown_upgrade,
+
+
+	"claw_new_owned" : claw_new_owned, 
+	"claw_excavator_owned" : claw_excavator_owned, 
+	"claw_ufo_owned" : claw_ufo_owned, 
+	"claw_cloner_owned" : claw_cloner_owned, 
 	}
 
 var save_dict := {
@@ -136,13 +165,24 @@ var save_dict := {
 	"points" : points,
 	"plays" : plays,
 	"spins" : spins,
+
+	"hole_upgrade" : hole_upgrade,
+	"loot_value_upgrade" : loot_value_upgrade,
+
+	"loot_speed_upgrade" :  loot_speed_upgrade, 
+	"loot_bonus_upgrade" : loot_bonus_upgrade, 
+
+	"loot_spawn_upgrade" : loot_spawn_upgrade, 
+	"loot_rarity_upgrade" : loot_rarity_upgrade, 
 	
-	"loot_point_upgrade" : loot_current_point_upgrade_amount,
-	"loot_bounce_bonus_upgrade" : loot_current_bounce_bonus_upgrade_amount,
-	
-	"claw_move_speed_upgrade" : claw_current_move_speed_upgrade_amount,
-	
-	"excavator_owned" : excavator_owned,
+	"bomb_strength_upgrade" : bomb_strength_upgrade,
+	"bomb_cooldown_upgrade" : bomb_cooldown_upgrade,
+
+	"claw_new_owned" : claw_new_owned, 
+	"claw_excavator_owned" : claw_excavator_owned, 
+	"claw_ufo_owned" : claw_ufo_owned, 
+	"claw_cloner_owned" : claw_cloner_owned,
+
 	}
 
 
@@ -165,12 +205,27 @@ func save_game():
 	save_dict["plays"] = plays
 	save_dict["spins"] = spins
 
-	save_dict["loot_point_upgrade"] = loot_current_point_upgrade_amount
-	save_dict["loot_bounce_bonus_upgrade"] = loot_current_bounce_bonus_upgrade_amount
+	save_dict["hole_upgrade"] = hole_upgrade
+	save_dict["loot_value_upgrade"] = loot_value_upgrade
 
-	#save_dict["claw_move_speed_upgrade"] = claw_current_move_speed_upgrade_amount
-	
-	save_dict["excavator_owned"] = excavator_owned
+	save_dict["loot_speed_upgrade"] =  loot_speed_upgrade 
+	save_dict["loot_bonus_upgrade"] = loot_bonus_upgrade 
+
+	save_dict["loot_spawn_upgrade"] = loot_spawn_upgrade 
+	save_dict["loot_rarity_upgrade"] = loot_rarity_upgrade 
+
+
+	save_dict["bomb_strength_upgrade"] = bomb_strength_upgrade
+	save_dict["bomb_cooldown_upgrade"] = bomb_cooldown_upgrade
+
+	save_dict["claw_new_owned"] = claw_new_owned 
+	save_dict["claw_excavator_owned"] = claw_excavator_owned 
+	save_dict["claw_ufo_owned"] = claw_ufo_owned 
+	save_dict["claw_cloner_owned"] = claw_cloner_owned
+
+
+
+
 	#done saving each dictionary value-----------------------------
 	
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
@@ -213,26 +268,70 @@ func load_save():
 
 #gets the save data from a dictionary and copies the data into our save dictionary
 func load_data_from_save(save_data : Dictionary):
-	save_dict = save_data.duplicate() #set our save dict to a duplicate of the new save data
+	var new_data
+	if not save_data.get("version", "") == default_save["version"]:
+		new_data = update_handler(save_data)
+	else:
+		new_data = save_data.duplicate()
+	save_dict = new_data #set our save dict to a duplicate of the new save data
 	#loading each current game value with the new save dict data------------
 	points = save_dict["points"]
 	plays = save_dict["plays"]
 	spins = save_dict["spins"]
-
-	loot_current_point_upgrade_amount = save_dict["loot_point_upgrade"]
-	loot_current_bounce_bonus_upgrade_amount = save_dict["loot_bounce_bonus_upgrade"]
-
-	claw_current_move_speed_upgrade_amount = save_dict["claw_move_speed_upgrade"]
 	
-	excavator_owned = save_dict["excavator_owned"]
+	hole_upgrade = save_dict["hole_upgrade"]
+	loot_value_upgrade = save_dict["loot_value_upgrade"]
+
+	loot_speed_upgrade = save_dict["loot_speed_upgrade"]
+	loot_bonus_upgrade = save_dict["loot_bonus_upgrade"]
+
+	loot_spawn_upgrade = save_dict["loot_spawn_upgrade"]
+	loot_rarity_upgrade = save_dict["loot_rarity_upgrade"]
+
+	bomb_strength_upgrade = save_dict["bomb_strength_upgrade"]
+	bomb_cooldown_upgrade = save_dict["bomb_cooldown_upgrade"]
+
+	claw_new_owned = save_dict["claw_new_owned"]
+	claw_excavator_owned = save_dict["claw_excavator_owned"]
+	claw_ufo_owned = save_dict["claw_ufo_owned"]
+	claw_cloner_owned = save_dict["claw_cloner_owned"]
+
+
 	on_any_update.emit()
 	print("save loaded.")
 
+func update_handler(save_data : Dictionary) -> Dictionary:
+	print("handling update")
+	var updated_save : Dictionary
+	updated_save["points"] = save_data.get("points", default_save["points"])
+	updated_save["plays"] = save_data.get("plays", default_save["plays"])
+	updated_save["spins"] = save_data.get("spins", default_save["spins"])
+	
+	updated_save["hole_upgrade"] = save_data.get("hole_upgrade", default_save["hole_upgrade"])
+	updated_save["loot_value_upgrade"] = save_data.get("loot_value_upgrade", default_save["loot_value_upgrade"])
+
+	updated_save["loot_speed_upgrade"] = save_data.get("loot_speed_upgrade", default_save["loot_speed_upgrade"])
+	updated_save["loot_bonus_upgrade"] = save_data.get("loot_bonus_upgrade", default_save["loot_bonus_upgrade"])
+
+	updated_save["loot_spawn_upgrade"] = save_data.get("loot_spawn_upgrade", default_save["loot_spawn_upgrade"])
+	updated_save["loot_rarity_upgrade"] = save_data.get("loot_rarity_upgrade", default_save["loot_rarity_upgrade"])
+
+	updated_save["bomb_strength_upgrade"] = save_data.get("bomb_strength_upgrade", default_save["bomb_strength_upgrade"])
+	updated_save["bomb_cooldown_upgrade"] = save_data.get("bomb_cooldown_upgrade", default_save["bomb_cooldown_upgrade"])
+
+	updated_save["claw_new_owned"] = save_data.get("claw_new_owned", default_save["claw_new_owned"])
+	updated_save["claw_excavator_owned"] = save_data.get("claw_excavator_owned", default_save["claw_excavator_owned"])
+	updated_save["claw_ufo_owned"] = save_data.get("claw_ufo_owned", default_save["claw_ufo_owned"])
+	updated_save["claw_cloner_owned"] = save_data.get("claw_cloner_owned", default_save["claw_ufo_owned"])
+	
+	return updated_save
 
 
 
 
 func clear_save_data():
-	load_data_from_save(default_save) #makes current save the default game state
+	load_data_from_save(default_save.duplicate()) #makes current save the default game state
 	save_game() #saves the game as the default game state
 	just_reset_save_file.emit()
+	on_any_update.emit()
+	update_upgrades.emit()

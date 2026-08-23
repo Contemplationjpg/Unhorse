@@ -11,9 +11,11 @@ extends Node2D
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
 var loot_in_range : Array[Loot] = []
+var modifier_upgrade : int = 0
+var modifier_upgrade_amount = 0
 
 func _ready() -> void:
-	gm.update_holes.connect(update_mult_label)
+	gm.update_upgrades.connect(update_upgrades)
 	area.body_entered.connect(on_area_enter)
 	area.body_exited.connect(on_area_exit)
 	item_rect_changed.connect(update_mult_label)
@@ -30,13 +32,27 @@ func _physics_process(delta: float) -> void:
 func score_all_loot_in_range():
 	for i in range(loot_in_range.size() - 1, -1, -1): #iterates through list using range(start, stop, step)
 		#start_score() and hole_start_score() both start scoring process but hole_start_score() can pass a point modifier
-		if loot_in_range[i].hole_start_score(point_modifier):
+		if loot_in_range[i].hole_start_score(point_modifier + pow(2,modifier_upgrade_amount)):
 			loot_in_range.remove_at(i)
+
+
+func update_upgrades():
+	modifier_upgrade = gm.hole_upgrade
+	match modifier_upgrade:
+		0:
+			modifier_upgrade_amount = 0
+		1:
+			modifier_upgrade_amount = 1
+		2:
+			modifier_upgrade_amount = 2
+		_:
+			modifier_upgrade_amount = 3
+	update_mult_label()
 
 #connected to item_rect_changed so that it moves with the hole if that somehow ever happens????
 func update_mult_label():
 	mult_label.visible = true
-	mult_label.text = str("x" + str(point_modifier))
+	mult_label.text = str("x" + str(point_modifier + pow(2,modifier_upgrade_amount)))
 	#label position is top left and center justified
 	var x = global_position.x - mult_label.size.x/2 #x position is moved half of size.x left
 	var y = global_position.y - mult_label.size.y/2 #y position is moves half of size.y up
