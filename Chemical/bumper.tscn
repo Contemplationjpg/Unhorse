@@ -52,7 +52,7 @@ extend_coll = NodePath("ExtendedCollisionShape2D")
 bump_counter = NodePath("CanvasLayer/BumpCount")
 pilot_sprite = NodePath("Sprite2D")
 extend_time = 0.2
-max_bumps = 10
+max_bumps = 25
 final_blink_speed = 0.25
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1874487429]

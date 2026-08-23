@@ -31,6 +31,7 @@ speed_cap = 100.0
 has_bounce_limit = true
 bounce_limit = 30
 deletes_on_bounce_limit = true
+explodes_on_bounce_limit = true
 scores_on_bounce_limit = true
 impulse_amount = 800.0
 min_scale = 0.1

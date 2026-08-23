@@ -310,7 +310,8 @@ func on_bounce(_body : Node2D):
 			if scores_on_bounce_limit:
 				on_score_non_destroy()
 			if explodes_on_bounce_limit:
-				print("explosion (program explosions later)") #will program in the explosion later
+				#print("explosion (program explosions later)") #will program in the explosion later
+				gm.on_explosion.emit(global_position, 1.0)
 			if deletes_on_bounce_limit:
 				queue_free()
 			#if you have bounce limit on but no settings, loot stops in place and resets bounces
@@ -434,14 +435,14 @@ func update_upgrades():
 			speed_cap_raise_amount = 0
 			speed_upgrade_amount = 0
 		1:
-			speed_cap_raise_amount = 200
+			speed_cap_raise_amount = 100
 			speed_upgrade_amount = 100
 		2:
-			speed_cap_raise_amount = 500
+			speed_cap_raise_amount = 200
 			speed_upgrade_amount = 200
 		_:
-			speed_cap_raise_amount = 800
-			speed_upgrade_amount = 250
+			speed_cap_raise_amount = 200
+			speed_upgrade_amount = 300
 
 	bonus_upgrade = gm.loot_bonus_upgrade
 	match bonus_upgrade:
