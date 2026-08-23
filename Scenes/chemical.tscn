@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://b17ltmihr5utw" path="res://Chemical/shop.gd" id="2_fbaj0"]
 [ext_resource type="Script" uid="uid://3k15w2flk4y6" path="res://Chemical/claw_manager.gd" id="3_ef0cl"]
 [ext_resource type="Theme" uid="uid://dedv6yk4jg6wf" path="res://Chemical/ShopTheme.tres" id="3_n1mt2"]
+[ext_resource type="Texture2D" uid="uid://d4ia65lvtr2vd" path="res://Assets/Sprites/carpet.png" id="3_wuea5"]
+[ext_resource type="Texture2D" uid="uid://dkaeriot75cxl" path="res://Assets/Sprites/stone.png" id="3_ysf6c"]
 [ext_resource type="PackedScene" uid="uid://dlej3k1cokt0x" path="res://Chemical/roulette_wheel.tscn" id="4_b0vl6"]
 [ext_resource type="PackedScene" uid="uid://bg6bv76kcabub" path="res://Claws/claw.tscn" id="4_vrf4v"]
 [ext_resource type="PackedScene" uid="uid://d1hkr6spq6y2g" path="res://Chemical/hole.tscn" id="7_05swk"]
@@ -29,8 +31,14 @@ size = Vector2(200, 520)
 [node name="Chemical" type="Node2D" unique_id=2089471138]
 script = ExtResource("1_62e5f")
 
-[node name="Settings" parent="." unique_id=763621863 instance=ExtResource("1_nwse5")]
-visible = false
+[node name="Stone" type="Sprite2D" parent="." unique_id=925409399]
+position = Vector2(125.5, -5.4999847)
+scale = Vector2(2.4052086, 2.0484374)
+texture = ExtResource("3_ysf6c")
+
+[node name="Carpet" type="Sprite2D" parent="." unique_id=111617285]
+scale = Vector2(2.0520833, 2.2656248)
+texture = ExtResource("3_wuea5")
 
 [node name="HUD" type="Node" parent="." unique_id=1792794943 node_paths=PackedStringArray("points_label", "plays_label", "spins_label", "screen_canvas", "ui_canvas")]
 script = ExtResource("1_5u0wd")
@@ -680,6 +688,9 @@ claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("17_u1noj")])
 
 [node name="GPUParticles2D" parent="." unique_id=777645101 instance=ExtResource("14_fqalb")]
 lifetime = 0.5
+
+[node name="Settings" parent="." unique_id=763621863 instance=ExtResource("1_nwse5")]
+visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=939615524]
 stream = ExtResource("19_dlqoq")
