@@ -1,19 +1,19 @@
-[gd_scene format=3 uid="uid://c61baogkacke0"]
+[gd_scene format=3 uid="uid://qfs2bgw30u8p"]
 
-[ext_resource type="Script" uid="uid://ck5inm2pfk2ab" path="res://Chemical/chance_loot.gd" id="1_u2b8w"]
-[ext_resource type="Texture2D" uid="uid://c2jqjgtgr1msh" path="res://Assets/Sprites/chance_loot.png" id="2_mx8wa"]
+[ext_resource type="Script" uid="uid://ck5inm2pfk2ab" path="res://Chemical/chance_loot.gd" id="1_12oij"]
+[ext_resource type="Texture2D" uid="uid://d31nyxsklx373" path="res://Assets/Sprites/unhorse_plush.png" id="2_12oij"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]
 friction = 0.2
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5xax"]
-radius = 24.020824
+radius = 46.010868
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
-radius = 25.019993
+radius = 55.00909
 
-[node name="ChanceLoot" type="RigidBody2D" unique_id=596486904]
+[node name="PlushLoot" type="RigidBody2D" unique_id=596486904]
 z_index = 1
 collision_layer = 2
 collision_mask = 26
@@ -21,7 +21,7 @@ physics_material_override = SubResource("PhysicsMaterial_6hamn")
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_u2b8w")
+script = ExtResource("1_12oij")
 base_point_value = 30
 bounce_bonus_increase_per_bounce = 0.25
 bounces_until_max_color = 3
@@ -32,16 +32,17 @@ has_bounce_limit = true
 bounce_limit = 30
 deletes_on_bounce_limit = true
 scores_on_bounce_limit = true
-impulse_amount = 800.0
-min_scale = 0.1
-max_scale = 0.2
+impulse_amount = 400.0
+min_scale = 0.2
+max_scale = 0.4
 color_value_lower_speed = 0.25
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_mx8wa")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_12oij")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1047960950]
+position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_d5xax")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1594934862]
@@ -49,4 +50,5 @@ collision_layer = 0
 collision_mask = 34
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1719631366]
+position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_imfbs")

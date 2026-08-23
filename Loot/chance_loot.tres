@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource("2_8kp0m")
 loot_scene = ExtResource("1_2vckp")
-loot_rarity = 1
+loot_rarity = 5

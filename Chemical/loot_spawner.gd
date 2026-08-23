@@ -122,31 +122,32 @@ func drop_loot_around_claw_origin():
 		#						roll rng number then if rng is within a loot's number range, spawn that loot
 	var loot_rng_values : Array[int] = [] #contains values for deciding which loot to spawn
 	var additive_rng_threshold : int = 0
-	for i in special_loot_types:
+	for i in loot_types:
 		if i.loot_rarity > 0:
 			additive_rng_threshold += i.loot_rarity
 		loot_rng_values.append(int(additive_rng_threshold))
 	#print(loot_rng_values)
 
 	for i in range(normal_spawn_attempts + spawn_upgrade):
-		rng = randi_range(0,1)
+		rng = randf_range(0,1)
 
 		var spawn_rare : bool = false
 		print("rarity upgrade amount: " + str(rarity_upgrade_amount))
-		print("rare spawn chance: " + str((1.0+rarity_upgrade_amount)/6))
-		if rng <= ((1.0+rarity_upgrade_amount)/6):
+		print("rarity upgrade rng roll: " + str(rng))
+		print("rare spawn chance: " + str((1.0+rarity_upgrade_amount)/8))
+		if rng <= ((1.0+rarity_upgrade_amount)/8):
 			spawn_rare = true
 		
 		if spawn_rare:
 			rng = randi_range(0,additive_rng_threshold-1)
 			var index : int = 0
 			while (not chosen_loot):
-				#print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
+				print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
 				if rng >= loot_rng_values[index]:
 					index += 1
 				else:
 					chosen_loot = loot_types[index].loot_scene
-					#print("spawning " + chosen_loot.resource_path)
+					print("spawning " + chosen_loot.resource_path)
 		else:
 			chosen_loot = default_loot
 
@@ -164,6 +165,7 @@ func drop_loot_around_claw_origin():
 		claw_origin.add_child(new_loot)
 		new_loot.position = chosen_spawn_point	
 		new_loot.force_to_be_in_air()
+		new_loot.just_spawned = true
 
 
 

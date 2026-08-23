@@ -24,11 +24,18 @@
 [ext_resource type="Texture2D" uid="uid://bgg4aeffk6tjv" path="res://Assets/Sprites/straight_bumper.png" id="13_u1noj"]
 [ext_resource type="PackedScene" uid="uid://dkynhabmqo2kb" path="res://Chemical/bumper.tscn" id="14_dlqoq"]
 [ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
+[ext_resource type="Resource" uid="uid://cadukpylkl377" path="res://Loot/plush_loot.tres" id="16_euwsl"]
 [ext_resource type="PackedScene" uid="uid://7wsldwognxj6" path="res://Claws/excavator_claw.tscn" id="17_u1noj"]
 [ext_resource type="AudioStream" uid="uid://dgncuv0oiuumv" path="res://Assets/Sounds/Unhorse.ogg" id="19_dlqoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 size = Vector2(200, 520)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imfbs"]
+size = Vector2(27.666656, 655.6666)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euj3w"]
+size = Vector2(813.3334, 13.041641)
 
 [node name="Chemical" type="Node2D" unique_id=2089471138 node_paths=PackedStringArray("settings")]
 script = ExtResource("1_62e5f")
@@ -481,7 +488,7 @@ zoom = Vector2(0.5, 0.5)
 
 [node name="LootSpawner" type="Node" parent="." unique_id=1664982518 node_paths=PackedStringArray("loot_holder", "claw_origin", "player", "bomb_hud")]
 script = ExtResource("8_o6s1u")
-loot_types = Array[Resource]([ExtResource("10_bxr3p")])
+loot_types = Array[Resource]([ExtResource("16_euwsl"), ExtResource("10_bxr3p")])
 special_loot_types = Array[Resource]([ExtResource("11_i5c22")])
 unhorse_scene = ExtResource("12_st1nl")
 default_loot = ExtResource("13_nwse5")
@@ -489,27 +496,10 @@ loot_holder = NodePath("LootHolder")
 claw_origin = NodePath("../MapElements/ClawOrigin")
 player = NodePath("../Player")
 bomb_hud = NodePath("../HUD/UICanvas/BombCooldownHUD")
+spawn_radius = 200.0
 
 [node name="LootHolder" type="Node2D" parent="LootSpawner" unique_id=690896822]
 position = Vector2(-24, -6)
-
-[node name="LootSpawnPoint2" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1798625612]
-position = Vector2(-245, -205)
-
-[node name="LootSpawnPoint3" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1872690311]
-position = Vector2(-423, 82)
-
-[node name="LootSpawnPoint4" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1142715229]
-position = Vector2(-269, 194)
-
-[node name="LootSpawnPoint10" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1321868245]
-position = Vector2(-47, 330)
-
-[node name="LootSpawnPoint11" type="Node2D" parent="LootSpawner/LootHolder" unique_id=381697198]
-position = Vector2(257, 258)
-
-[node name="LootSpawnPoint14" type="Node2D" parent="LootSpawner/LootHolder" unique_id=742723079]
-position = Vector2(353, 101)
 
 [node name="LootSpawnPoint15" type="Node2D" parent="LootSpawner/LootHolder" unique_id=287939416]
 position = Vector2(443, 348)
@@ -528,12 +518,6 @@ position = Vector2(697, -110)
 
 [node name="LootSpawnPoint20" type="Node2D" parent="LootSpawner/LootHolder" unique_id=602356329]
 position = Vector2(476, -160)
-
-[node name="LootSpawnPoint22" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1527569145]
-position = Vector2(234, -457)
-
-[node name="LootSpawnPoint23" type="Node2D" parent="LootSpawner/LootHolder" unique_id=2000765541]
-position = Vector2(302, -339)
 
 [node name="LootSpawnPoint24" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1540956618]
 position = Vector2(-474, -399)
@@ -745,6 +729,29 @@ texture = ExtResource("13_u1noj")
 z_index = 3
 shape = SubResource("RectangleShape2D_d5xax")
 
+[node name="BoundingBox" parent="MapElements" unique_id=303715055 instance=ExtResource("7_05swk")]
+position = Vector2(-1343, -565)
+scale = Vector2(3, 3)
+
+[node name="AnimatedSprite2D" parent="MapElements/BoundingBox" index="0" unique_id=1216121412]
+visible = false
+
+[node name="CollisionShape2D" parent="MapElements/BoundingBox/Area2D" parent_id_path=PackedInt32Array(303715055, 446930248) index="0" unique_id=1119785818]
+position = Vector2(61.333336, 230.66666)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="MapElements/BoundingBox/Area2D" parent_id_path=PackedInt32Array(303715055, 446930248) index="1" unique_id=1782408549]
+position = Vector2(828.6667, 228.99998)
+shape = SubResource("RectangleShape2D_imfbs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="MapElements/BoundingBox/Area2D" parent_id_path=PackedInt32Array(303715055, 446930248) index="2" unique_id=926123741]
+position = Vector2(463.33344, -58.854156)
+shape = SubResource("RectangleShape2D_euj3w")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="MapElements/BoundingBox/Area2D" parent_id_path=PackedInt32Array(303715055, 446930248) index="3" unique_id=615046971]
+position = Vector2(457.33334, 417.33334)
+shape = SubResource("RectangleShape2D_euj3w")
+
 [node name="ClawManager" type="Node" parent="." unique_id=1116939556 node_paths=PackedStringArray("player", "claw_origin")]
 script = ExtResource("3_ef0cl")
 player = NodePath("../Player")
@@ -768,3 +775,4 @@ parameters/looping = true
 
 [editable path="HUD/UICanvas/ResetButton"]
 [editable path="HUD/UICanvas/Settings"]
+[editable path="MapElements/BoundingBox"]

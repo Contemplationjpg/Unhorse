@@ -81,7 +81,7 @@ func _process(delta: float) -> void:
 		#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 		#for i in shop_buttons:
 			#i.pressed.emit(true)
-		#gm.gain_points(10000)
+		gm.gain_points(10000)
 		pass
 
 func _on_buy_play_pressed() -> void:
@@ -130,7 +130,7 @@ func _on_button0(only_update_text : bool = false) -> void:
 		print("hole upgrade pressed")
 		if gm.spend_points(price):
 			gm.hole_upgrade = hole_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
 		print("only update, hole upgrade = " + str(hole_upgrade))
 	
@@ -170,7 +170,7 @@ func _on_button1(only_update_text : bool = false) -> void:
 		print("loot value upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_value_upgrade = loot_value_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
 		print("only update, loot value upgrade = " + str(loot_value_upgrade))
 	
@@ -210,7 +210,7 @@ func _on_button2(only_update_text : bool = false) -> void:
 		print("loot speed upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_speed_upgrade = loot_speed_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
 		print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
 	
@@ -262,7 +262,7 @@ func _on_button3(only_update_text : bool = false) -> void:
 		print("loot bonus upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_bonus_upgrade = loot_bonus_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
 		print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
 	
@@ -301,10 +301,10 @@ func _on_button4(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot bonus upgrade pressed")
+		print("loot spawn upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_spawn_upgrade = loot_spawn_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
 		print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
 	
@@ -355,12 +355,12 @@ func _on_button5(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot bonus upgrade pressed")
+		print("loot rarity upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_rarity_upgrade = loot_rarity_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
-		print("only update, loot spawn upgrade = " + str(loot_rarity_upgrade))
+		print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
 	
 	var rarity_upgrade_amount : int = 0
 	match loot_rarity_upgrade:
@@ -380,7 +380,7 @@ func _on_button5(only_update_text : bool = false) -> void:
 		button.text = "Loot Rarity\nMax"
 		button.disabled = true
 	else:
-		button.text = "Loot Rarity" + "\n+" + str(rarity_upgrade_amount) + "/6 chance" + "\nCost: " + str(new_price)
+		button.text = "Loot Rarity" + "\n+" + str(rarity_upgrade_amount) + "/8 chance" + "\nCost: " + str(new_price)
 		button.disabled = false
 	
 
@@ -411,12 +411,12 @@ func _on_button6(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot bonus upgrade pressed")
+		print("bomb strength upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_strength_upgrade = bomb_strength_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
-		print("only update, loot spawn upgrade = " + str(bomb_strength_upgrade))
+		print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
 	
 
 	#do label
@@ -424,7 +424,7 @@ func _on_button6(only_update_text : bool = false) -> void:
 		button.text = "Bomb Power\nMax"
 		button.disabled = true
 	else:
-		button.text = "Bomb Power" + "\nx" + str(bomb_strength_upgrade) + " Power" + "\nCost: " + str(new_price)
+		button.text = "Bomb Power" + "\nx" + str(bomb_strength_upgrade+1) + " Power" + "\nCost: " + str(new_price)
 		button.disabled = false
 	
 
@@ -455,20 +455,32 @@ func _on_button7(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot bonus upgrade pressed")
+		print("bomb cooldown upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_cooldown_upgrade = bomb_cooldown_upgrade
-		gm.update_upgrades.emit()
+			gm.update_upgrades.emit()
 	else:
-		print("only update, loot spawn upgrade = " + str(bomb_cooldown_upgrade))
+		print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
 	
+
+	var bomb_cooldown_upgrade_amount = bomb_cooldown_upgrade
+	match bomb_cooldown_upgrade:
+		0:
+			bomb_cooldown_upgrade_amount = 2
+		1:
+			bomb_cooldown_upgrade_amount = 4
+		2:
+			bomb_cooldown_upgrade_amount = 7
+		_:
+			bomb_cooldown_upgrade_amount = 0
+
 
 	#do label
 	if new_price == 0:
 		button.text = "Bomb Cooldown\nMax"
 		button.disabled = true
 	else:
-		button.text = "Bomb Cooldown" + "\n-" + str(bomb_cooldown_upgrade) + " Seconds" + "\nCost: " + str(new_price)
+		button.text = "Bomb Cooldown" + "\n-" + str(bomb_cooldown_upgrade_amount) + " Seconds" + "\nCost: " + str(new_price)
 		button.disabled = false
 
 
@@ -490,7 +502,7 @@ func spawn_bumper():
 	var rng1 : float = randf_range(-1,1)
 	var rng2 : float = randf_range(-1,1)
 	bumper.linear_velocity = (Vector2(rng1,rng2).normalized()*5)
-	
+	bumper.global_position += (Vector2(rng1,rng2).normalized()*50)
 
 
 

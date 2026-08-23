@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LootResource" format=3 uid="uid://cadukpylkl377"]
+
+[ext_resource type="PackedScene" uid="uid://qfs2bgw30u8p" path="res://Loot/LootScenes/plush_loot.tscn" id="1_2pemy"]
+[ext_resource type="Script" uid="uid://pxrgrjrkkiwi" path="res://Chemical/loot_resource.gd" id="2_5yq2w"]
+
+[resource]
+script = ExtResource("2_5yq2w")
+loot_scene = ExtResource("1_2pemy")
+loot_rarity = 1

@@ -85,6 +85,7 @@ signal just_scored()
 
 signal just_landed()
 
+var just_spawned : bool = false #used to make sure loot doesn't collide on spawn
 
 
 var color_value_lower_amount_per_sec : float = time_to_score/color_value_lower_speed
@@ -212,8 +213,12 @@ func _process(delta: float) -> void:
 			coll.set_deferred("disabled", false)
 			if not scoring:
 				increment_bounce_bonus()
-			if do_impulse_on_landing:
+			if do_impulse_on_landing and not just_spawned:
 				push_away_nearby() #when touching the ground, apply impulse to other loot that we landed on
+			if just_spawned:
+				await get_tree().create_timer(0.1).timeout
+				just_spawned = false
+	
 	
 	#procedure for darkening sprite color value until fully dark
 	elif scoring:
@@ -264,6 +269,8 @@ func increment_bounce_bonus():
 			gm.on_loot_bonus_update.emit(global_position, bounce_bonus)
 
 func on_bounce(_body : Node2D):
+	if just_spawned:
+		return
 
 	#add variation on bounce so its less likely for loot to get stuck bouncing indefinitely
 	if do_bounce_variation:
