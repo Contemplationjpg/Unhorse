@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://dtidj6hgcfo5v"]
+
+[ext_resource type="Script" uid="uid://x5o2vsymhp7g" path="res://credits_page.gd" id="1_bgn4p"]
+[ext_resource type="Texture2D" uid="uid://d4ia65lvtr2vd" path="res://Assets/Sprites/carpet.png" id="2_4fcrm"]
+[ext_resource type="Texture2D" uid="uid://d1qqo3j24lgnv" path="res://Assets/Sprites/justunhorse.png" id="3_ss0c6"]
+[ext_resource type="Texture2D" uid="uid://d31nyxsklx373" path="res://Assets/Sprites/unhorse_plush.png" id="4_de1rs"]
+
+[node name="CreditsPage" type="Button" unique_id=1164440840 node_paths=PackedStringArray("open_button", "close_button", "credits")]
+offset_right = 63.0
+offset_bottom = 31.0
+text = "Credits"
+script = ExtResource("1_bgn4p")
+open_button = NodePath(".")
+close_button = NodePath("Panel/Button")
+credits = NodePath("Panel")
+
+[node name="Panel" type="Panel" parent="." unique_id=1255556255]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Background" type="TextureRect" parent="Panel" unique_id=681297668]
+self_modulate = Color(0, 1, 0.6833334, 1)
+layout_mode = 0
+offset_left = -747.0
+offset_top = -530.0
+offset_right = 213.0
+offset_bottom = 110.0
+scale = Vector2(2.715, 2.715)
+texture = ExtResource("2_4fcrm")
+
+[node name="Unhorse" type="TextureRect" parent="Panel" unique_id=57324490]
+layout_mode = 0
+offset_left = 680.0
+offset_top = 118.0
+offset_right = 1280.0
+offset_bottom = 718.0
+texture = ExtResource("3_ss0c6")
+
+[node name="Plush" type="TextureRect" parent="Panel" unique_id=2115520782]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 251.0
+offset_right = 621.0
+offset_bottom = 851.0
+scale = Vector2(0.46, 0.46)
+texture = ExtResource("4_de1rs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1698612430]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 568.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel12" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=231804986]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = " "
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=314666646]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 60
+text = "Credits"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel9" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=293098738]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = " "
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=1564803355]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+text = "Design, Programming, Art, Sound Design"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=474840372]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Melissa Saechao"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=1982957438]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Em Wood"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel6" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=2077926526]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+text = " "
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=133353651]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+text = "Music"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel7" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=984937099]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Em Wood"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel10" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=1856380535]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+text = " "
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel11" type="RichTextLabel" parent="Panel/VBoxContainer" unique_id=1497295787]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Created as a submission for Wannibe Manisha's \"Do you WANNA Jam?!\" 2026 "
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Button" type="Button" parent="Panel" unique_id=1888953359]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+text = "X"

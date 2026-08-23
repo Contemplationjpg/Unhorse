@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://duo64ede5mu0c" path="res://Chemical/title_screen.gd" id="1_uebgo"]
 [ext_resource type="AudioStream" uid="uid://oa1pd0j483mm" path="res://Assets/Sounds/Unhorse Main Menu.ogg" id="2_vmg2h"]
 [ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="3_8l4an"]
+[ext_resource type="PackedScene" uid="uid://dtidj6hgcfo5v" path="res://Chemical/credits_page.tscn" id="4_n15yj"]
 
 [node name="TitleScreen" type="Control" unique_id=932827652 node_paths=PackedStringArray("version_label")]
 layout_mode = 3
@@ -58,8 +59,35 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
+[node name="Credits Page" parent="." unique_id=1164440840 instance=ExtResource("4_n15yj")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_top = -51.0
+offset_right = -19.0
+offset_bottom = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Panel" parent="Credits Page" index="0" unique_id=1255556255]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1132.0
+offset_top = -628.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 0
+
 [node name="Settings" parent="." unique_id=763621863 instance=ExtResource("3_8l4an")]
-visible = false
 layout_mode = 1
 
 [node name="VersionLabel" type="RichTextLabel" parent="." unique_id=1479929693]
@@ -77,3 +105,5 @@ text = "Unhorse Version"
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+
+[editable path="Credits Page"]
