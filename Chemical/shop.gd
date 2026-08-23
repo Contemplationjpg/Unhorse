@@ -575,4 +575,3 @@ func on_save_loaded():
 	claw_cloner_owned = gm.claw_cloner_owned 
 
 	_update_shop_buttons()
-
