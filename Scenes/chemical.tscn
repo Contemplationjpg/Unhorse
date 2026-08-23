@@ -27,6 +27,7 @@
 [ext_resource type="Resource" uid="uid://cadukpylkl377" path="res://Loot/plush_loot.tres" id="16_euwsl"]
 [ext_resource type="PackedScene" uid="uid://7wsldwognxj6" path="res://Claws/excavator_claw.tscn" id="17_u1noj"]
 [ext_resource type="AudioStream" uid="uid://dgncuv0oiuumv" path="res://Assets/Sounds/Unhorse.ogg" id="19_dlqoq"]
+[ext_resource type="PackedScene" uid="uid://blq3cv0iv20wl" path="res://Chemical/boost_arrow.tscn" id="28_ch6ns"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 size = Vector2(200, 520)
@@ -765,6 +766,10 @@ lifetime = 0.5
 stream = ExtResource("19_dlqoq")
 autoplay = true
 parameters/looping = true
+
+[node name="BoostArrow" parent="." unique_id=703814864 instance=ExtResource("28_ch6ns")]
+position = Vector2(-53.999985, 259)
+rotation = -1.0012692
 
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator" to="HUD/UICanvas/Shop" method="_on_excavator_pressed"]

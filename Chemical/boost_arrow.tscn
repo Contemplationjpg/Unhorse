@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://blq3cv0iv20wl"]
+
+[ext_resource type="Script" uid="uid://bjer1eb6hboqm" path="res://Chemical/boost_arrow.gd" id="1_jqfm7"]
+[ext_resource type="Texture2D" uid="uid://t7dtkn1w40th" path="res://Assets/Sprites/bouncing_arrow_sprites.png" id="2_0ppqg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h24q4"]
+atlas = ExtResource("2_0ppqg")
+region = Rect2(0, 0, 600, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncuf4"]
+atlas = ExtResource("2_0ppqg")
+region = Rect2(600, 0, 600, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d5xax"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h24q4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ncuf4")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
+size = Vector2(150, 380)
+
+[node name="BoostArrow" type="Node2D" unique_id=703814864 node_paths=PackedStringArray("area", "sprite")]
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_jqfm7")
+area = NodePath("Area2D")
+sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=209364342]
+self_modulate = Color(1, 0.9333334, 0, 1)
+sprite_frames = SubResource("SpriteFrames_d5xax")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=124702690]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=767260903]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_d5xax")
