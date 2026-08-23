@@ -872,6 +872,7 @@ lifetime = 0.5
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=939615524]
 stream = ExtResource("19_dlqoq")
 autoplay = true
+bus = &"Music"
 parameters/looping = true
 
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
