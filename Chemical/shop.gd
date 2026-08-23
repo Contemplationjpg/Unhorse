@@ -12,6 +12,7 @@ extends Control
 
 @export var bumper_scene : PackedScene
 @export var player : Player
+@export var purchase_sound : AudioStreamPlayer
 
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
@@ -49,6 +50,7 @@ var claw_cloner_owned : bool = false
 
 
 func _ready() -> void:
+	gm.on_spend_points.connect(play_purchase_sound)
 	gm.save_loaded.connect(on_save_loaded)
 	_connect_shop_buttons()
 	on_save_loaded()
@@ -56,6 +58,7 @@ func _ready() -> void:
 	gm.update_upgrades.connect(_update_shop_buttons)
 	gm.restock_off_cooldown.connect(enable_restock)
 	gm.restock_on_cooldown.connect(disable_restock)
+
 	return
 
 
@@ -77,8 +80,8 @@ func _update_shop_buttons():
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("debug"):
-		#print("only update, hole upgrade = " + str(hole_upgrade))
-		#print("only update, loot value upgrade = " + str(loot_value_upgrade))
+		#pass#print("only update, hole upgrade = " + str(hole_upgrade))
+		#pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 		#for i in shop_buttons:
 			#i.pressed.emit(true)
 		gm.gain_points(10000)
@@ -127,12 +130,13 @@ func _on_button0(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("hole upgrade pressed")
+		pass#print("hole upgrade pressed")
 		if gm.spend_points(price):
 			gm.hole_upgrade = hole_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, hole upgrade = " + str(hole_upgrade))
+
+		pass#print("only update, hole upgrade = " + str(hole_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -167,12 +171,12 @@ func _on_button1(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot value upgrade pressed")
+		pass#print("loot value upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_value_upgrade = loot_value_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, loot value upgrade = " + str(loot_value_upgrade))
+		pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -207,12 +211,12 @@ func _on_button2(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot speed upgrade pressed")
+		pass#print("loot speed upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_speed_upgrade = loot_speed_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
+		pass#print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
 	
 	var speed_upgrade_amount : float  = 0
 	match loot_speed_upgrade:
@@ -259,12 +263,12 @@ func _on_button3(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot bonus upgrade pressed")
+		pass#print("loot bonus upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_bonus_upgrade = loot_bonus_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
+		pass#print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -301,12 +305,12 @@ func _on_button4(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot spawn upgrade pressed")
+		pass#print("loot spawn upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_spawn_upgrade = loot_spawn_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
+		pass#print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
 	
 	var spawn_upgrade_amount : int = 0
 	match loot_spawn_upgrade:
@@ -355,12 +359,12 @@ func _on_button5(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("loot rarity upgrade pressed")
+		pass#print("loot rarity upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_rarity_upgrade = loot_rarity_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
+		pass#print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
 	
 	var rarity_upgrade_amount : int = 0
 	match loot_rarity_upgrade:
@@ -411,12 +415,12 @@ func _on_button6(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("bomb strength upgrade pressed")
+		pass#print("bomb strength upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_strength_upgrade = bomb_strength_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
+		pass#print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
 	
 
 	#do label
@@ -455,12 +459,12 @@ func _on_button7(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		print("bomb cooldown upgrade pressed")
+		pass#print("bomb cooldown upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_cooldown_upgrade = bomb_cooldown_upgrade
 			gm.update_upgrades.emit()
 	else:
-		print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
+		pass#print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
 	
 
 	var bomb_cooldown_upgrade_amount = bomb_cooldown_upgrade
@@ -509,7 +513,7 @@ func spawn_bumper():
 func _on_button9(only_update_text : bool = false) -> void:
 	var button = shop_buttons[9]
 	if not only_update_text:	
-			print("UNHORSE")
+			pass#print("UNHORSE")
 	button.text = "unhorse"
 	
 
@@ -550,6 +554,16 @@ func _on_shop_left_pressed() -> void:
 func _on_shop_right_pressed() -> void:
 	var scroll_shop = $SidePanel/ShopColumns/ClawScrollShopRow
 	scroll_shop.scroll_horizontal += 130
+
+
+
+func play_purchase_sound(num : int = 0):
+	var rng = randf_range(0.6, 1.4)
+	
+	pass#print(rng)
+	purchase_sound.pitch_scale = rng
+	purchase_sound.playing = true
+	
 
 
 

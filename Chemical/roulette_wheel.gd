@@ -4,6 +4,9 @@ extends Control
 @export var wheel : Control
 @export var arrow : Area2D
 @export var auto_spin_toggle : Button
+@export var roulette_sound_toggle : Button
+@export var spin_sound : AudioStreamPlayer
+
 @export_group("Spin Settings")
 @export var spin_clockwise : bool = true
 @export var max_spin_velocity : float = 100 #degrees of rotation per second
@@ -34,17 +37,21 @@ var auto_spin : bool = false
 #dealing with rewards
 var last_color : int = 0
 
-
-
+var playing_spin_sound : bool = false
+var sound_disabled : bool = false
 
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
 func _ready() -> void:
 	arrow.area_entered.connect(on_enter_area)
 	auto_spin_toggle.toggled.connect(on_auto_spin_toggle)
+	roulette_sound_toggle.toggled.connect(on_roulette_sound_toggle)
 
 func on_auto_spin_toggle(toggle : bool):
 	auto_spin = toggle
+
+func on_roulette_sound_toggle(toggle : bool):
+	sound_disabled = toggle
 
 #scoring------------------------------------------------------------------
 
@@ -79,10 +86,13 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("spin") or auto_spin:
 		handle_spin_input()
+	
+	#print("sound disabled: " + str(sound_disabled))
 
 	#spinning------------------------------------
 	if spinning:
-		
+
+
 		#logic for deciding if the spin should begin stopping process----------------------
 		if not stopping_spin:
 			if time_before_auto_stop > 0 and time_before_auto_stop_timer <= 0:
@@ -122,9 +132,23 @@ func _physics_process(delta: float) -> void:
 		if current_spin_velocity <= 0: 
 			post_spin_procedure()
 
+		if stopping_spin and current_spin_velocity > 0 and current_spin_velocity < max_spin_velocity/4:
+			if not playing_spin_sound:
+				if not sound_disabled:
+					playing_spin_sound = true
+					spin_sound.playing = true
+	
+	else:
+		if playing_spin_sound:
+			spin_sound.playing = false
+			playing_spin_sound = false
+
 
 
 func post_spin_procedure():
+	if playing_spin_sound:
+		spin_sound.playing = false
+		playing_spin_sound = false
 	force_stop_wheel()
 	spin_end_rewards()
 

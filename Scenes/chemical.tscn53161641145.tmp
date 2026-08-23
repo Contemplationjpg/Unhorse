@@ -437,7 +437,6 @@ text = ">"
 
 [node name="ShopPurchaseSound" type="AudioStreamPlayer" parent="HUD/UICanvas/Shop" unique_id=1876550383]
 stream = ExtResource("11_b5sdt")
-volume_db = -5.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
 offset_left = 113.0

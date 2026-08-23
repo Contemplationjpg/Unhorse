@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dokn6ar22didi" path="res://Assets/Sprites/wheelonly.png" id="1_broq7"]
 [ext_resource type="Texture2D" uid="uid://s2vh4y6nui7x" path="res://Assets/Sprites/wheelframewithunhorse.png" id="2_6dxip"]
 [ext_resource type="Texture2D" uid="uid://ct6t3dxuu70nl" path="res://Assets/Sprites/wheelarrow.png" id="3_nk2ym"]
+[ext_resource type="AudioStream" uid="uid://diywp38hy0krh" path="res://Assets/Sounds/Temp_wheelspin.ogg" id="5_nk2ym"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 size = Vector2(6.082962, 59.13535)
@@ -19,7 +20,7 @@ size = Vector2(5.795, 136.855)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_d5xax"]
 
-[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow", "auto_spin_toggle")]
+[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow", "auto_spin_toggle", "roulette_sound_toggle", "spin_sound")]
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -31,6 +32,8 @@ script = ExtResource("1_6dxip")
 wheel = NodePath("RouletteWheel")
 arrow = NodePath("RouletteWheelArrow/Area2D")
 auto_spin_toggle = NodePath("AutoSpinToggle/CheckButton")
+roulette_sound_toggle = NodePath("RouletteSoundToggle/CheckButton")
+spin_sound = NodePath("AudioStreamPlayer")
 max_spin_velocity = 5.0
 spin_acceleration = 3.0
 spin_deceleration = 2.0
@@ -273,3 +276,33 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Enable Auto Spin"
 alignment = 1
+
+[node name="RouletteSoundToggle" type="Control" parent="." unique_id=1665706505]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="CheckButton" type="CheckButton" parent="RouletteSoundToggle" unique_id=255910148]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1968.0
+offset_top = -128.0
+offset_right = -1728.0
+offset_bottom = -96.0
+grow_horizontal = 0
+scale = Vector2(4.115, 4.115)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Disable Roulette Sound"
+alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=59936423]
+stream = ExtResource("5_nk2ym")
+pitch_scale = 0.3
+bus = &"SFX"
