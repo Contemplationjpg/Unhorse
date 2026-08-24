@@ -50,6 +50,7 @@ func _ready() -> void:
 
 	gm.reset_save_file.connect(force_restock)
 
+
 func _process(delta: float) -> void:
 	if bomb_cooldown_timer > 0:
 		bomb_cooldown_timer -= delta
@@ -65,12 +66,16 @@ func _process(delta: float) -> void:
 		gm.restock_off_cooldown.emit()
 		if Input.is_action_just_pressed("restock"):
 			restock()
-		
+	
+	if claw_origin.get_child_count() == 0:
+		if not restocking:
+			force_restock()
 
 
 func give_player_bomb():
 	if player.claw:
 		var new_unhorse = unhorse_scene.instantiate()
+		new_unhorse.die_on_restock = false
 		add_child(new_unhorse)
 		if player.claw.force_to_hold(new_unhorse):
 			new_unhorse.impulse_amount*=bomb_strength_upgrade_amount
@@ -118,6 +123,9 @@ func spawn_all_loot_types():
 	spawn_special_loot()
 	drop_loot_around_claw_origin()
 
+
+
+
 func drop_loot_around_claw_origin():
 	var chosen_spawn_point : Vector2
 	var chosen_loot : PackedScene = null
@@ -133,7 +141,7 @@ func drop_loot_around_claw_origin():
 		loot_rng_values.append(int(additive_rng_threshold))
 	#print(loot_rng_values)
 
-	for i in range(normal_spawn_attempts + spawn_upgrade):
+	for i in range(normal_spawn_attempts + spawn_upgrade_amount):
 		rng = randf_range(0,1)
 
 		var spawn_rare : bool = false
@@ -168,7 +176,7 @@ func drop_loot_around_claw_origin():
 		var new_loot = chosen_loot.instantiate()
 		chosen_loot = null
 		claw_origin.add_child(new_loot)
-		new_loot.position = chosen_spawn_point	
+		new_loot.position = chosen_spawn_point
 		new_loot.force_to_be_in_air()
 		new_loot.just_spawned = true
 
@@ -275,11 +283,11 @@ func update_upgrades():
 		0:
 			spawn_upgrade_amount = 0
 		1:
-			spawn_upgrade_amount = 3
-		2:
 			spawn_upgrade_amount = 5
+		2:
+			spawn_upgrade_amount = 15
 		_:
-			spawn_upgrade_amount = 10
+			spawn_upgrade_amount = 35
 			
 
 	rarity_upgrade = gm.loot_rarity_upgrade
@@ -313,7 +321,7 @@ func update_upgrades():
 		2:
 			bomb_cooldown_upgrade_amount = 4
 		_:
-			bomb_cooldown_upgrade_amount = 7
+			bomb_cooldown_upgrade_amount = 8
 
 
 	

@@ -10,6 +10,10 @@ extends Control
 @export var play_button : Button
 @export var restock_button : Button
 
+
+@export var bumper_toggle : Button
+@export var bumper_parent : Node
+
 @export var claw_manager : ClawManager
 
 @export var bumper_scene : PackedScene
@@ -20,6 +24,7 @@ extends Control
 
 var unhorse_sounds : Array[AudioStreamPlayer] = []
 
+var bumpers_disabled : bool = false
 
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
@@ -42,6 +47,8 @@ var loot_rarity_upgrade : int = 0
 
 var bomb_strength_upgrade : int = 0
 var bomb_cooldown_upgrade : int = 0
+
+var bumper_upgrade : int = 0
 
 
 #owned claws
@@ -68,11 +75,17 @@ func _ready() -> void:
 	gm.update_upgrades.connect(_update_claw_buttons)
 	gm.restock_off_cooldown.connect(enable_restock)
 	gm.restock_on_cooldown.connect(disable_restock)
+	gm.reset_save_file.connect(delete_bumpers)
+
+	bumper_toggle.toggled.connect(on_disabled_bumper_button)
 
 	for i in unhorse_sounds_parent.get_children():
 		unhorse_sounds.append(i) 
 
 	return
+
+func on_disabled_bumper_button(toggle : bool):
+	bumpers_disabled = toggle
 
 
 func _connect_shop_buttons():
@@ -103,14 +116,28 @@ func _update_claw_buttons():
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("debug"):
-		#pass#print("only update, hole upgrade = " + str(hole_upgrade))
-		#pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
+		#pass##print("only update, hole upgrade = " + str(hole_upgrade))
+		#pass##print("only update, loot value upgrade = " + str(loot_value_upgrade))
 		#for i in shop_buttons:
 			#i.pressed.emit(true)
 		#gm.gain_points(10000)
 		pass
+
 	if Input.is_action_just_pressed("buy_play"):
 		_on_buy_play_pressed()
+
+	if bumpers_disabled:
+		delete_bumpers()
+	else:
+		auto_spawn_bumper()
+
+
+
+func delete_bumpers():
+	for i in bumper_parent.get_children():
+		i.queue_free()
+
+
 
 func _on_buy_play_pressed() -> void:
 	var spendable = gm.spend_points(play_price)
@@ -155,7 +182,7 @@ func _on_button0(only_update_text : bool = false) -> void:
 			price = 80000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("hole upgrade pressed")
+		pass##print("hole upgrade pressed")
 		if gm.spend_points(price):
 			gm.hole_upgrade = hole_upgrade
 			gm.update_upgrades.emit()
@@ -163,7 +190,7 @@ func _on_button0(only_update_text : bool = false) -> void:
 			return
 	else:
 
-		pass#print("only update, hole upgrade = " + str(hole_upgrade))
+		pass##print("only update, hole upgrade = " + str(hole_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -198,14 +225,14 @@ func _on_button1(only_update_text : bool = false) -> void:
 			price = 120000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("loot value upgrade pressed")
+		pass##print("loot value upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_value_upgrade = loot_value_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
+		pass##print("only update, loot value upgrade = " + str(loot_value_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -240,14 +267,14 @@ func _on_button2(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("loot speed upgrade pressed")
+		pass##print("loot speed upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_speed_upgrade = loot_speed_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
+		pass##print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
 	
 	var speed_upgrade_amount : float  = 0
 	match loot_speed_upgrade:
@@ -294,14 +321,14 @@ func _on_button3(only_update_text : bool = false) -> void:
 			price = 20000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("loot bonus upgrade pressed")
+		pass##print("loot bonus upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_bonus_upgrade = loot_bonus_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
+		pass##print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
 	
 	#do label
 	if new_price == 0:
@@ -327,34 +354,34 @@ func _on_button4(only_update_text : bool = false) -> void:
 	match loot_spawn_upgrade:
 		0:
 			price = 2000
-			new_price = 5000
+			new_price = 6000
 		1: 
-			price = 5000
-			new_price = 8000
+			price = 6000
+			new_price = 10000
 		2:
-			price = 8000
-			new_price = 11000
+			price = 10000
+			new_price = 15000
 		_: 
-			price = 11000
+			price = 15000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("loot spawn upgrade pressed")
+		pass##print("loot spawn upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_spawn_upgrade = loot_spawn_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
+		pass##print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
 	
 	var spawn_upgrade_amount : int = 0
 	match loot_spawn_upgrade:
 		0:
-			spawn_upgrade_amount = 3
-		1:
 			spawn_upgrade_amount = 5
-		2:
+		1:
 			spawn_upgrade_amount = 10
+		2:
+			spawn_upgrade_amount = 20
 		_:
 			spawn_upgrade_amount = 0
 		
@@ -394,14 +421,14 @@ func _on_button5(only_update_text : bool = false) -> void:
 			price = 11000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("loot rarity upgrade pressed")
+		pass##print("loot rarity upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_rarity_upgrade = loot_rarity_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
+		pass##print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
 	
 	var rarity_upgrade_amount : int = 0
 	match loot_rarity_upgrade:
@@ -452,14 +479,14 @@ func _on_button6(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("bomb strength upgrade pressed")
+		pass##print("bomb strength upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_strength_upgrade = bomb_strength_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
+		pass##print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
 	
 
 	#do label
@@ -498,14 +525,14 @@ func _on_button7(only_update_text : bool = false) -> void:
 			price = 8000
 			new_price = 0
 	if not only_update_text:	
-		pass#print("bomb cooldown upgrade pressed")
+		pass##print("bomb cooldown upgrade pressed")
 		if gm.spend_points(price):
 			gm.bomb_cooldown_upgrade = bomb_cooldown_upgrade
 			gm.update_upgrades.emit()
 		else:
 			return
 	else:
-		pass#print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
+		pass##print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
 	
 
 	var bomb_cooldown_upgrade_amount = bomb_cooldown_upgrade
@@ -513,9 +540,9 @@ func _on_button7(only_update_text : bool = false) -> void:
 		0:
 			bomb_cooldown_upgrade_amount = 2
 		1:
-			bomb_cooldown_upgrade_amount = 4
+			bomb_cooldown_upgrade_amount = 2
 		2:
-			bomb_cooldown_upgrade_amount = 7
+			bomb_cooldown_upgrade_amount = 4
 		_:
 			bomb_cooldown_upgrade_amount = 0
 
@@ -533,22 +560,108 @@ func _on_button7(only_update_text : bool = false) -> void:
 
 func _on_button8(only_update_text : bool = false) -> void:
 	var button = shop_buttons[8]
-	var price = 2000
+	var price: int 
+	var new_price: int 
+	bumper_upgrade = gm.bumper_upgrade
 	if not only_update_text:
+		print("pre: " + str(bumper_upgrade))
+		bumper_upgrade += 1
+		print("post: " + str(bumper_upgrade))
+	match bumper_upgrade:
+		0:
+			price = 5000
+			new_price = 10000
+		1: 
+			price = 10000
+			new_price = 20000
+		2:
+			price = 20000
+			new_price = 40000
+		_: 
+			price = 40000
+			new_price = 0
+	if not only_update_text:	
+		pass##print("bomb cooldown upgrade pressed")
 		if gm.spend_points(price):
+			gm.bumper_upgrade = bumper_upgrade
+			gm.update_upgrades.emit()
+		else:
+			return
+	else:
+		pass##print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
+	
+
+	var bumper_upgrade_amount = 0
+	match bumper_upgrade:
+		0:
+			bumper_upgrade_amount = 0
+		1:
+			bumper_upgrade_amount = 4000
+		2:
+			bumper_upgrade_amount = 6000
+		_:
+			bumper_upgrade_amount = 10000
+
+	#print(bumper_upgrade_amount)
+
+	#do label
+	if new_price == 0:
+		button.text = "Bumper Upgrade\nMax"
+		button.disabled = true
+	else:
+		button.text = "Bumper Upgrade" + "\n+1 Bumper\n+" + str(bumper_upgrade_amount) + " Points" + "\nCost: " + str(new_price)
+		button.disabled = false
+	print(bumper_upgrade)
+
+
+func auto_spawn_bumper():
+	print("asb: bumper upgrade " + str(bumper_upgrade))
+	if bumper_upgrade < 1:
+		return
+	var bumper_count : int = bumper_parent.get_child_count() 
+	bumper_upgrade = gm.bumper_upgrade
+	print(str(bumper_count) + ", " + str(bumper_upgrade))
+	if bumper_count < bumper_upgrade: #if there are less bumpers than the uopgrade amount
+		print(str(bumper_count) + ", " + str(bumper_upgrade))
+		var how_many_to_spawn = bumper_upgrade - bumper_count
+		print("how many to spawn: " + str(how_many_to_spawn))
+		if how_many_to_spawn < 0:
+			how_many_to_spawn = 0
+		for i in range(how_many_to_spawn):
 			spawn_bumper()
-	button.text = "Investment\nBumper\nCOST:2000"
-	pass # Replace with function body.
+	else:
+		_update_bumpers()
+
 
 func spawn_bumper():
 	var bumper = bumper_scene.instantiate() as Bumper
-	player.add_child(bumper)
+	bumper_parent.add_child(bumper)
 	bumper.global_position = Vector2.ZERO
 	var rng1 : float = randf_range(-1,1)
 	var rng2 : float = randf_range(-1,1)
 	bumper.linear_velocity = (Vector2(rng1,rng2).normalized()*5)
 	bumper.global_position += (Vector2(rng1,rng2).normalized()*50)
+	_update_bumpers()
+	
 
+
+func _update_bumpers():
+	var bumper_upgrade_amount = bumper_upgrade
+	match bumper_upgrade:
+		0:
+			bumper_upgrade_amount = 0
+		1:
+			bumper_upgrade_amount = 1000
+		2:
+			bumper_upgrade_amount = 5000
+		_:
+			bumper_upgrade_amount = 10000
+	
+	for i in (bumper_parent.get_children()):	
+		var bum = i as Bumper
+		bum.point_yield_after_destruction = bumper_upgrade_amount
+
+	
 
 var playing_unhorse_sound : bool = false
 
@@ -581,7 +694,7 @@ func pick_random_unhorse_sound() -> AudioStreamPlayer:
 #button 0 on claw scroll
 func _on_claw0(only_update_text : bool = false) -> void:
 	var button = claw_buttons[0]
-	print("claw0 pressed")
+	#print("claw0 pressed")
 	
 	if not only_update_text:
 		if not player.claw.grabbing and not player.claw.holding:
@@ -594,7 +707,7 @@ func _on_claw0(only_update_text : bool = false) -> void:
 func _on_claw1(only_update_text : bool = false):
 	var button = claw_buttons[1]
 	claw_new_owned = gm.claw_new_owned
-	print("claw1 pressed")
+	#print("claw1 pressed")
 
 	var price = 5000
 
@@ -654,7 +767,7 @@ func _on_shop_right_pressed() -> void:
 func play_purchase_sound(num : int = 0):
 	var rng = randf_range(0.6, 1.4)
 	
-	pass#print(rng)
+	pass##print(rng)
 	purchase_sound.pitch_scale = rng
 	purchase_sound.playing = true
 	
@@ -676,6 +789,8 @@ func on_save_loaded():
 	loot_spawn_upgrade = gm.loot_spawn_upgrade 
 	loot_rarity_upgrade = gm.loot_rarity_upgrade 
 
+	bumper_upgrade = gm.bumper_upgrade
+
 	#owned claws
 	claw_new_owned = gm.claw_new_owned 
 	claw_excavator_owned = gm.claw_excavator_owned 
@@ -683,3 +798,5 @@ func on_save_loaded():
 	claw_cloner_owned = gm.claw_cloner_owned 
 
 	_update_shop_buttons()
+	_update_claw_buttons()
+	_update_bumpers()

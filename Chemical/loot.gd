@@ -8,6 +8,7 @@ extends RigidBody2D
 @export_category("Stats")
 @export var base_point_value : int = 10
 @export var spawn_rate : int = 1
+@export var die_on_restock : bool = true
 
 
 @export_group("Bounce Variation")
@@ -486,5 +487,5 @@ func reset_all_modifiers():
 	point_value_modifier = 1
 	
 func on_clear_all_loot():
-	if not picked_up:
+	if not picked_up and die_on_restock:
 		queue_free()
