@@ -479,7 +479,7 @@ offset_right = 920.0
 offset_bottom = 32.0
 grow_vertical = 0
 text = "Move Claw (yes, the pieces of paper)- WASD | Claw Pick Up / Drop - Space | Buy Play - E
-Restock - R | Spin Wheel - F | Summon Bomb to Claw - Q | Settings - Escapey"
+Restock - R | Spin Wheel - F | Summon Bomb to Claw - Q | Settings - Escape/T"
 fit_content = true
 
 [node name="VersionLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=824970024]

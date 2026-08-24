@@ -26,6 +26,7 @@ music = NodePath("Music")
 
 [node name="Background" type="TextureRect" parent="." unique_id=772041505]
 self_modulate = Color(0.45756716, 0.58922875, 0.19425315, 1)
+z_index = -1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,7 +125,6 @@ bus = &"Music"
 parameters/looping = true
 
 [node name="Credits Page" parent="." unique_id=1164440840 instance=ExtResource("4_n15yj")]
-visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -139,6 +139,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="Panel" parent="Credits Page" index="0" unique_id=1255556255]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -169,6 +170,7 @@ grow_vertical = 0
 text = "Unhorse Version"
 
 [node name="Curtain" type="TextureRect" parent="." unique_id=1194116195]
+visible = false
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
