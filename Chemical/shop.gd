@@ -107,7 +107,7 @@ func _process(delta: float) -> void:
 		#pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 		#for i in shop_buttons:
 			#i.pressed.emit(true)
-		gm.gain_points(10000)
+		#gm.gain_points(10000)
 		pass
 	if Input.is_action_just_pressed("buy_play"):
 		_on_buy_play_pressed()

@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://1rp7msvcu3yc"]
 
 [ext_resource type="Script" uid="uid://duo64ede5mu0c" path="res://Chemical/title_screen.gd" id="1_uebgo"]
+[ext_resource type="Texture2D" uid="uid://dkaeriot75cxl" path="res://Assets/Sprites/stone.png" id="2_7whhf"]
 [ext_resource type="AudioStream" uid="uid://oa1pd0j483mm" path="res://Assets/Sounds/Unhorse Main Menu.ogg" id="2_vmg2h"]
+[ext_resource type="Texture2D" uid="uid://dlg1kr6rib4us" path="res://Assets/Sprites/unhorse.png" id="3_5c2t2"]
 [ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="3_8l4an"]
+[ext_resource type="Texture2D" uid="uid://dg2kv7t8d2obq" path="res://Assets/Sprites/UnhorseLogo.png" id="4_bawyk"]
 [ext_resource type="PackedScene" uid="uid://dtidj6hgcfo5v" path="res://Chemical/credits_page.tscn" id="4_n15yj"]
 
 [node name="TitleScreen" type="Control" unique_id=932827652 node_paths=PackedStringArray("version_label")]
@@ -15,7 +18,44 @@ grow_vertical = 2
 script = ExtResource("1_uebgo")
 version_label = NodePath("VersionLabel")
 
+[node name="Background" type="TextureRect" parent="." unique_id=772041505]
+self_modulate = Color(0.45756716, 0.58922875, 0.19425315, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("2_7whhf")
+
+[node name="Unhorse" type="TextureRect" parent="." unique_id=1678422960]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -501.16
+offset_top = -28.535
+offset_right = 98.839966
+offset_bottom = 571.465
+grow_horizontal = 2
+scale = Vector2(1.905, 0.65)
+texture = ExtResource("3_5c2t2")
+
+[node name="Title" type="TextureRect" parent="." unique_id=1206917154]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -270.0
+offset_top = 80.0
+offset_right = 270.0
+offset_bottom = 183.00002
+grow_horizontal = 2
+texture = ExtResource("4_bawyk")
+
 [node name="RichTextLabel" type="Label" parent="." unique_id=2031667090]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -27,6 +67,20 @@ offset_bottom = 53.0
 grow_horizontal = 2
 text = "Unhorse"
 
+[node name="Panel" type="Panel" parent="." unique_id=1046296849]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -69.0
+offset_right = 125.0
+offset_bottom = 281.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2035683634]
 layout_mode = 1
 anchors_preset = 8
@@ -34,23 +88,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -50.5
-offset_right = 35.0
-offset_bottom = 50.5
+offset_left = -100.0
+offset_top = -44.0
+offset_right = 100.0
+offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="Play" type="Button" parent="VBoxContainer" unique_id=71175157]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Play"
 
 [node name="Settings" type="Button" parent="VBoxContainer" unique_id=2056883650]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Settings"
 
 [node name="Exit" type="Button" parent="VBoxContainer" unique_id=556359214]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Exit"
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=2135965770]
@@ -60,6 +118,7 @@ bus = &"Music"
 parameters/looping = true
 
 [node name="Credits Page" parent="." unique_id=1164440840 instance=ExtResource("4_n15yj")]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -88,6 +147,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="Settings" parent="." unique_id=763621863 instance=ExtResource("3_8l4an")]
+visible = false
 layout_mode = 1
 
 [node name="VersionLabel" type="RichTextLabel" parent="." unique_id=1479929693]
