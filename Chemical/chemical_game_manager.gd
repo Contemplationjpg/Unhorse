@@ -1,7 +1,7 @@
 extends Node
 
 
-const VERSION : String = "jam 0.21"
+const VERSION : String = "jam 0.3"
 
 
 #signals for whenever any change to stats happens in case we want to add effects that pay attention to this, so please use the correct resource gain/spend functions

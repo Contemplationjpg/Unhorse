@@ -7,8 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://dak85dqjklvlx" path="res://Scenes/Settings.tscn" id="3_8l4an"]
 [ext_resource type="Texture2D" uid="uid://dg2kv7t8d2obq" path="res://Assets/Sprites/UnhorseLogo.png" id="4_bawyk"]
 [ext_resource type="PackedScene" uid="uid://dtidj6hgcfo5v" path="res://Chemical/credits_page.tscn" id="4_n15yj"]
+[ext_resource type="AudioStream" uid="uid://jbtbuuu16n0s" path="res://Assets/Sounds/unhorse3.wav" id="8_5c2t2"]
 
-[node name="TitleScreen" type="Control" unique_id=932827652 node_paths=PackedStringArray("version_label")]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d5xax"]
+
+[node name="TitleScreen" type="Control" unique_id=932827652 node_paths=PackedStringArray("version_label", "curtain", "unhorse_sound", "music")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +20,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uebgo")
 version_label = NodePath("VersionLabel")
+curtain = NodePath("Curtain")
+unhorse_sound = NodePath("UnhorseSound")
+music = NodePath("Music")
 
 [node name="Background" type="TextureRect" parent="." unique_id=772041505]
 self_modulate = Color(0.45756716, 0.58922875, 0.19425315, 1)
@@ -161,6 +167,21 @@ offset_right = 455.0
 offset_bottom = -10.0
 grow_vertical = 0
 text = "Unhorse Version"
+
+[node name="Curtain" type="TextureRect" parent="." unique_id=1194116195]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_d5xax")
+
+[node name="UnhorseSound" type="AudioStreamPlayer" parent="." unique_id=1965703196]
+stream = ExtResource("8_5c2t2")
+pitch_scale = 0.9
+bus = &"SFX"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]

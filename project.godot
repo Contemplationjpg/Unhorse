@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Unhorse"
+config/description="Unstable. Atomically. Horsually."
 run/main_scene="uid://1rp7msvcu3yc"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="uid://dlg1kr6rib4us"
+config/icon="uid://hb4lh2d3obd3"
 
 [audio]
 
