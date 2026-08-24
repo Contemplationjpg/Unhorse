@@ -36,6 +36,7 @@ do_impulse_on_landing = false
 impulse_amount = 2000.0
 min_scale = 0.35
 max_scale = 0.7
+drop_time = 1.2
 color_value_lower_speed = 0.25
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]

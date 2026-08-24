@@ -49,6 +49,7 @@ func _ready() -> void:
 	self_button.pressed.connect(handle_spin_input)
 
 	auto_spin_toggle.toggled.connect(on_auto_spin_toggle)
+	auto_spin = auto_spin_toggle.button_pressed
 	roulette_sound_toggle.toggled.connect(on_roulette_sound_toggle)
 
 func on_auto_spin_toggle(toggle : bool):

@@ -1,7 +1,7 @@
 extends Node
 
 
-const VERSION : String = "jam 0.3"
+const VERSION : String = "jam 0.4"
 
 
 #signals for whenever any change to stats happens in case we want to add effects that pay attention to this, so please use the correct resource gain/spend functions
@@ -52,6 +52,8 @@ var loot_rarity_upgrade : int = 0
 
 var bomb_strength_upgrade : int = 0
 var bomb_cooldown_upgrade : int = 0
+
+var bumper_upgrade : int = 1
 
 var claw_new_owned : bool = false
 var claw_excavator_owned : bool = false
@@ -184,6 +186,7 @@ var default_save := {
 	"bomb_strength_upgrade" : bomb_strength_upgrade,
 	"bomb_cooldown_upgrade" : bomb_cooldown_upgrade,
 
+	"bumper_upgrade" : bumper_upgrade,
 
 	"claw_new_owned" : claw_new_owned, 
 	"claw_excavator_owned" : claw_excavator_owned, 
@@ -213,6 +216,8 @@ var save_dict := {
 	
 	"bomb_strength_upgrade" : bomb_strength_upgrade,
 	"bomb_cooldown_upgrade" : bomb_cooldown_upgrade,
+
+	"bumper_upgrade" : bumper_upgrade,
 
 	"claw_new_owned" : claw_new_owned, 
 	"claw_excavator_owned" : claw_excavator_owned, 
@@ -257,6 +262,9 @@ func save_game():
 
 	save_dict["bomb_strength_upgrade"] = bomb_strength_upgrade
 	save_dict["bomb_cooldown_upgrade"] = bomb_cooldown_upgrade
+
+	save_dict["bumper_upgrade"] = bumper_upgrade
+
 
 	save_dict["claw_new_owned"] = claw_new_owned 
 	save_dict["claw_excavator_owned"] = claw_excavator_owned 
@@ -334,6 +342,8 @@ func load_data_from_save(save_data : Dictionary):
 	bomb_strength_upgrade = save_dict["bomb_strength_upgrade"]
 	bomb_cooldown_upgrade = save_dict["bomb_cooldown_upgrade"]
 
+	bumper_upgrade = save_dict["bumper_upgrade"]
+
 	claw_new_owned = save_dict["claw_new_owned"]
 	claw_excavator_owned = save_dict["claw_excavator_owned"]
 	claw_ufo_owned = save_dict["claw_ufo_owned"]
@@ -365,6 +375,8 @@ func update_handler(save_data : Dictionary) -> Dictionary:
 
 	updated_save["bomb_strength_upgrade"] = save_data.get("bomb_strength_upgrade", default_save["bomb_strength_upgrade"])
 	updated_save["bomb_cooldown_upgrade"] = save_data.get("bomb_cooldown_upgrade", default_save["bomb_cooldown_upgrade"])
+
+	updated_save["bumper_upgrade"] = save_data.get("bumper_upgrade", default_save["bumper_upgrade"])
 
 	updated_save["claw_new_owned"] = save_data.get("claw_new_owned", default_save["claw_new_owned"])
 	updated_save["claw_excavator_owned"] = save_data.get("claw_excavator_owned", default_save["claw_excavator_owned"])

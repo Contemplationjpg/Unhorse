@@ -73,7 +73,7 @@ follow_viewport_enabled = true
 
 [node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
 
-[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes", "claw_buttons", "shop_buttons", "play_button", "restock_button", "claw_manager", "player", "purchase_sound", "unhorse_sounds_parent")]
+[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes", "claw_buttons", "shop_buttons", "play_button", "restock_button", "bumper_toggle", "bumper_parent", "claw_manager", "player", "purchase_sound", "unhorse_sounds_parent")]
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -90,6 +90,8 @@ claw_buttons = [NodePath("SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseCl
 shop_buttons = [NodePath("SidePanel/ShopColumns/ShopRow/Button0"), NodePath("SidePanel/ShopColumns/ShopRow/Button1"), NodePath("SidePanel/ShopColumns/ShopRow2/Button2"), NodePath("SidePanel/ShopColumns/ShopRow2/Button3"), NodePath("SidePanel/ShopColumns/ShopRow3/Button4"), NodePath("SidePanel/ShopColumns/ShopRow3/Button5"), NodePath("SidePanel/ShopColumns/ShopRow4/Button6"), NodePath("SidePanel/ShopColumns/ShopRow4/Button7"), NodePath("SidePanel/ShopColumns/ShopRow5/Button8"), NodePath("SidePanel/ShopColumns/ShopRow5/Button9")]
 play_button = NodePath("SidePanel/BottomRow/BuyPlay")
 restock_button = NodePath("SidePanel/BottomRow/Restock")
+bumper_toggle = NodePath("SidePanel/DisableBumpers")
+bumper_parent = NodePath("../../../LootSpawner/BumperParent")
 claw_manager = NodePath("../../../ClawManager")
 bumper_scene = ExtResource("14_dlqoq")
 player = NodePath("../../../Player")
@@ -115,6 +117,21 @@ offset_right = 0.0
 offset_bottom = 20.0
 grow_horizontal = 1
 scale = Vector2(0.2, 0.2)
+
+[node name="DisableBumpers" type="CheckButton" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1659646446]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -652.0
+offset_top = 27.0
+offset_right = -412.00003
+offset_bottom = 59.0
+grow_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Disable Bumpers"
+alignment = 1
 
 [node name="StatsLabels" type="Control" parent="HUD/UICanvas/Shop/SidePanel" unique_id=746234153]
 layout_mode = 1
@@ -256,6 +273,32 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Item3"
 
+[node name="ShopRow5" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1079573107]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Button8" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow5" unique_id=976907787]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(2.235, 0)
+theme_override_font_sizes/font_size = 9
+text = "claw move
+x2
+COST: 200
+"
+
+[node name="Button9" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow5" unique_id=1745265317]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "Spawn 
+Bumper
+COST: 500"
+
 [node name="ShopRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=329501938]
 custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
@@ -360,32 +403,6 @@ text = "Spawn
 Bumper
 COST: 500"
 
-[node name="ShopRow5" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=1079573107]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="Button8" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow5" unique_id=976907787]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-offset_transform_position = Vector2(2.235, 0)
-theme_override_font_sizes/font_size = 9
-text = "claw move
-x2
-COST: 200
-"
-
-[node name="Button9" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ShopRow5" unique_id=1745265317]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 9
-text = "Spawn 
-Bumper
-COST: 500"
-
 [node name="BottomRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1443451295]
 layout_mode = 1
 anchors_preset = 12
@@ -453,12 +470,16 @@ volume_db = -12.0
 bus = &"SFX"
 
 [node name="ControlsReminder" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
-offset_left = 113.0
-offset_top = 597.0
-offset_right = 913.0
-offset_bottom = 677.0
-text = "Move Claw - WASD | Use Claw - Space | Buy Play - E | Restock - R
-Spin Wheel - F | Summon Bomb to Claw - Q | Settings - Escape"
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -48.0
+offset_right = 920.0
+offset_bottom = 32.0
+grow_vertical = 0
+text = "Move Claw (yes, the pieces of paper)- WASD | Claw Pick Up / Drop - Space | Buy Play - E
+Restock - R | Spin Wheel - F | Summon Bomb to Claw - Q | Settings - Escapey"
 fit_content = true
 
 [node name="VersionLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=824970024]
@@ -514,6 +535,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="RichTextLabel" type="RichTextLabel" parent="HUD/UICanvas/BombCooldownHUD" unique_id=1559201380]
+self_modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 90
+text = "Q"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Settings" parent="HUD/UICanvas" unique_id=763621863 instance=ExtResource("1_nwse5")]
 visible = false
 
@@ -537,6 +572,7 @@ player = NodePath("../Player")
 bomb_hud = NodePath("../HUD/UICanvas/BombCooldownHUD")
 bomb_hud_button = NodePath("../HUD/UICanvas/BombCooldownHUD/Button")
 spawn_radius = 200.0
+restock_cooldown = 6.0
 
 [node name="LootHolder" type="Node2D" parent="LootSpawner" unique_id=690896822]
 position = Vector2(-24, -6)
@@ -564,6 +600,8 @@ position = Vector2(476, -160)
 
 [node name="LootSpawnPoint24" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1540956618]
 position = Vector2(-474, -399)
+
+[node name="BumperParent" type="Node" parent="LootSpawner" unique_id=380061337]
 
 [node name="MapElements" type="Node2D" parent="." unique_id=1021434687]
 
