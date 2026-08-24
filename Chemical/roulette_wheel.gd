@@ -3,6 +3,7 @@ extends Control
 @export_group("Wheel Setup")
 @export var wheel : Control
 @export var arrow : Area2D
+@export var self_button : Button
 @export var auto_spin_toggle : Button
 @export var roulette_sound_toggle : Button
 @export var spin_sound : AudioStreamPlayer
@@ -44,6 +45,9 @@ var sound_disabled : bool = false
 
 func _ready() -> void:
 	arrow.area_entered.connect(on_enter_area)
+
+	self_button.pressed.connect(handle_spin_input)
+
 	auto_spin_toggle.toggled.connect(on_auto_spin_toggle)
 	roulette_sound_toggle.toggled.connect(on_roulette_sound_toggle)
 

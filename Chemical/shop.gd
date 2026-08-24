@@ -10,16 +10,23 @@ extends Control
 @export var play_button : Button
 @export var restock_button : Button
 
+@export var claw_manager : ClawManager
+
 @export var bumper_scene : PackedScene
 @export var player : Player
 @export var purchase_sound : AudioStreamPlayer
+
+@export var unhorse_sounds_parent : Node
+
+var unhorse_sounds : Array[AudioStreamPlayer] = []
+
 
 #this script is supposed to manage the shop buttons and refer to ChemicalGameManager to say what we are purchasing
 var gm: ChemicalGameManager = ChemicalGameManager
 var current_scroll_value: int = 0
 
 #prices
-var play_price: int = 100
+var play_price: int = 500
 var restock_price: int = 0
 
 #upgrade amounts
@@ -53,11 +60,17 @@ func _ready() -> void:
 	gm.on_spend_points.connect(play_purchase_sound)
 	gm.save_loaded.connect(on_save_loaded)
 	_connect_shop_buttons()
+	_connect_claw_buttons()
 	on_save_loaded()
 	_update_shop_buttons()
+	_update_claw_buttons()
 	gm.update_upgrades.connect(_update_shop_buttons)
+	gm.update_upgrades.connect(_update_claw_buttons)
 	gm.restock_off_cooldown.connect(enable_restock)
 	gm.restock_on_cooldown.connect(disable_restock)
+
+	for i in unhorse_sounds_parent.get_children():
+		unhorse_sounds.append(i) 
 
 	return
 
@@ -74,8 +87,18 @@ func _connect_shop_buttons():
 	shop_buttons[8].pressed.connect(_on_button8)
 	shop_buttons[9].pressed.connect(_on_button9)
 
+func _connect_claw_buttons():
+	claw_buttons[0].pressed.connect(_on_claw0)
+	claw_buttons[1].pressed.connect(_on_claw1)
+	claw_buttons[2].pressed.connect(_on_claw2)
+	
+
 func _update_shop_buttons():
 	for i in shop_buttons:
+		i.pressed.emit(true)
+
+func _update_claw_buttons():
+	for i in claw_buttons:
 		i.pressed.emit(true)
 
 func _process(delta: float) -> void:
@@ -86,6 +109,8 @@ func _process(delta: float) -> void:
 			#i.pressed.emit(true)
 		gm.gain_points(10000)
 		pass
+	if Input.is_action_just_pressed("buy_play"):
+		_on_buy_play_pressed()
 
 func _on_buy_play_pressed() -> void:
 	var spendable = gm.spend_points(play_price)
@@ -118,22 +143,24 @@ func _on_button0(only_update_text : bool = false) -> void:
 		hole_upgrade += 1
 	match hole_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
+			price = 10000
+			new_price = 20000
 		1: 
-			price = 2000
-			new_price = 4000
+			price = 20000
+			new_price = 40000
 		2:
-			price = 4000
-			new_price = 8000
+			price = 40000
+			new_price = 80000
 		_: 
-			price = 8000
+			price = 80000
 			new_price = 0
 	if not only_update_text:	
 		pass#print("hole upgrade pressed")
 		if gm.spend_points(price):
 			gm.hole_upgrade = hole_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 
 		pass#print("only update, hole upgrade = " + str(hole_upgrade))
@@ -159,22 +186,24 @@ func _on_button1(only_update_text : bool = false) -> void:
 		loot_value_upgrade += 1
 	match loot_value_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
+			price = 15000
+			new_price = 30000
 		1: 
-			price = 2000
-			new_price = 4000
+			price = 30000
+			new_price = 60000
 		2:
-			price = 4000
-			new_price = 8000
+			price = 60000
+			new_price = 120000
 		_: 
-			price = 8000
+			price = 120000
 			new_price = 0
 	if not only_update_text:	
 		pass#print("loot value upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_value_upgrade = loot_value_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, loot value upgrade = " + str(loot_value_upgrade))
 	
@@ -215,17 +244,19 @@ func _on_button2(only_update_text : bool = false) -> void:
 		if gm.spend_points(price):
 			gm.loot_speed_upgrade = loot_speed_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, loot speed upgrade = " + str(loot_speed_upgrade))
 	
 	var speed_upgrade_amount : float  = 0
 	match loot_speed_upgrade:
 		0:
-			speed_upgrade_amount = 100
+			speed_upgrade_amount = 50
 		1:
-			speed_upgrade_amount = 200
+			speed_upgrade_amount = 100
 		2:
-			speed_upgrade_amount = 250
+			speed_upgrade_amount = 200
 		_:
 			pass	
 
@@ -251,22 +282,24 @@ func _on_button3(only_update_text : bool = false) -> void:
 		loot_bonus_upgrade += 1
 	match loot_bonus_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
+			price = 2500
+			new_price = 5000
 		1: 
-			price = 2000
-			new_price = 4000
+			price = 5000
+			new_price = 10000
 		2:
-			price = 4000
-			new_price = 8000
+			price = 10000
+			new_price = 20000
 		_: 
-			price = 8000
+			price = 20000
 			new_price = 0
 	if not only_update_text:	
 		pass#print("loot bonus upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_bonus_upgrade = loot_bonus_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, loot bonus upgrade = " + str(loot_bonus_upgrade))
 	
@@ -293,22 +326,24 @@ func _on_button4(only_update_text : bool = false) -> void:
 		loot_spawn_upgrade += 1
 	match loot_spawn_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
-		1: 
 			price = 2000
-			new_price = 4000
-		2:
-			price = 4000
+			new_price = 5000
+		1: 
+			price = 5000
 			new_price = 8000
-		_: 
+		2:
 			price = 8000
+			new_price = 11000
+		_: 
+			price = 11000
 			new_price = 0
 	if not only_update_text:	
 		pass#print("loot spawn upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_spawn_upgrade = loot_spawn_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, loot spawn upgrade = " + str(loot_spawn_upgrade))
 	
@@ -347,22 +382,24 @@ func _on_button5(only_update_text : bool = false) -> void:
 		loot_rarity_upgrade += 1
 	match loot_rarity_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
-		1: 
 			price = 2000
-			new_price = 4000
-		2:
-			price = 4000
+			new_price = 5000
+		1: 
+			price = 5000
 			new_price = 8000
-		_: 
+		2:
 			price = 8000
+			new_price = 11000
+		_: 
+			price = 11000
 			new_price = 0
 	if not only_update_text:	
 		pass#print("loot rarity upgrade pressed")
 		if gm.spend_points(price):
 			gm.loot_rarity_upgrade = loot_rarity_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, loot rarity upgrade = " + str(loot_rarity_upgrade))
 	
@@ -403,13 +440,13 @@ func _on_button6(only_update_text : bool = false) -> void:
 		bomb_strength_upgrade += 1
 	match bomb_strength_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
-		1: 
 			price = 2000
 			new_price = 4000
-		2:
+		1: 
 			price = 4000
+			new_price = 6000
+		2:
+			price = 6000
 			new_price = 8000
 		_: 
 			price = 8000
@@ -419,6 +456,8 @@ func _on_button6(only_update_text : bool = false) -> void:
 		if gm.spend_points(price):
 			gm.bomb_strength_upgrade = bomb_strength_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, bomb strength upgrade = " + str(bomb_strength_upgrade))
 	
@@ -447,13 +486,13 @@ func _on_button7(only_update_text : bool = false) -> void:
 		bomb_cooldown_upgrade += 1
 	match bomb_cooldown_upgrade:
 		0:
-			price = 1000
-			new_price = 2000
-		1: 
 			price = 2000
 			new_price = 4000
-		2:
+		1: 
 			price = 4000
+			new_price = 6000
+		2:
+			price = 6000
 			new_price = 8000
 		_: 
 			price = 8000
@@ -463,6 +502,8 @@ func _on_button7(only_update_text : bool = false) -> void:
 		if gm.spend_points(price):
 			gm.bomb_cooldown_upgrade = bomb_cooldown_upgrade
 			gm.update_upgrades.emit()
+		else:
+			return
 	else:
 		pass#print("only update, bomb cooldown upgrade = " + str(bomb_cooldown_upgrade))
 	
@@ -492,11 +533,11 @@ func _on_button7(only_update_text : bool = false) -> void:
 
 func _on_button8(only_update_text : bool = false) -> void:
 	var button = shop_buttons[8]
-	var price = 500
+	var price = 2000
 	if not only_update_text:
 		if gm.spend_points(price):
 			spawn_bumper()
-	button.text = "Investment\nBumper\nCOST:500"
+	button.text = "Investment\nBumper\nCOST:2000"
 	pass # Replace with function body.
 
 func spawn_bumper():
@@ -509,41 +550,94 @@ func spawn_bumper():
 	bumper.global_position += (Vector2(rng1,rng2).normalized()*50)
 
 
+var playing_unhorse_sound : bool = false
 
 func _on_button9(only_update_text : bool = false) -> void:
 	var button = shop_buttons[9]
 	if not only_update_text:	
-			pass#print("UNHORSE")
+		if not playing_unhorse_sound:
+			playing_unhorse_sound = true
+			var chosen_sound = pick_random_unhorse_sound()
+			if chosen_sound:
+				var rng : float = randf_range(0.7,1.3)
+				chosen_sound.pitch_scale = rng
+				chosen_sound.play()
+				await chosen_sound.finished
+				playing_unhorse_sound = false
+	
 	button.text = "unhorse"
 	
-
+func pick_random_unhorse_sound() -> AudioStreamPlayer:
+	if unhorse_sounds.size() <= 0:
+		return null
+	var rng : int = randi_range(0,unhorse_sounds.size()-1)
+	return unhorse_sounds[rng]
 
 
 
 
 #claw switching--------------------------------------------
 
-
-func _on_base_claw_pressed() -> void:
-	var claw_manager = $"../../../ClawManager"
+#button 0 on claw scroll
+func _on_claw0(only_update_text : bool = false) -> void:
+	var button = claw_buttons[0]
+	print("claw0 pressed")
 	
-	if not player.claw.grabbing and not player.claw.holding:
-		claw_manager.change_claw(0)
+	if not only_update_text:
+		if not player.claw.grabbing and not player.claw.holding:
+			claw_manager.change_claw(0)
+	
+	button.text = "Basic Claw"
 
 
-func _on_excavator_pressed() -> void:
-	var claw_manager = $"../../../ClawManager"
-	var button = $SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator 
+#button 1 on claw scroll
+func _on_claw1(only_update_text : bool = false):
+	var button = claw_buttons[1]
+	claw_new_owned = gm.claw_new_owned
+	print("claw1 pressed")
+
+	var price = 5000
+
+	if not only_update_text:
+		if not claw_new_owned:
+			if gm.spend_points(price):
+				gm.claw_new_owned = true
+				gm.update_upgrades.emit()
+			else:
+				return
+
+		if claw_new_owned:
+			if not player.claw.grabbing and not player.claw.holding:
+				claw_manager.change_claw(1)
+	
+	if not claw_new_owned:
+		button.text = str("New Claw\nx1.5 Points\nCOST: " + str(price))
+	else:
+		button.text = str("New Claw\nx1.5 Points")
+	
+#button 2 on claw scroll
+func _on_claw2(only_update_text : bool = false):
+	var button = claw_buttons[2]
+	claw_excavator_owned = gm.claw_excavator_owned
+
+	var price = 15000
+
+	if not only_update_text:
+		if not claw_excavator_owned:
+			if gm.spend_points(price):
+				gm.claw_excavator_owned = true
+				gm.update_upgrades.emit()
+			else:
+				return
+
+		if claw_excavator_owned:
+			if not player.claw.grabbing and not player.claw.holding:
+				claw_manager.change_claw(2)
 	
 	if not claw_excavator_owned:
-		var price = 10000
-		if gm.spend_points(price):
-			claw_excavator_owned = true
-			gm.claw_excavator_owned = claw_excavator_owned
-			button.text = "Excavator"
-	
-	if claw_excavator_owned and not player.claw.grabbing and not player.claw.holding:
-		claw_manager.change_claw(1)
+		button.text = str("Excavator Claw\nHold Scoop\nx2 Points\nCOST: " + str(price))
+	else:
+		button.text = str("Excavator Claw\nHold Scoop\nx2 Points")
 	
 
 

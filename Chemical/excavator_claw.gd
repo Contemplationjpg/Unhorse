@@ -18,7 +18,7 @@ extends Claw
 func move(): #overrides claw movement
 	#claw movement------------------------------------------
 	var move_dir = Input.get_vector("left", "right","up","down")
-	velocity = move_dir * (move_speed * gm.claw_current_move_speed_upgrade_amount)
+	velocity = move_dir * (move_speed)
 	move_and_slide() #include this after anything that changes velocity or involves collision
 
 #default checks if not already grabbing, if the grab_cooldown_timer is up, and if player has at least 1 play to spend

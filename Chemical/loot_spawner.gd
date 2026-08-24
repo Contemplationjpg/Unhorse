@@ -10,6 +10,7 @@ extends Node
 @export var player : Player
 
 @export var bomb_hud : TextureRect
+@export var bomb_hud_button : Button
 
 @export var normal_spawn_attempts : int = 10
 @export var special_spawn_attempts : int = 3
@@ -42,8 +43,11 @@ func _ready() -> void:
 	gm.update_upgrades.connect(update_upgrades)
 	update_upgrades()
 	spawn_all_loot_types()
+
 	gm.bomb_on_cooldown.connect(dim_bomb_cooldown_hud)
 	gm.bomb_off_cooldown.connect(light_bomb_cooldown_hud)
+	bomb_hud_button.pressed.connect(give_player_bomb)
+
 	gm.reset_save_file.connect(force_restock)
 
 func _process(delta: float) -> void:
@@ -133,9 +137,9 @@ func drop_loot_around_claw_origin():
 		rng = randf_range(0,1)
 
 		var spawn_rare : bool = false
-		print("rarity upgrade amount: " + str(rarity_upgrade_amount))
-		print("rarity upgrade rng roll: " + str(rng))
-		print("rare spawn chance: " + str((1.0+rarity_upgrade_amount)/8))
+		#print("rarity upgrade amount: " + str(rarity_upgrade_amount))
+		#print("rarity upgrade rng roll: " + str(rng))
+		#print("rare spawn chance: " + str((1.0+rarity_upgrade_amount)/8))
 		if rng <= ((1.0+rarity_upgrade_amount)/8):
 			spawn_rare = true
 		
@@ -143,12 +147,12 @@ func drop_loot_around_claw_origin():
 			rng = randi_range(0,additive_rng_threshold-1)
 			var index : int = 0
 			while (not chosen_loot):
-				print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
+				#print("comparing to index " + str(index) + ", " + str(loot_rng_values[index]))
 				if rng >= loot_rng_values[index]:
 					index += 1
 				else:
 					chosen_loot = loot_types[index].loot_scene
-					print("spawning " + chosen_loot.resource_path)
+					#print("spawning " + chosen_loot.resource_path)
 		else:
 			chosen_loot = default_loot
 

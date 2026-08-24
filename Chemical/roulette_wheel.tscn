@@ -20,7 +20,7 @@ size = Vector2(5.795, 136.855)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_d5xax"]
 
-[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow", "auto_spin_toggle", "roulette_sound_toggle", "spin_sound")]
+[node name="RouletteWheel" type="Control" unique_id=747206326 node_paths=PackedStringArray("wheel", "arrow", "self_button", "auto_spin_toggle", "roulette_sound_toggle", "spin_sound")]
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -31,6 +31,7 @@ grow_horizontal = 0
 script = ExtResource("1_6dxip")
 wheel = NodePath("RouletteWheel")
 arrow = NodePath("RouletteWheelArrow/Area2D")
+self_button = NodePath("Button")
 auto_spin_toggle = NodePath("AutoSpinToggle/CheckButton")
 roulette_sound_toggle = NodePath("RouletteSoundToggle/CheckButton")
 spin_sound = NodePath("AudioStreamPlayer")
@@ -306,3 +307,14 @@ alignment = 1
 stream = ExtResource("5_nk2ym")
 pitch_scale = 0.3
 bus = &"SFX"
+
+[node name="Button" type="Button" parent="." unique_id=412382520]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -619.0
+offset_right = -19.0
+offset_bottom = 600.0
+grow_horizontal = 0

@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c6j6i0mpm4e25" path="res://Chemical/loot.gd" id="1_51vy6"]
 [ext_resource type="Texture2D" uid="uid://cur4sbipjsjjj" path="res://icon.svg" id="2_4iveu"]
+[ext_resource type="AudioStream" uid="uid://cchybv1pcg8ww" path="res://Assets/Sounds/bounce1.wav" id="3_vxsnq"]
+[ext_resource type="AudioStream" uid="uid://dmorayjmh30nx" path="res://Assets/Sounds/bounce2.wav" id="4_f6odu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6hamn"]
 friction = 0.2
@@ -11,7 +13,7 @@ bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imfbs"]
 
-[node name="Loot" type="RigidBody2D" unique_id=596486904]
+[node name="Loot" type="RigidBody2D" unique_id=596486904 node_paths=PackedStringArray("sound_parent")]
 z_index = 1
 collision_layer = 2
 collision_mask = 10
@@ -30,6 +32,7 @@ impulse_amount = 500.0
 min_scale = 0.125
 max_scale = 0.5
 color_value_lower_speed = 0.25
+sound_parent = NodePath("SoundParent")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=391087308]
 scale = Vector2(0.125, 0.125)
@@ -44,3 +47,15 @@ collision_mask = 34
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1719631366]
 shape = SubResource("CircleShape2D_imfbs")
+
+[node name="SoundParent" type="Node" parent="." unique_id=1367918816]
+
+[node name="Bounce1" type="AudioStreamPlayer" parent="SoundParent" unique_id=48051930]
+stream = ExtResource("3_vxsnq")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Bounce2" type="AudioStreamPlayer" parent="SoundParent" unique_id=1340369682]
+stream = ExtResource("4_f6odu")
+volume_db = -15.0
+bus = &"SFX"

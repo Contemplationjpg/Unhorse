@@ -20,14 +20,18 @@
 [ext_resource type="Resource" uid="uid://ccnoh1gnjowpv" path="res://Loot/chance_loot.tres" id="10_bxr3p"]
 [ext_resource type="AudioStream" uid="uid://datmxxi62b2d3" path="res://Assets/Sounds/Temp_purchase.wav" id="11_b5sdt"]
 [ext_resource type="Resource" uid="uid://dk7j78hhjy7s1" path="res://Loot/unstable_loot.tres" id="11_i5c22"]
+[ext_resource type="AudioStream" uid="uid://c6726ilntxukp" path="res://Assets/Sounds/unhorse1.wav" id="12_2ju4t"]
 [ext_resource type="PackedScene" uid="uid://lue0nuj2y0u6" path="res://Loot/LootScenes/unstable_loot.tscn" id="12_st1nl"]
+[ext_resource type="AudioStream" uid="uid://dqv1ubncwqo6" path="res://Assets/Sounds/unhorse2.wav" id="13_cyfk3"]
 [ext_resource type="PackedScene" uid="uid://bnas8m50yl24m" path="res://Loot/LootScenes/small_loot.tscn" id="13_nwse5"]
 [ext_resource type="Texture2D" uid="uid://bgg4aeffk6tjv" path="res://Assets/Sprites/straight_bumper.png" id="13_u1noj"]
+[ext_resource type="AudioStream" uid="uid://jbtbuuu16n0s" path="res://Assets/Sounds/unhorse3.wav" id="14_6qn85"]
 [ext_resource type="PackedScene" uid="uid://dkynhabmqo2kb" path="res://Chemical/bumper.tscn" id="14_dlqoq"]
 [ext_resource type="PackedScene" uid="uid://0stsuy3dymut" path="res://Chemical/horse_bomb.tscn" id="14_fqalb"]
 [ext_resource type="Resource" uid="uid://cadukpylkl377" path="res://Loot/plush_loot.tres" id="16_euwsl"]
 [ext_resource type="PackedScene" uid="uid://7wsldwognxj6" path="res://Claws/excavator_claw.tscn" id="17_u1noj"]
 [ext_resource type="AudioStream" uid="uid://dgncuv0oiuumv" path="res://Assets/Sounds/Unhorse.ogg" id="19_dlqoq"]
+[ext_resource type="PackedScene" uid="uid://co5nqbirmufsr" path="res://Claws/new_claw.tscn" id="28_b5sdt"]
 [ext_resource type="PackedScene" uid="uid://blq3cv0iv20wl" path="res://Chemical/boost_arrow.tscn" id="28_ch6ns"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
@@ -69,7 +73,7 @@ follow_viewport_enabled = true
 
 [node name="UICanvas" type="CanvasLayer" parent="HUD" unique_id=1552847658]
 
-[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes", "shop_buttons", "play_button", "restock_button", "player", "purchase_sound")]
+[node name="Shop" type="Control" parent="HUD/UICanvas" unique_id=1754681082 node_paths=PackedStringArray("large_holes", "medium_holes", "small_holes", "claw_buttons", "shop_buttons", "play_button", "restock_button", "claw_manager", "player", "purchase_sound", "unhorse_sounds_parent")]
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -82,12 +86,15 @@ script = ExtResource("2_fbaj0")
 large_holes = [NodePath("../../../MapElements/Holes/BigTimes1Hole")]
 medium_holes = [NodePath("../../../MapElements/Holes/MediumTimes2Hole"), NodePath("../../../MapElements/Holes/MediumTimes2Hole2")]
 small_holes = [NodePath("../../../MapElements/Holes/SmallTimes3Hole")]
+claw_buttons = [NodePath("SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw"), NodePath("SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/NewClaw"), NodePath("SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator")]
 shop_buttons = [NodePath("SidePanel/ShopColumns/ShopRow/Button0"), NodePath("SidePanel/ShopColumns/ShopRow/Button1"), NodePath("SidePanel/ShopColumns/ShopRow2/Button2"), NodePath("SidePanel/ShopColumns/ShopRow2/Button3"), NodePath("SidePanel/ShopColumns/ShopRow3/Button4"), NodePath("SidePanel/ShopColumns/ShopRow3/Button5"), NodePath("SidePanel/ShopColumns/ShopRow4/Button6"), NodePath("SidePanel/ShopColumns/ShopRow4/Button7"), NodePath("SidePanel/ShopColumns/ShopRow5/Button8"), NodePath("SidePanel/ShopColumns/ShopRow5/Button9")]
 play_button = NodePath("SidePanel/BottomRow/BuyPlay")
 restock_button = NodePath("SidePanel/BottomRow/Restock")
+claw_manager = NodePath("../../../ClawManager")
 bumper_scene = ExtResource("14_dlqoq")
 player = NodePath("../../../Player")
 purchase_sound = NodePath("ShopPurchaseSound")
+unhorse_sounds_parent = NodePath("UnhorseSounds")
 
 [node name="SidePanel" type="Panel" parent="HUD/UICanvas/Shop" unique_id=1704762268]
 layout_mode = 1
@@ -233,33 +240,21 @@ theme_override_constants/separation = 20
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 offset_transform_position = Vector2(2.235, 0)
+theme_override_font_sizes/font_size = 10
 text = "Base Claw"
 
-[node name="Excavator" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1685812203]
+[node name="NewClaw" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1685812203]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Excavator
 COST: 10,000"
 
-[node name="Item3" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1754411273]
+[node name="Excavator" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=1754411273]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Item3"
-
-[node name="Item4" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=441592857]
-custom_minimum_size = Vector2(120, 80)
-layout_mode = 2
-text = "Item4"
-
-[node name="Item5" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=2140686633]
-custom_minimum_size = Vector2(120, 80)
-layout_mode = 2
-text = "Item5"
-
-[node name="Item6" type="Button" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow" unique_id=568857501]
-custom_minimum_size = Vector2(120, 80)
-layout_mode = 2
-text = "Item6"
 
 [node name="ShopRow" type="HBoxContainer" parent="HUD/UICanvas/Shop/SidePanel/ShopColumns" unique_id=329501938]
 custom_maximum_size = Vector2(200, -1)
@@ -410,12 +405,12 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 offset_transform_position = Vector2(2.235, 0)
-text = "Buy Play"
+text = "Buy Play (E)"
 
 [node name="Restock" type="Button" parent="HUD/UICanvas/Shop/SidePanel/BottomRow" unique_id=247600218]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Restock"
+text = "Restock (R)"
 
 [node name="ShopLeft" type="Button" parent="HUD/UICanvas/Shop/SidePanel" unique_id=1633333138]
 layout_mode = 1
@@ -440,13 +435,30 @@ stream = ExtResource("11_b5sdt")
 volume_db = -5.0
 bus = &"SFX"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
+[node name="UnhorseSounds" type="Node" parent="HUD/UICanvas/Shop" unique_id=189054370]
+
+[node name="UnhorseSound1" type="AudioStreamPlayer" parent="HUD/UICanvas/Shop/UnhorseSounds" unique_id=72063838]
+stream = ExtResource("12_2ju4t")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="UnhorseSound2" type="AudioStreamPlayer" parent="HUD/UICanvas/Shop/UnhorseSounds" unique_id=75148992]
+stream = ExtResource("13_cyfk3")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="UnhorseSound3" type="AudioStreamPlayer" parent="HUD/UICanvas/Shop/UnhorseSounds" unique_id=1346839711]
+stream = ExtResource("14_6qn85")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="ControlsReminder" type="RichTextLabel" parent="HUD/UICanvas" unique_id=128559008]
 offset_left = 113.0
 offset_top = 597.0
 offset_right = 913.0
 offset_bottom = 677.0
-text = "Claw - WASD | Use Claw - Space | Spin Wheel - E | Summon Bomb to Claw - Q | Reroll - R
-If you can't afford play - P | Excavator can be held/moved while dropped"
+text = "Move Claw - WASD | Use Claw - Space | Buy Play - E | Restock - R
+Spin Wheel - F | Summon Bomb to Claw - Q | Settings - Escape"
 fit_content = true
 
 [node name="VersionLabel" type="RichTextLabel" parent="HUD/UICanvas" unique_id=824970024]
@@ -492,6 +504,16 @@ scale = Vector2(0.5, 0.5)
 mouse_filter = 2
 texture = ExtResource("8_nwse5")
 
+[node name="Button" type="Button" parent="HUD/UICanvas/BombCooldownHUD" unique_id=560215183]
+self_modulate = Color(1, 1, 1, 0)
+custom_maximum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Settings" parent="HUD/UICanvas" unique_id=763621863 instance=ExtResource("1_nwse5")]
 visible = false
 
@@ -503,7 +525,7 @@ position = Vector2(-79, -16)
 offset = Vector2(200.59, 0)
 zoom = Vector2(0.5, 0.5)
 
-[node name="LootSpawner" type="Node" parent="." unique_id=1664982518 node_paths=PackedStringArray("loot_holder", "claw_origin", "player", "bomb_hud")]
+[node name="LootSpawner" type="Node" parent="." unique_id=1664982518 node_paths=PackedStringArray("loot_holder", "claw_origin", "player", "bomb_hud", "bomb_hud_button")]
 script = ExtResource("8_o6s1u")
 loot_types = Array[Resource]([ExtResource("16_euwsl"), ExtResource("10_bxr3p")])
 special_loot_types = Array[Resource]([ExtResource("11_i5c22")])
@@ -513,6 +535,7 @@ loot_holder = NodePath("LootHolder")
 claw_origin = NodePath("../MapElements/ClawOrigin")
 player = NodePath("../Player")
 bomb_hud = NodePath("../HUD/UICanvas/BombCooldownHUD")
+bomb_hud_button = NodePath("../HUD/UICanvas/BombCooldownHUD/Button")
 spawn_radius = 200.0
 
 [node name="LootHolder" type="Node2D" parent="LootSpawner" unique_id=690896822]
@@ -526,6 +549,9 @@ position = Vector2(-425, 412)
 
 [node name="LootSpawnPoint17" type="Node2D" parent="LootSpawner/LootHolder" unique_id=176888373]
 position = Vector2(-714, 143)
+
+[node name="LootSpawnPoint21" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1364642611]
+position = Vector2(-630, -173)
 
 [node name="LootSpawnPoint18" type="Node2D" parent="LootSpawner/LootHolder" unique_id=1271306809]
 position = Vector2(658, 135)
@@ -864,7 +890,7 @@ shape = SubResource("RectangleShape2D_euj3w")
 script = ExtResource("3_ef0cl")
 player = NodePath("../Player")
 claw_origin = NodePath("../MapElements/ClawOrigin")
-claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("17_u1noj")])
+claws = Array[PackedScene]([ExtResource("4_vrf4v"), ExtResource("28_b5sdt"), ExtResource("17_u1noj")])
 
 [node name="GPUParticles2D" parent="." unique_id=777645101 instance=ExtResource("14_fqalb")]
 lifetime = 0.5
@@ -875,8 +901,6 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/BaseClaw" to="HUD/UICanvas/Shop" method="_on_base_claw_pressed"]
-[connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopColumns/ClawScrollShopRow/ShopRow/Excavator" to="HUD/UICanvas/Shop" method="_on_excavator_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/BuyPlay" to="HUD/UICanvas/Shop" method="_on_buy_play_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/BottomRow/Restock" to="HUD/UICanvas/Shop" method="_on_restock_pressed"]
 [connection signal="pressed" from="HUD/UICanvas/Shop/SidePanel/ShopLeft" to="HUD/UICanvas/Shop" method="_on_shop_left_pressed"]

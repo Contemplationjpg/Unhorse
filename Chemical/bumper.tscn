@@ -52,6 +52,7 @@ extend_coll = NodePath("ExtendedCollisionShape2D")
 bump_counter = NodePath("CanvasLayer/BumpCount")
 pilot_sprite = NodePath("Sprite2D")
 extend_time = 0.2
+point_yield_after_destruction = 5000
 max_bumps = 25
 final_blink_speed = 0.25
 

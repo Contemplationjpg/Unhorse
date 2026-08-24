@@ -78,6 +78,8 @@ var rise_time : float = 1
 @export var time_to_score : float = 2
 @export var color_value_lower_speed : float = 0.5
 
+@export var sound_parent : Node 
+
 
 
 signal just_bounced()
@@ -124,7 +126,7 @@ var drop_scale_change_per_sec : float = (max_scale - min_scale)/drop_time*drop_t
 @onready var area : Area2D = $Area2D #this is are for detection around where the loot would land, area should match size of coll unless a special effect is intended
 @onready var gm : ChemicalGameManager = ChemicalGameManager
 
-
+var sounds : Array[AudioStreamPlayer] = []
 
 
 var claw : Claw
@@ -151,7 +153,26 @@ func _ready() -> void:
 	gm.update_upgrades.connect(update_upgrades)
 	gm.clear_all_loot.connect(on_clear_all_loot)
 	update_upgrades()
+
+	if sound_parent:
+		for i in sound_parent.get_children():
+			if (i as AudioStreamPlayer):
+				sounds.append(i)
 	
+	just_bounced.connect(play_bounce_sound)
+	
+
+func play_bounce_sound():
+	#print("playing bounce sound")
+	if sounds.size() <= 0:
+		return
+	var pitch : float = 0.4 + (bounces*0.1)
+	if pitch > 1.4:
+		pitch = 1.4
+	var rng = randi_range(0, sounds.size()-1)
+	sounds[rng].pitch_scale = pitch
+	sounds[rng].play()
+
 
 
 func _physics_process(delta: float) -> void:
@@ -435,14 +456,14 @@ func update_upgrades():
 			speed_cap_raise_amount = 0
 			speed_upgrade_amount = 0
 		1:
-			speed_cap_raise_amount = 100
-			speed_upgrade_amount = 100
+			speed_cap_raise_amount = 0
+			speed_upgrade_amount = 50
 		2:
-			speed_cap_raise_amount = 200
-			speed_upgrade_amount = 200
+			speed_cap_raise_amount = 0
+			speed_upgrade_amount = 150
 		_:
-			speed_cap_raise_amount = 200
-			speed_upgrade_amount = 300
+			speed_cap_raise_amount = 0
+			speed_upgrade_amount = 350
 
 	bonus_upgrade = gm.loot_bonus_upgrade
 	match bonus_upgrade:

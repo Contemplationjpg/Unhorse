@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://bg6bv76kcabub"]
+[gd_scene format=3 uid="uid://co5nqbirmufsr"]
 
-[ext_resource type="Script" uid="uid://chcrpfj107g4f" path="res://Chemical/claw.gd" id="1_pj4pq"]
-[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_xig0c"]
-[ext_resource type="Texture2D" uid="uid://cl54im6kx48jj" path="res://Assets/Sprites/crosshair.png" id="3_u2qwf"]
+[ext_resource type="Script" uid="uid://bhr34bfno6oly" path="res://Chemical/new_claw.gd" id="1_xq4mn"]
+[ext_resource type="Texture2D" uid="uid://c53mmhji5g2jo" path="res://Assets/Sprites/basic_claw_sprite.png" id="2_fmbwu"]
+[ext_resource type="Texture2D" uid="uid://cl54im6kx48jj" path="res://Assets/Sprites/crosshair.png" id="3_fkhua"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5xax"]
 
@@ -10,15 +10,15 @@
 size = Vector2(10, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u44jh"]
-atlas = ExtResource("2_xig0c")
+atlas = ExtResource("2_fmbwu")
 region = Rect2(600, 0, 600, 600)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_woths"]
-atlas = ExtResource("2_xig0c")
+atlas = ExtResource("2_fmbwu")
 region = Rect2(0, 600, 600, 600)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1eij8"]
-atlas = ExtResource("2_xig0c")
+atlas = ExtResource("2_fmbwu")
 region = Rect2(0, 0, 600, 600)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d5xax"]
@@ -73,16 +73,20 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Claw2" type="CharacterBody2D" unique_id=208071505 node_paths=PackedStringArray("sprite", "area")]
+[node name="Claw" type="CharacterBody2D" unique_id=208071505 node_paths=PackedStringArray("sprite", "area")]
 scale = Vector2(5, 5)
 collision_layer = 0
 collision_mask = 8
 motion_mode = 1
-script = ExtResource("1_pj4pq")
-move_speed = 250.0
+script = ExtResource("1_xq4mn")
+move_speed = 350.0
+drop_time = 0.1
+pre_scoop_pause = 0.15
 scoop_time = 0.1
+grab_cooldown = 1.0
 max_scale = 0.6
 min_scale = 0.3
+loot_point_value_modifier = 1.5
 sprite = NodePath("AnimatedSprite2D")
 area = NodePath("Area2D")
 
@@ -102,6 +106,7 @@ z_index = 1
 shape = SubResource("RectangleShape2D_urhjn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1624133184]
+self_modulate = Color(0, 0.5666666, 1, 1)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_d5xax")
 animation = &"grab"
@@ -110,4 +115,4 @@ animation = &"grab"
 self_modulate = Color(1, 1, 1, 0.49803922)
 z_index = 6
 scale = Vector2(0.01, 0.01)
-texture = ExtResource("3_u2qwf")
+texture = ExtResource("3_fkhua")

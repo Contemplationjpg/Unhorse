@@ -1,3 +1,4 @@
+class_name ClawManager
 extends Node
 
 @export var player : Player
